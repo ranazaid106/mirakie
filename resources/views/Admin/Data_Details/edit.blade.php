@@ -43,7 +43,7 @@
                     <div class="col-12">
                         <div class="mb-3">
                             <label>User Role</label><br>
-                            <select name="role" id="select" class="form-control">
+                            <select name="role" id="select_user_data" class="form-control">
                                 <option value="" selected disabled>Please Select</option>
                                 @forelse ($roles as $role)
                                 <?php 
@@ -60,6 +60,20 @@
                             </select>
                         </div>    
                     </div>
+
+                    <div class="col-12">
+                            <div class="mb-3">
+                                <label for="usersDropdown">Select User:</label>
+                                <select class="form-control" id="usersDropdown" name="user_id">
+                                @if(!empty($item->user_id))
+                                <?php $users = App\Models\User::where('id', $item->user_id)->first(); ?>
+                                    <option selected value="{{$item->user_id}}" style="color:#686B6D">Name:&nbsp; {{$users->name}}&nbsp; &nbsp; &nbsp; &nbsp; Email:&nbsp; {{$users->email}}</option>
+                                @endif
+                                    <!-- Users dropdown will be populated dynamically based on the selected role -->
+                                </select>
+                            </div>
+                        </div>  
+
                     <div class="row">
                         <div class="col">
                             <div class="mb-3">
@@ -419,5 +433,33 @@
                 ]
             });
         </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#select_user_data').on('change', function () {
+
+            var roleId =  $("#select_user_data").val();
+            var v_token = "{{csrf_token()}}";
+            var params = { _token: v_token , roleId:roleId};
+            
+            $.ajax({
+                type: 'get',
+                data: params,
+                url: "/users/users_role_data/edit",
+                success: function(users) {
+                    console.log(users);
+                    $('#usersDropdown').html("");
+                    let usersDropdown = $('#usersDropdown');
+                    $.each(users, function (index, user) {
+                        usersDropdown.append($('<option value="'+user.id +'">'+"Name: &nbsp; "+user.name+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '+"Email: &nbsp; "+user.email+'</option>'));
+                    });
+                },         
+            });
+        });
+      
+    });
+</script>
 
 @endsection

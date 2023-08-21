@@ -263,7 +263,7 @@
 
         /*Blue Buttons*/
         #msform .commando_button {
-        width: 150px;
+        /* width: 150px; */
         background: #435df7;
         color: white;
         border-radius: 20px;
@@ -290,6 +290,106 @@
 
 
 </style>
+
+
+<style>
+
+
+@media only screen and (max-width: 400px) {
+
+.order_taking_form{
+   font-size: 25px;
+}
+
+
+.fill_all_from_field{
+
+    font-size: 13px;
+}
+
+#account{
+    /* max-width: 241px; */
+margin-left: 30px!important;
+}
+
+
+.mattress_button{
+    font-size: 10px!important;
+}
+
+.ottoman_button {
+    font-size: 10px!important;
+}
+
+.bed_button {
+    font-size: 10px!important;
+}
+
+.gaslift_button {
+    font-size: 10px!important;
+}
+
+
+.design_button {
+    font-size: 10px!important;
+}
+
+.headboard_button {
+    font-size: 10px!important;
+}
+
+.Ottoman_Divan_button{
+    font-size: 8px!important;
+}
+
+.divan_button_form{
+    font-size: 8px!important;
+}
+.Monaco_divan_button{
+    font-size: 8px!important;
+}
+
+.divan_button{
+    font-size: 12px!important;
+padding: 10px 34px!important;
+}
+
+.with_diamond_button{
+    font-size: 12px!important;
+padding: 10px 20px!important;
+}
+
+.you_have_successfully{
+font-size: 14!important;
+}
+.you_have_the_option{
+    font-size: 14!important;
+}
+
+
+.header-button {
+  margin-top: 5px!important;
+}
+
+
+.header-desktop {
+
+  height: 76px!important;
+}
+
+
+.main-content {
+  padding-top: 8px!important;
+}
+
+}
+
+
+
+</style>
+
+
+
 <?php
 // Check if the ID parameter exists in the URL
 if (isset($_GET['get_val'])) {
@@ -305,15 +405,15 @@ if (isset($_GET['get_val'])) {
     <div class="row justify-content-center mt-0">
         <div class="col-11 col-sm-9 col-md-7 col-lg-8 text-center p-0 mt-3 mb-2">
             <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-                <h2><strong>Order Taking Form</strong></h2>
-                <p style="color:#f9466d">Fill all form field to go to next step</p>
+                <h2 class="order_taking_form"><strong>Order Taking Form</strong></h2>
+                <p style="color:#f9466d" class="fill_all_from_field">Fill all form field to go to next step</p>
                 <div class="row">
                     <div class="col-md-12 mx-0">
                         <form id="msform" method="post" onsubmit="submit_universal_form('msform');" >
                             @csrf
                             <!-- progressbar -->
                             <ul id="progressbar">
-                                <li style="margin-left: 74px;" class="active" id="account"><strong>Order Details</strong></li>
+                                <li style="margin-left: 50px;" class="active" id="account"><strong>Order Details</strong></li>
                                 <li  id="payment"><strong>Payment</strong></li>
                                 {{-- <li   id="personal"><strong>Customer Info</strong></li> --}}
                                
@@ -337,17 +437,19 @@ if (isset($_GET['get_val'])) {
                                         <option value="{{$country}}" style="color:#686B6D">{{$country}}</option>
                                         @endforeach
                                        
-                                    </select>
-                                </br> --}}
+                                    </select> --}}
+                                </br>
 
-                                    <?php $Orders = App\Models\Order::where('customer_id', $id )->first();
-
+                                    <?php
+                                     $Orders = App\Models\Order::where('customer_id', $id )->first();
                                     $Products = App\Models\Product::where('id', $Orders->product_id )->get();
                                     $Product_one = App\Models\Product::where('id', $Orders->product_id )->first();
-                                    // dd($Products->id);
+                                    
+
                                     ?> 
                                     
-                                    <input type="hidden" value="{{ $Product_one->id }}" name="country">
+                                    
+                                    <input type="hidden" value="{{ $single_country_name }}" name="country">
 
                                     <div class="main_divs">
                                   <div class="cover_products"  >  
@@ -383,10 +485,13 @@ if (isset($_GET['get_val'])) {
                                    {{-- Three Button show start  --}}
 
                                    <div class="show_button" style="display: none;" >
+                                    <div style="justify-content: center; display:flex"> 
                                     <input type="hidden" class="hidden_bed" name="hidden_bed" value="">
-                                  <input type="button" name="Mattress" class="mattress_button commando_button" value="Mattress" />
+                                  <input type="button" name="Mattress" class="mattress_button commando_button" value="Only Mattress" />
                                   <input type="button" name="Bed" class="bed_button commando_button" value="Bed" />
-                                  <input type="button" name="Ottoman" class="ottoman_button commando_button" value="Ottoman" />                              
+                                  <input type="button" name="Ottoman" class="ottoman_button commando_button" value="Only Ottoman Box" />   
+                                    </div>
+                                    <hr>                           
                                    </div>
                                    {{-- Three Button show end  --}}
 
@@ -507,9 +612,11 @@ if (isset($_GET['get_val'])) {
 
                                     <input type="hidden" name="hidden_design" class="hidden_design">
                                     <div class="second_button" style="display: none;" >
+                                        <div style="justify-content: center; display:flex"> 
                                         <input type="button" name="gaslift" class="commando_button gaslift_button" value="Gaslift" />
                                         <input type="button" name="design " class="commando_button design_button" value="Design" />
-                                        <input type="button" name="headboard" class="commando_button headboard_button" value="Headboard" />                              
+                                        <input type="button" name="headboard" class="commando_button headboard_button" value="Headboard" />                              </div>
+                                        <hr>
                                            </div>
                                            {{-- second Three Button show end  --}}
                                  
@@ -631,9 +738,17 @@ if (isset($_GET['get_val'])) {
 
                                                <input type="hidden" class="hidden_divan" name="hidden_divan">
                                     <div class="third_button" style="display: none;" >
+                                        <div style="justify-content: center; display:flex"> 
                                         <input type="button" name="divan" class="commando_button divan_button" value="Divan" />
-                                        <input type="button" name="without_diamond " class="commando_button without_diamond_button" value="without diamond" />
-                                        <input type="button" name="with_diamond" class="commando_button with_diamond_button" value="with diamond" />                              
+                                        {{-- <input type="button" name="without_diamond " class="commando_button without_diamond_button" value="Without Diamond & Button" /> --}}
+
+                                        <input type="button" name="with_diamond" class="commando_button with_diamond_button" value="luxury beds" />  
+                                        </div>
+                                        <div>
+                                            
+                                      
+                                        </div>
+                                        <hr>                            
                                            </div>
                                            {{--  Three Button show end  --}}
                                          
@@ -655,6 +770,32 @@ if (isset($_GET['get_val'])) {
                                                       
                                                     </select></br>
                                                     </div>
+
+
+                                                    <div class="without_diamond_design">
+                    
+                                                        <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design <span style="color:red">*</span></label></br>
+
+                                                        <select class="form-control" name="without_diamond_design" style="color:#686B6D" id="designField"   >
+                                                            <option value="" style="color:#686B6D">select Design</option>
+                                                            <option value="Split-Cube Diamond" style="color:#686B6D">Split-Cube Diamond</option>
+                                                            <option value="Split-Cube button" style="color:#686B6D">Split-Cube button</option>
+                                                            <option value="Split-Panel" style="color:#686B6D">Split-Panel</option>
+                                                            <option value="Split-Plain" style="color:#686B6D">Split-Plain </option>
+                                                            <option value="Split-Florida Diamond" style="color:#686B6D">Split-Florida Diamond </option>
+                                                            <option value="Split-Florida Button" style="color:#686B6D">Split-Florida Button</option>
+                                                            <option value="Floor Standing-Florida Diamond" style="color:#686B6D">Floor Standing-Florida Diamond </option>
+                                                            <option value="Floor Standing-Florida Button" style="color:#686B6D">Floor Standing-Florida Button </option>
+                                                            <option value="Floor Standing Panel" style="color:#686B6D">Floor Standing Panel </option>
+
+                                                            <option value="Panel" style="color:#686B6D">Panel</option>
+                                                            <option value="Arizona and vivinne panel" style="color:#686B6D">Arizona and vivinne panel</option>
+                                                           
+                                                         
+                    
+                                                        </select></br>
+                                                    </div>
+
                                                     <div class="without_diamond_color">
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Color*</label></br>
                                                     <select class="form-control" name="without_diamond_color" style="color:#686B6D" id="designField"  >
@@ -709,6 +850,7 @@ if (isset($_GET['get_val'])) {
                                                         <option value="" style="color:#686B6D">select Storage</option>
                                                         <option value="Metal Gaslift " style="color:#686B6D">Metal Gaslift </option>
                                                         <option value="Board Gaslift " style="color:#686B6D">Board Gaslift </option>
+                                                        <option value="No " style="color:#686B6D">No </option>
                                                     
                                                     </select></br> 
                                                     </div>
@@ -774,7 +916,7 @@ if (isset($_GET['get_val'])) {
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design*</label></br>
                                                     <select class="form-control" name="with_diamond_design" style="color:#686B6D" id="designField"   >
                                                         <option value="" style="color:#686B6D">select Design</option>
-                                                        <option value="Split-Cube Diamond" style="color:#686B6D">Split-Cube Diamond</option>
+                                                        {{-- <option value="Split-Cube Diamond" style="color:#686B6D">Split-Cube Diamond</option>
                                                         <option value="Split-Cube button" style="color:#686B6D">Split-Cube button</option>
                                                         <option value="Split-Panel" style="color:#686B6D">Split-Panel</option>
                                                         <option value="Split-Plain" style="color:#686B6D">Split-Plain </option>
@@ -782,8 +924,20 @@ if (isset($_GET['get_val'])) {
                                                         <option value="Split-Florida Button" style="color:#686B6D">Split-Florida Button</option>
                                                         <option value="Floor Standing-Florida Diamond" style="color:#686B6D">Floor Standing-Florida Diamond </option>
                                                         <option value="Floor Standing-Florida Button" style="color:#686B6D">Floor Standing-Florida Button </option>
-                                                        <option value="Floor Standing Panel" style="color:#686B6D">Floor Standing Panel </option>
-                
+                                                        <option value="Floor Standing Panel" style="color:#686B6D">Floor Standing Panel </option> --}}
+                                                        <option value="Florida" style="color:#686B6D">Florida</option>
+                                                        <option value="Hilton" style="color:#686B6D">Hilton</option>
+                                                        <option value="Cube" style="color:#686B6D">Cube</option>
+                                                        <option value="Vivinne Panel" style="color:#686B6D">Vivinne Panel</option>
+                                                        <option value="panel" style="color:#686B6D">panel</option>
+                                                        <option value="Sleigh" style="color:#686B6D">Sleigh</option>
+                                                        <option value="Arizona" style="color:#686B6D">Arizona</option>
+                                                        <option value="Oxford" style="color:#686B6D">Oxford</option>
+                                                        <option value="Ammbassdor" style="color:#686B6D">Ammbassdor</option>
+                                                        <option value="Mini ammbassdor" style="color:#686B6D">Mini ammbassdor</option>
+                                                        <option value="Mini Arizona" style="color:#686B6D">Mini Arizona</option>
+                                                      
+
                                                     </select></br>
                                                     </div>
                                                     <div class="with_diamond_color">
@@ -843,7 +997,7 @@ if (isset($_GET['get_val'])) {
                                                         <option value="" style="color:#686B6D">select Diamond&button</option>
                                                         <option value="Diamond" style="color:#686B6D">Diamond</option>
                                                         <option value="Button" style="color:#686B6D">Button</option>
-                                                    
+                                                        <option value="N/A" style="color:#686B6D">N/A</option>
                                                     </select></br> 
                                                     </div>
                                                     <div class="with_diamond_storage">
@@ -901,9 +1055,12 @@ if (isset($_GET['get_val'])) {
                                                   {{--  Three Button show start  --}}
 
                                     <div class="fourth_button" style="display: none;" >
+                                        <div style="justify-content: center; display:flex"> 
                                         <input type="button" name="ottoman_Divan" class="commando_button Ottoman_Divan_button" value="Ottoman Divan" />
-                                        <input type="button" name="divan " class="commando_button divan_button_form" value="Divan" />
-                                        <input type="button" name="Monaco_divan" class="commando_button Monaco_divan_button" value="Monaco Divan" />                              
+                                        <input type="button" name="divan " class="commando_button divan_button_form" value="Simple Divan" />
+                                        <input type="button" name="Monaco_divan" class="commando_button Monaco_divan_button" value="Monaco Divan" />          
+                                        </div>
+                                        <hr>                    
                                            </div>
                                            {{--  Three Button show end  --}}
 
@@ -941,6 +1098,13 @@ if (isset($_GET['get_val'])) {
                                                         <option value="Florida Button" style="color:#686B6D">Florida Button  </option>
                                                         <option value="Hilton Diamond" style="color:#686B6D">Hilton Diamond </option>
                                                         <option value="Hilton Button" style="color:#686B6D">Hilton Button </option>
+
+                                                        <option value="Floor Standing-Florida Diamond" style="color:#686B6D">Floor Standing-Florida Diamond </option>
+                                                        <option value="Floor Standing-Florida Button" style="color:#686B6D">Floor Standing-Florida Button </option>
+                                                        <option value="Floor Standing Panel" style="color:#686B6D">Floor Standing Panel </option>
+
+
+
                                                       
                                                     </select></br>
                                                     </div>
@@ -1468,8 +1632,8 @@ if (isset($_GET['get_val'])) {
                                     <br><br>
                                     <div class="row justify-content-center">
                                         <div class="col-7 text-center">
-                                            <h5>You Have Successfully Created Order</h5>
-                                            <h5>You Have the option to Re Order Again</h5>
+                                            <h5 class="you_have_successfully">You Have Successfully Created Order</h5>
+                                            <h5 class="you_have_the_option">You Have the option to Re Order Again</h5>
                                         </div>
                             
 
@@ -1555,6 +1719,10 @@ if (isset($_GET['get_val'])) {
     $(".mattress_button").click(function() {
         $('.main_mattrees_div').slideToggle();
         
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         $(this).css('border','none');
         // $(".main_mattrees_div").show();
@@ -1581,6 +1749,10 @@ if (isset($_GET['get_val'])) {
 
     $(".ottoman_button").click(function() {
         $('.main_ottoman_div').slideToggle();
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         $(this).css('border','none');
 
@@ -1613,6 +1785,10 @@ if (isset($_GET['get_val'])) {
         $('.hidden_bed').val(hiden);
 
         $('.second_button').slideToggle();
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         $(this).css('border','none');
         $(this).css("opacity", "0.8");
@@ -1657,6 +1833,10 @@ if (isset($_GET['get_val'])) {
    
     
         $('.main_gaslift_div').slideToggle();
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         
         $(this).css('border','none');
@@ -1686,6 +1866,10 @@ if (isset($_GET['get_val'])) {
     });
     $(".headboard_button").click(function() {
         $('.main_headboard_div').slideToggle();
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         $(this).css('border','none');
         // $(".main_headboard_div").show();
@@ -1720,6 +1904,10 @@ if (isset($_GET['get_val'])) {
         $('.hidden_design').val(hiden_design);
 
         $('.third_button').slideToggle();
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         $(this).css('border','none');
         //  $(".third_button").show();
@@ -1759,6 +1947,10 @@ if (isset($_GET['get_val'])) {
     $(".without_diamond_button").click(function() {
     
         $('.main_without_diamond_div').slideToggle();
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         $(this).css('border','none');
             // $(".main_without_diamond_div").show();
@@ -1781,6 +1973,10 @@ if (isset($_GET['get_val'])) {
     $(".with_diamond_button").click(function() {
         
         $('.main_with_diamond_div').slideToggle();
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         $(this).css('border','none');
         // $(".main_with_diamond_div").show();
@@ -1810,6 +2006,10 @@ if (isset($_GET['get_val'])) {
         $('.hidden_divan').val(hiden_divan);
      
         $('.fourth_button').slideToggle();
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         $(this).css('border','none');
            //   $(".fourth_button").show();
@@ -1841,6 +2041,10 @@ if (isset($_GET['get_val'])) {
     $(".divan_button_form").click(function() {
         // $(".main_diven_div").show();
         $('.main_diven_div').slideToggle();
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         $(this).css('border','none');
 
@@ -1863,6 +2067,10 @@ if (isset($_GET['get_val'])) {
 
     $(".Monaco_divan_button").click(function() {
         $('.main_monaco_diven_div').slideToggle();
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         $(this).css('border','none');
         // $(".main_monaco_diven_div").show();
@@ -1881,6 +2089,10 @@ if (isset($_GET['get_val'])) {
 
     $(".Ottoman_Divan_button").click(function() {
         $('.main_ottoman_diven_div').slideToggle();
+        var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
         $(this).css('background-color','#6c6e6b');
         $(this).css('border','none');
         // $(".main_ottoman_diven_div").show();

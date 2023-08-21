@@ -12,6 +12,7 @@ class DataDetails extends Model
         'role_id',
         'links',
         'note',
+        'user_id',
       ];
     
 }

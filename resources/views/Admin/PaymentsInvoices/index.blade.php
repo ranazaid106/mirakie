@@ -84,10 +84,7 @@
         </script>
         @endif
         <div class="table-data__tool">
-            <div class="table-data__tool-left">
-
-
-            </div>
+            <div class="table-data__tool-left"></div>
             <?php 
                 $users = App\Models\UserStatus::where('user_id', Illuminate\Support\Facades\Auth::user()->id)->first();
                 // dd($users);
@@ -111,6 +108,7 @@
                     <tr>
                         <th>#</th>
                         <th>Status</th>
+                        <th>Name</th>
                         <th>Links</th>
                         <th>Note</th>
                         <th>Created At</th>
@@ -119,7 +117,10 @@
                 </thead>
                 <tbody>
                     <?php $num = 1 ?>
-                    @foreach($items as $item)
+         <?php       
+            //  dd($items)
+?>
+@foreach($items as $item)
 
                     <?php 
                     // dd($item);
@@ -127,7 +128,8 @@
                     // $user_status = App\Models\DataDetails::where('links',$item->id)->first();
 
                     $user_role = App\Models\Role::where('id',$item->role_id)->first();
-                    //    dd($item);
+
+                    //    dd($user_status);
 
                     ?> 
                          
@@ -136,12 +138,17 @@
                         <td>
                             <span class="block-email">{{ $user_role->name }}</span>
                         </td>
+                        <?php $users = App\Models\User::where('id', $item->user_id)->first(); ?>
+                        <td>
+                            <span class="block-email">{{ $users->name ??'Not Found' }}</span>
+                        </td>
+                        
                         <td>
                             <a href="{{ $item->links }}" target="_blank">{!! $item->links !!}</a>
                         </td>
                         <td>
                             <p class="description" style="cursor: pointer;">
-                                <a href="" target="_blank">{{ $item->note }}</a>
+                                <span>{{ $item->note }}</span>
                             </p>   
                         </td>
 

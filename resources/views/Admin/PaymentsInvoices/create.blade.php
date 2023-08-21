@@ -45,11 +45,11 @@
                                 @csrf
 
                                 <div class="container">
-                                    <?php $Roles = App\Models\Role::get(); ?> 
+                                    <?php $Roles = App\Models\Role::get(); ?>
                                     <div class="col-12">
                                         <div class="mb-3">
                                             <label>User Role</label><br>
-                                            <select  name="role_id"  class="form-select">
+                                            <select  name="role_id" id="userRole"  class="form-select form-control">
                                                 <option value="">Select User role</option>
                                                 @forelse ($Roles as $Role)
                                                 <option value="{{ $Role->id }}">{{ $Role->name }}</option>
@@ -59,6 +59,17 @@
                                             </select>
                                         </div>    
                                     </div>
+
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="usersDropdown">Select User:</label>
+                                            <select class="form-control" id="usersDropdown" name="user_id">
+                                               
+                                                <!-- Users dropdown will be populated dynamically based on the selected role -->
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3">
@@ -80,13 +91,12 @@
                                                 <textarea class="form-control" placeholder="Upload Note" name="note" id="note_editor" rows="3"></textarea>
                                             </div>
                                         </div>
-                                      
                                     </div>
                                 </div>
                                 <div class="card-footer">
                                     <center>
                                         <button type="submit" class="btn btn-info btn-sm">
-                                            <i class="fa fa-dot-circle-o"></i> Upload
+                                            <i class="fa fa-dot-circle-o"></i> Submit
                                         </button>
                                         <a type="reset" class="btn btn-danger btn-sm" style="margin-left: 20px;" href="{{route('PaymentsInvoices')}}">
                                             <i class="fa fa-ban"> </i> Cancel
@@ -94,11 +104,12 @@
                                     </center>
                                 </div>
                             </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>    
+        </div>    
+    </div>
 </div>
 
 <script src="https://cdn.ckeditor.com/ckeditor5/38.1.1/super-build/ckeditor.js"></script>
@@ -407,5 +418,47 @@
                 ]
             });
         </script>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#userRole').on('change', function () {
+
+            var roleId =  $("#userRole").val();
+            var v_token = "{{csrf_token()}}";
+            var params = { _token: v_token , roleId:roleId};
+            
+            $.ajax({
+                type: 'get',
+                data: params,
+                url: "/users/users_role/",
+                success: function(users) {
+                    console.log(users);
+                    $('#usersDropdown').html("");
+                    let usersDropdown = $('#usersDropdown');
+                    console.log(users);
+
+                    if(users  != ""){
+                        $.each(users, function (index, user) {
+                        usersDropdown.append($('<option value="'+user.id+'">'+"Name: &nbsp; "+user.name+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '+"Email: &nbsp; "+user.email+'</option>'));
+                    });
+                    }else{
+                      
+                        usersDropdown.append($('<option value="" >Not Found User </option>'));
+                   
+                    }
+                  
+
+
+                },         
+            });
+        });
+      
+    });
+</script>
+
+
 
 @endsection

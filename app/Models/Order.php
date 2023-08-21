@@ -18,7 +18,9 @@ class Order extends Model
         'delivery_status',
         'delivery_date',
         'product_id',
-        'qty'
+        'qty',
+        'alert',
+        'seen',
     ];  	 	
 
   

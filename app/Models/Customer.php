@@ -15,7 +15,9 @@ class Customer extends Model
         'address',
         'phone_number',
         'social_account',
-        'post_code'
+        'post_code',
+        'alert',
+        'seen',
     ];
 
     public function orders()

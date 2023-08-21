@@ -43,6 +43,7 @@ class Orderdetail extends Model
         'with_diamond_base',
         'with_diamond_mattress',
         'ottoman_divan_size',
+
         'ottoman_divan_headboad',
         'ottoman_divan_color',
         'ottoman_divan_fabric',
@@ -59,8 +60,24 @@ class Orderdetail extends Model
         'monaco_divan_fabric',
         'monaco_divan_storage',
         'monaco_divan_mattress',
-        
+        'without_diamond_design',
+        'Mattress',
+        'Ottoman',
+        'Bed',
+        'Gaslift',
+        'Headboard',
+        'Design',
+        'Without_diamond_button',
+        'With_diamond_button',
+        'Divan',
+        'Ottoman_divan',
+        'Divan_form',
+        'Manaco_divan',
     ];
+
+
+   
+
 
 
 }

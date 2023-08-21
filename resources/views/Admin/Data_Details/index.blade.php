@@ -109,6 +109,7 @@
                     <tr>
                         <th>#</th>
                         <th>Status</th>
+                        <th>Name</th>
                         <th>Links</th>
                         <th>Note</th>
                         <th>Created At</th>
@@ -133,6 +134,10 @@
                         <td>{{$num++}}</td>
                         <td>
                             <span class="block-email">{{ $user_role->name }}</span>
+                        </td>
+                        <?php $users = App\Models\User::where('id', $item->user_id)->first(); ?>
+                        <td>
+                            <span class="block-email">{{ $users->name ??'Not Found' }}</span>
                         </td>
                         <td>
                         <a href="{{ $item->links }}" target="_blank">{!! $item->links !!}</a>

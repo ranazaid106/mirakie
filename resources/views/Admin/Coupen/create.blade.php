@@ -12,9 +12,9 @@
         <form method="post" action="{{route('coupen_store')}}" enctype="multipart/form-data" novalidate="novalidate">
             @csrf
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12 mb-2">
                     <div class="form-group">
-                        <label for="name" class="control-label mb-1">Coupen</label>
+                        <label for="name" class="control-label mb-2">Coupen</label><br>
                         <input id="name" name="name" type="tel" class="form-control @error('name') is-invalid @enderror" value="" data-val="true" autocomplete="name">
                         @error('name')
                         <span class="invalid-feedback" role="alert">
@@ -25,9 +25,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12 mb-2">
                     <div class="form-group">
-                        <label for="price" class="control-label mb-1">Price</label>
+                        <label for="price" class="control-label mb-2">Price</label><br>
                         <input id="price" name="price" type="text" class="form-control @error('price') is-invalid @enderror" value="" data-val="true" autocomplete="price">
                         @error('price')
                         <span class="invalid-feedback" role="alert">
@@ -36,12 +36,12 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label class=" form-control-label" style="margin-top:40px">Type</label>
+                        <div class="col col-md-2">
+                            <label class=" form-control-label">Type</label>
                         </div>
-                        <div class="col col-md-9">
+                        <div class="col-md-6 col-sm-12 mb-3">
                             <div class="form-check-inline form-check">
                                 <label for="inline-radio1" class="form-check-label ">
                                     <input type="radio" id="inline-radio1" name="type" value="plain" class="form-check-input" style="height:15px;width:43px;margin-top:47px">Plain

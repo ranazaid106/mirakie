@@ -249,9 +249,44 @@ margin-top: -49px;
 .dt-buttons{
     margin-left: -14px;
 }
+
+}
+
+@media (max-width: 991px){
+    .table-data__tool .table-data__tool-right {
+  margin-top: 61px!important;
 }
 
 
+#product_checkedbox_get_id{
+    font-size: 11px;
+padding: 7px;
+}
+
+#multiple_generate_pdf{
+    font-size: 11px;
+padding: 5px;
+}
+
+#multiple_generate_excel{
+    font-size: 12px;
+}
+
+
+#responsive_work{
+    font-size: 10px;
+margin-right: 9px;
+}
+
+
+#Advance__Search{
+    font-size: 12px;
+padding: 9px;
+margin-top: 9px;
+}
+
+
+}
 
 
 
@@ -437,9 +472,10 @@ width:276px;
         <div class="col-lg-5 col-md-12 add_button_complete">
         
             <div class="table-data__tool-right">
-                <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                    <a href="{{route('order_create')}}" style="color:white"> <i style="color:white;" class="zmdi zmdi-plus"></i>add order</a></button>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rightModal2">
+                <button class="au-btn au-btn-icon au-btn--green au-btn--small" id="responsive_work">
+                    <a href="{{route('order_create')}}" style="color:white"> 
+                        <i style="color:white;" class="zmdi zmdi-plus"></i>add order</a></button>
+                    <button type="button" class="btn btn-primary advance_searching_btn" data-bs-toggle="modal" data-bs-target="#rightModal2" id="Advance__Search">
                        Advance Search</button>
             </div>
         </div>
@@ -485,7 +521,7 @@ width:276px;
                     @foreach($items as $item)
                         
                     <tr class="tr-shadow select_{{$item->order_id}}">
-                        <td><input type="checkbox" style="margin-top: 15px;" value="{{$item->customer_id}}" name="check[]" class="sub_chk" data-id="{{$item->order_id}}" id="master"></td>
+                        <td><input type="checkbox" style="margin-top: 15px;" value="{{$item->customer_id}}" name="check[]" class="sub_chk" data-id="{{$item->order_id}}" ></td>
                        
                         <td>
                             <span class="block-email">{{$item->order_number}}</span>
@@ -499,7 +535,11 @@ width:276px;
                         <td class="desc">{{$item->select_country}}</td>
                         <td class="desc">{{$item->post_code ?? 'not found'}}</td>
                         <td><span class="status--process">{{$item->name}}</span> </td>
+                        @if($item->created_at)
                         <td class="desc">{{$item->created_at->format('Y-m-d')}}</td>
+                        @else
+                        <td class="desc"><span> not found</span></td>
+                        @endif
                         <td>
                             <a  href="{{ url('order/'.$item->order_id.'/customer/'.$item->customer_id.'/pdf' ) }}"   data-id="{{ $item->order_id }}" style="right:45%;cursor: pointer;" class="item " data-toggle="tooltip" data-placement="top" title="GENERATE PDF"><span class="material-symbols-outlined"> picture_as_pdf</span></a>
                          </td>
@@ -591,8 +631,8 @@ width:276px;
            
             <form   method="POST" id="payment-form">
                 @csrf
-            <div class="modal-body">
-                <div class="container">
+            <div class="modal-body" style="height: 100%">
+                <div class="container" style="height: 800px;">
 
                     <?php 
              
@@ -709,18 +749,101 @@ width:276px;
 
 @section('js_files')
 
+<script>
+
+    function hello(){
+
+        $('#master').on('click', function(e) {
+
+if ($(this).is(':checked', true)) {
+    $(".sub_chk_subb").prop('checked', true);
+    $('.checkbox_hidden_btn').show('slow');
+  
+} else {
+    $(".sub_chk_subb").prop('checked', false);
+    $('.checkbox_hidden_btn').hide('slow');
+   
+}
+});
+
+        if($('.sub_chk_subb:checked').length > 0){
+                $('.checkbox_hidden_btn').show('slow');
+            }else{
+                $('.checkbox_hidden_btn').hide('slow');
+            }
+        
+    }
+    
+    
+    </script>
+
+<script>
+    $(document).ready(function() {
+        
+        $('#master').on('click', function(e) {
+
+            if ($(this).is(':checked', true)) {
+                $(".sub_chk").prop('checked', true);
+                $('.checkbox_hidden_btn').show('slow');
+              
+            } else {
+                $(".sub_chk").prop('checked', false);
+                $('.checkbox_hidden_btn').hide('slow');
+               
+            }
+        });
+
+        $('.sub_chk').on('click', function(e) {
+            
+            if($('.sub_chk:checked').length > 0){
+                $('.checkbox_hidden_btn').show('slow');
+            }else{
+                $('.checkbox_hidden_btn').hide('slow');
+            }
+
+        });
+
+
+
+        // $('.sub_chk_subb').on('click', function(e) {
+            // alert("hello");
+            
+            // if($('.sub_chk_subb:checked').length > 0){
+            //     $('.checkbox_hidden_btn').show('slow');
+            // }else{
+            //     $('.checkbox_hidden_btn').hide('slow');
+            // }
+
+        // });
+
+       
+        
+    });
+
+</script>
+
 
 
 <!-- Your JavaScript code (using jQuery) -->
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
 <script>
     $(document).ready(function() {
-        $('#multiple_generate_excel').on('click', function() {
+        $('#multiple_generate_excel').on('click', function() { 
             // Send the AJAX request
         
               var allVals = [];
                         var allcustomer = [];
+
                         $(".sub_chk:checked").each(function() {
+                            allVals.push($(this).attr('data-id'));
+
+                            allcustomer.push($(this).attr('value'));
+
+                            var v_token = "{{csrf_token()}}";
+    
+                        });
+
+                        $(".sub_chk_subb:checked").each(function() {
                             allVals.push($(this).attr('data-id'));
 
                             allcustomer.push($(this).attr('value'));
@@ -792,6 +915,16 @@ width:276px;
 
 <script>
 
+$(document).ready(function() {
+    $(".advance_searching_btn").click(function() {
+      $(".header-desktop").css("z-index", "1");
+    });
+  });
+
+
+</script>
+<script>
+
     $(document).on('click', '#search_filter_order', function(e) {
                         e.preventDefault();
 
@@ -843,50 +976,52 @@ width:276px;
 
                     $('.append_order_data').html("");
                      $('#close_button_ajax').click();
+                    //  alert("hello");
 
 
 
-                     $.each(data.items, function (key, order) {
-  var timeAgo = moment(order.created_at).format('DD MMM YYYY');
+                                    $.each(data.items, function (key, order) {
+                var timeAgo = moment(order.created_at).format('DD MMM YYYY');
 
-  var pdfLink = '/order/' + order.order_id + '/customer/' + order.customer_id + '/pdf';
-  var excelLink = '/order/' + order.order_id + '/customer/' + order.customer_id + '/excel';
+                var pdfLink = '/order/' + order.order_id + '/customer/' + order.customer_id + '/pdf';
+                var excelLink = '/order/' + order.order_id + '/customer/' + order.customer_id + '/excel';
 
-  var tableRow = '<tr class="tr-shadow select_' + order.order_id + '">' +
-    '<td><input type="checkbox" style="margin-top: 15px;" value="' + order.customer_id + '" name="check[]" class="sub_chk" data-id="' + order.order_id + '" id="master"></td>' +
-    '<td><span class="block-email">' + order.order_number + '</span></td>' +
-    '<td class="desc">' + order.name + '</td>' +
-    '<td class="desc">' + order.price + '</td>' +
-    '<td class="desc">' + order.qty + '</td>' +
-    '<td><span class="status--process">' + order.first_name + ' ' + order.last_name + '</span></td>' +
-    '<td class="desc">' + order.select_country + '</td>' +
-    '<td class="desc">' + order.post_code + '</td>' +
-    '<td><span class="status--process">' + order.name + '</span></td>' +
-    '<td class="desc">' + timeAgo + '</td>' +
-    '<td><a href="' + pdfLink + '" data-id="' + order.order_id + '" style="right:45%;cursor: pointer;" class="item" data-toggle="tooltip" data-placement="top" title="GENERATE PDF"><span class="material-symbols-outlined"> picture_as_pdf</span></a></td>' +
-    '<td><a href="' + excelLink + '" data-id="' + order.order_id + '" style="right:45%;cursor: pointer;" class="item" data-toggle="tooltip" data-placement="top" title="GENERATE EXCEL"><span class="material-symbols-outlined">csv</span></a></td>' +
-    
-       
-    '<td>' +
+                var tableRow = '<tr class="tr-shadow select_' + order.order_id + '">' +
+                    '<td><input type="checkbox" style="margin-top: 15px;" value="' + order.customer_id + '" name="check[]" class="sub_chk_subb" data-id="' + order.order_id + '" onclick=hello() ></td>' +
+                    '<td><span class="block-email">' + order.order_number + '</span></td>' +
+                    '<td class="desc">' + order.name + '</td>' +
+                    '<td class="desc">' + order.price + '</td>' +
+                    '<td class="desc">' + order.qty + '</td>' +
+                    '<td><span class="status--process">' + order.first_name + ' ' + order.last_name + '</span></td>' +
+                    '<td class="desc">' + order.select_country + '</td>' +
+                    '<td class="desc">' + order.post_code + '</td>' +
+                    '<td><span class="status--process">' + order.name + '</span></td>' +
+                    '<td class="desc">' + timeAgo + '</td>' +
+                    '<td><a href="' + pdfLink + '" data-id="' + order.order_id + '" style="right:45%;cursor: pointer;" class="item" data-toggle="tooltip" data-placement="top" title="GENERATE PDF"><span class="material-symbols-outlined"> picture_as_pdf</span></a></td>' +
+                    '<td><a href="' + excelLink + '" data-id="' + order.order_id + '" style="right:45%;cursor: pointer;" class="item" data-toggle="tooltip" data-placement="top" title="GENERATE EXCEL"><span class="material-symbols-outlined">csv</span></a></td>' +
+                    
+                    
+                    '<td>' +
 
-    '<div class="table-data-feature">' +
-    '@can("View Order")<a href="' + '/order_view/' + order.order_id + '" style="right:45%" class="item" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-history"></i></a>@endcan ' +
-    '@can("Update Order")<a href="' + '/order_edit/' + order.order_id + '" style="right:45%" class="item" data-toggle="tooltip" data-placement="top" title="Edit"><i class="zmdi zmdi-edit"></i></a>@endcan ' +
-    '@can("Delete Order")<a data-id="' + order.order_id + '" style="right:45%;cursor: pointer;" class="item delete_order_one_item" data-toggle="tooltip" data-placement="top" title="Delete"><i class="zmdi zmdi-delete"></i></a>@endcan' +
-    '</div>' +
-    '</td>' +
-    '</tr>';
+                    '<div class="table-data-feature">' +
+                    '@can("View Order")<a href="' + '/order_view/' + order.order_id + '" style="right:45%" class="item" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-history"></i></a>@endcan ' +
+                    '@can("Update Order")<a href="' + '/order_edit/' + order.order_id + '" style="right:45%" class="item" data-toggle="tooltip" data-placement="top" title="Edit"><i class="zmdi zmdi-edit"></i></a>@endcan ' +
+                    '@can("Delete Order")<a data-id="' + order.order_id + '" style="right:45%;cursor: pointer;" class="item delete_order_one_item" data-toggle="tooltip" data-placement="top" title="Delete"><i class="zmdi zmdi-delete"></i></a>@endcan' +
+                    '</div>' +
+                    '</td>' +
+                    '</tr>';
 
    
 
-  $('.append_order_data').append(tableRow);
+                $('.append_order_data').append(tableRow);
 });
 
         
-            }else{
-                $('.append_order_data').html("");
-                $('.append_order_data').append(' <tr><td colspan="12">Not Found Orders</td></tr>');
-            }
+                    }else{
+                            $('#close_button_ajax').click();
+                        $('.append_order_data').html("");
+                        $('.append_order_data').append(' <tr><td colspan="12">Not Found Orders</td></tr>');
+                    }
          
 
          
@@ -925,39 +1060,7 @@ width:276px;
         });
         </script>
     
-        <script>
-        $(document).ready(function() {
-            
-            $('#master').on('click', function(e) {
-
-                if ($(this).is(':checked', true)) {
-                    $(".sub_chk").prop('checked', true);
-                    $('.checkbox_hidden_btn').show('slow');
-                  
-                } else {
-                    $(".sub_chk").prop('checked', false);
-                    $('.checkbox_hidden_btn').hide('slow');
-                   
-                }
-            });
     
-            $('.sub_chk').on('click', function(e) {
-                
-                if($('.sub_chk:checked').length > 0){
-                    $('.checkbox_hidden_btn').show('slow');
-                }else{
-                    $('.checkbox_hidden_btn').hide('slow');
-                }
-    
-            });
-    
-    
-            
-           
-            
-        });
-    
-    </script>
 
 
 
@@ -1119,12 +1222,20 @@ width:276px;
     $(document).on('click', '#multiple_generate_pdf', function(e) {
                         e.preventDefault();
 
-                        $('#loaderContainer').show();
+                       
 
                         // alert('hello');
                         var allVals = [];
                         var allcustomer = [];
                         $(".sub_chk:checked").each(function() {
+                            allVals.push($(this).attr('data-id'));
+
+                            allcustomer.push($(this).attr('value'));
+
+                            var v_token = "{{csrf_token()}}";
+    
+                        });
+                        $(".sub_chk_subb:checked").each(function() {
                             allVals.push($(this).attr('data-id'));
 
                             allcustomer.push($(this).attr('value'));
@@ -1157,6 +1268,7 @@ width:276px;
                                    
                                     var v_token = "{{csrf_token()}}";
                                        var params = {join_selected_values:join_selected_values, _token: v_token , customer_values};
+                                       $('#loaderContainer').show();
     
                                     $.ajax({
                                         type: 'get',

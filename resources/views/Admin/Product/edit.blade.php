@@ -15,9 +15,9 @@
 
 
                 <div class="row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12 mb-2">
                     <div class="form-group">
-                        <label for="name" class="control-label mb-1">Name</label>
+                        <label for="name" class="control-label mb-2">Name</label>
                         <input id="name" name="name" type="tel" class="form-control @error('name') is-invalid @enderror" value="{{$item->name}}" data-val="true" autocomplete="name">
                         @error('name')
                         <span class="invalid-feedback" role="alert">
@@ -26,8 +26,8 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-6">
-                    <label for="price" class="control-label mb-1">Price</label>
+                <div class="col-md-6 col-sm-12 mb-3">
+                    <label for="price" class="control-label mb-2">Price</label>
                     <div class="input-group">
                         <input id="price" name="price" type="text" class="form-control @error('price') is-invalid @enderror" value="{{$item->price}}" data-val="true" autocomplete="price">
                         @error('price')
@@ -39,11 +39,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12 mb-3">
                     <div class="form-group">
-                        <label for="country" class="control-label mb-1">Country</label>
+                        <label for="country" class="control-label mb-2">Country</label>
                         <input id="country" name="country" type="tel" class="form-control @error('country') is-invalid @enderror" value="{{ implode(', ', $countriesArray ) }}" data-val="true" autocomplete="country">
-                        <span style="font-size: 15px;" class="input-description">Can add multiple with comma ( , )</span>
+                        <span style="font-size: 15px;" class="input-description mt-3">Can add multiple with comma ( , )</span>
                         @error('country')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

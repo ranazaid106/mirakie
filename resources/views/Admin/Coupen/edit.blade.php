@@ -13,9 +13,9 @@
             @method('put')
             @csrf
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        <label for="name" class="control-label mb-1">Coupen</label>
+                        <label for="name" class="control-label mb-2">Coupen</label>
                         <input id="name" name="name" type="tel" class="form-control @error('name') is-invalid @enderror" value="{{$item->name}}" data-val="true" autocomplete="name">
                         @error('name')
                         <span class="invalid-feedback" role="alert">
@@ -26,9 +26,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <div class="form-group">
-                        <label for="price" class="control-label mb-1">Price</label>
+                        <label for="price" class="control-label mb-2">Price</label>
                         <input id="price" name="price" type="text" class="form-control @error('price') is-invalid @enderror" value="{{$item->price}}" data-val="true" autocomplete="price">
                         @error('price')
                         <span class="invalid-feedback" role="alert">
@@ -37,7 +37,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <div class="row form-group">
                         <div class="col col-md-3">
                             <label class=" form-control-label" style="margin-top:40px">Type</label>

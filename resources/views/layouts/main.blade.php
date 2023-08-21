@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <!-- Required meta tags-->
   <meta charset="UTF-8">
@@ -8,10 +7,8 @@
   <meta name="description" content="au theme template">
   <meta name="author" content="Hau Nguyen">
   <meta name="keywords" content="au theme template">
-
   <!-- Title Page-->
   <title>Dashboard</title>
-
   <style>
     .country_error {
         border: 1px solid red!important;
@@ -25,11 +22,83 @@
          position: inherit;
          margin-top: -2px!important;
   }
+
+
   div.dt-buttons {
   float: center!important;
-
 }
             }
+
+  
+
+            @media screen and (max-width:991px){
+
+
+
+              #userDataContainer{
+      margin-left: 65px!important;
+    }
+           
+
+
+              .header-button {
+  margin-top: 5px!important;
+
+}
+
+
+.header-desktop {
+  margin-bottom: 15px!important;
+  height: 76px!important;
+}
+
+
+.main-content {
+  padding-top: 8px!important;
+  padding-bottom: 0px!important;
+}
+
+
+
+            }
+
+            @media only screen and (max-width: 400px) {
+
+
+
+.header-button {
+  margin-top: 5px!important;
+
+}
+
+
+.header-desktop {
+  margin-bottom: 15px!important;
+  height: 76px!important;
+}
+
+
+.main-content {
+  padding-top: 8px!important;
+  padding-bottom: 0px!important;
+}
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
     </style>
   <!-- Fontfaces CSS-->
   <link href="{{asset('css/font-face.css')}}" rel="stylesheet" media="all">
@@ -39,7 +108,12 @@
 
   <!-- Bootstrap CSS-->
   <link href="{{asset('vendor/bootstrap-4.1/bootstrap.min.css')}}" rel="stylesheet" media="all">
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+
+
+
+
+
+  {{-- <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> --}}
   <!-- Vendor CSS-->
   <link href="{{asset('vendor/animsition/animsition.min.css')}}" rel="stylesheet" media="all">
   <link href="{{asset('vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css')}}" rel="stylesheet" media="all">
@@ -60,6 +134,7 @@
 {{-- database yajra table css --}}
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
 
 </head>
 
@@ -96,6 +171,7 @@
 
     </div>
 
+<script type="text/javascript" src="{{asset('js_all_files/jquery.min.js')}}"></script>
     
   
     <!-- Bootstrap JS-->
@@ -130,10 +206,6 @@
 
   {{-- database yajra table --}}
 
-
-
-
-
  {{-- database yajra table PDF PRINT ECT --}}
 <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
@@ -146,12 +218,6 @@
  {{-- database yajra table PDF PRINT ECT --}}
 
 @yield('js_files')
-
-
-
-
-
-
 
   <script>
     var minDate, maxDate;
@@ -207,11 +273,6 @@
                    ],
     } );
 
-
-
-
-
-
    
       // Refilter the table
       $('#min, #max').on('change', function () {
@@ -221,14 +282,139 @@
 
 
 
- 
-
-
-
   });  
   </script>
 
     
+
+<script>
+
+
+
+
+
+
+
+function usersNotification(e){
+  // alert(data);
+  var dataId = $(e).attr("data-id");
+  var dataname = $(e).attr("data-name");
+
+  var v_token = "{{csrf_token()}}";
+
+
+
+  var params = {dataId:dataId, _token: v_token , dataname:dataname }
+      
+  var url = 'http://127.0.0.1:8000';
+  // var url = 'https://www.mirakie.com';
+
+  
+
+  $.ajax({
+        type: 'post',
+        data: params,
+        url: "/notificationupdate",
+        success: function(data) {
+
+       
+
+          if(data.user == 'user'){
+            window.location = url+'/user';
+// 
+          }else if(data.customer == 'customer'){
+            window.location = url+'/customer_index' ;
+
+
+          }if(data.product == 'product'){
+
+            window.location = url+'/product_index';
+
+          }else if(data.order == 'order'){
+            window.location = url+'/order_index';
+
+          }
+
+              
+        }
+                    
+                 
+
+   
+});
+
+
+
+
+
+}
+
+
+
+setInterval(ajaxCall, 3000); //300000 MS == 5 minutes
+ajaxCall()
+   // {{-- Show Data  drop down images --}}
+   function ajaxCall() {
+    // alert('hellsado')
+
+    $.ajax({
+        type: "GET",
+        url: "/notification",
+        dataType: "json",
+        success: function(response) {
+            // console.log(response)
+
+            $("#userDataContainer").html("");
+            $(".user_countt").html("");
+
+              
+            if(response.Users_count > '100'){
+              $(".user_countt").append('100+'); 
+            }else{
+              $(".user_countt").append(response.Users_count); 
+            }
+
+
+           
+
+
+
+
+            $("#userDataContainer").append(response.success);
+            $("#userDataContainer").append(response.notificationCustomer);
+            $("#userDataContainer").append(response.notificationOrders);
+            $("#userDataContainer").append(response.notificationproduct);
+            // alert(response);
+            // $.each(response.product, function(key, item) {
+
+            //     $("#sub_category_name").append('<option value="' + item.id +
+            //         '"  id="onchange_data" >' + item.product_name + '</option>');
+            // });
+        }
+    });
+};
+
+// {{-- Show Data  drop down images --}}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   </body>
 

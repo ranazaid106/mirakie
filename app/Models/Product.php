@@ -13,6 +13,8 @@ class Product extends Model
     'name',
     'price',
     'country',
+    'alert',
+    'seen',
   ];
 
   public function productVariations()

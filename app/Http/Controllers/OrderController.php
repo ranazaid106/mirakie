@@ -17,29 +17,18 @@ use App\Repositories\OrderRepositoryInterface;
 
 class OrderController extends Controller
 {
-
     protected $model, $repository;
-
-
- 
 
 public function advance_search(Request $request)
 {
- 
-
-// dd($request->agen_name);
 if($request->agen_name){
-
     $agent_search = User::select("*")
     ->leftJoin("user_status","user_status.user_id","users.id")
     ->leftJoin("roles","user_status.status","roles.id")
     ->where('users.name', $request->agen_name)
     ->where('roles.name', 'Agent')
     ->first();
- 
-
     if($agent_search){
-
         $startDate = $request->date_from;
         $endDate = $request->date_to;
     
@@ -83,10 +72,7 @@ if($request->agen_name){
         ]);
     
     }
-
 }else{
-
-
 
     $startDate = $request->date_from;
     $endDate = $request->date_to;
@@ -125,25 +111,7 @@ if($request->agen_name){
     
 
 }
-
- 
-
-
-
-
-
-
-
-
-  
-
-    // return view('Admin.Order.index', compact('items'));
 }
-
-
-
-
-   
     public function __construct(OrderRepositoryInterface $repository, Order $model)
     {
         $this->middleware('permission:Create Order|Update Order')->only('related');
@@ -156,7 +124,8 @@ if($request->agen_name){
     }
 
 
-    public function re_order()
+    public function re_order(Request $request)
+
     {
         $countries = [];
         $products = Product::select('id', 'country')->get();
@@ -168,7 +137,9 @@ if($request->agen_name){
             }
         }
         $allCountries = array_unique($countries);
-        return view('Admin.Order.addtwo', compact('allCountries'));
+        $orderdetails = Orderdetail::where('customer_id',$request->get_val)->first();
+        $single_country_name =$orderdetails->select_country;
+        return view('Admin.Order.addtwo', compact(['allCountries','single_country_name']));
     }
     /**
      * Display a listing of the resource.
@@ -178,70 +149,48 @@ if($request->agen_name){
     public function index(Request $request)
     {
 
-        // $role  = Role::where('name', 'Super Admin')->first();
-        // $role_status  = UserStatus::where('status', $role->id)->where('user_id',Auth::user()->id)->first();
-    
+    $user = Auth::user(); // Get the currently logged in user
+    $users_id = Auth::id(); // Get the currently logged in user
+    $orders = UserStatus::where('user_id',$users_id)->first();
+    $order_role = Role::where('id', $orders->status)->first();
 
-
-        // if($role_status){
-               
-        // $items = Order::with('customer','user')
-        // ->paginate(3000);
-
+    if ($order_role->name === 'Super Admin') {
+        // If the user is a Super Admin, show all orders
         $items = Order::select("*")
-    ->leftJoin("orderdetails","orderdetails.order_id","orders.id")
-    ->leftJoin("customers","customers.id","orders.customer_id")
-    ->leftJoin("products","products.id","orders.product_id")
-    ->paginate(3000);
-    // ->get();
+        ->leftJoin("orderdetails","orderdetails.order_id","orders.id")
+        ->leftJoin("customers","customers.id","orders.customer_id")
+        ->leftJoin("products","products.id","orders.product_id")
+        ->paginate(3000);
+        // ->get();
 
-
-  
-        // }else{
-
-        //     $items  = Order::where('user_id', Auth::user()->id)->paginate(10);
-
-
-          
-        // }
-        // dd($items);
-    return view('Admin.Order.index', compact('items',));
+    } else {
+        // If the user is not a Super Admin, show only their orders
+        // $orders = Order::where('user_id', $user->id)->get();
+        $items = Order::select("*")
+        ->leftJoin("orderdetails","orderdetails.order_id","orders.id")
+        ->leftJoin("customers","customers.id","orders.customer_id")
+        ->leftJoin("products","products.id","orders.product_id")
+        ->where("orders.user_id", Auth::id())
+        ->paginate(3000);
+        // ->get();
+    }
+    return view('Admin.Order.index', compact('items'));
 
    }
-
-
-        // $items = Order::with('customer','user')->paginate(10);
-        // $items = Order::with('customer','user');
-        // return view('Admin.Order.index', compact('items'));
-    
 
     public function order_search(Request $request , $id)
     {
        
    if($request->id){
-
-  
     $items = Order::with('customer','user')->where('customer_id',$request->id)->paginate(3000);
     return view('Admin.Order.index', compact('items'));
-    
    }else{
-
 
     $items = Order::with('customer','user')->where('customer_id', -1)->paginate(3000);
     return view('Admin.Order.index', compact('items'));
 
    }
 
-
-
-
-
-   
-      
-
-        // $items = Order::with('customer','user')->paginate(10);
-        // $items = Order::with('customer','user');
-        // return view('Admin.Order.index', compact('items'));
     }
 
     /**
@@ -263,22 +212,6 @@ if($request->agen_name){
         $allCountries = array_unique($countries);
         return view('Admin.Order.add', compact('allCountries'));
     }
-    
-    
-    public function outer_create()
-    {
-        $countries = [];
-        $products = Product::select('id', 'country')->get();
-        foreach ($products as $product) {
-            $countryjson = json_decode($product->country);
-
-            foreach ($countryjson as $countryIMplode) {
-                array_push($countries, $countryIMplode);
-            }
-        }
-        $allCountries = array_unique($countries);
-        return view('Admin.Order.Order_add', compact('allCountries'));
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -289,32 +222,40 @@ if($request->agen_name){
     public function store(Request $request)
     {
         // dd($request->all());
-        $checkfirstname = Customer::where('first_name', $request->first_name)->first();
+        // $checkfirstname = Customer::where('first_name', $request->first_name)->first();
         
-        if(!empty($checkfirstname->id)){
+        // if(!empty($checkfirstname->id)){
 
-            return response()->json([
-                'status' => 300,
-                'message' => 'First name already exist',
-            ]);
-          }
+        //     return response()->json([
+        //         'status' => 300,
+        //         'message' => 'First name already exist',
+        //     ]);
+        //   }
 
 
 
-          if($request->email != ""){
-            $checkemail = Customer::where('email', $request->email)->first();
-     // dd($checkemail->id);
-      if(!empty($checkemail->id)){
+    //       if($request->email != ""){
+    //         $checkemail = Customer::where('email', $request->email)->first();
+    //  // dd($checkemail->id);
+    //   if(!empty($checkemail->id)){
 
-          return response()->json([
-              'status' => 100,
-              'message' => 'email already exist',
-          ]);
+    //       return response()->json([
+    //           'status' => 100,
+    //           'message' => 'email already exist',
+    //       ]);
 
-      }
-        }
+    //   }
+    //     }
 
-        $customer['first_name'] = $request->first_name;
+    
+    if($request->first_name != ""){
+        $customer_first_name = $request->first_name;
+    }else{
+        $customer_first_name = '';
+    }
+
+
+        $customer['first_name'] = $customer_first_name;
 
             if($request->last_name != ""){
                 $customer_last_name = $request->last_name;
@@ -352,70 +293,143 @@ if($request->agen_name){
         $data['user_id'] = auth()->id();
 
         $order = Order::create($data);
+
         $detail['customer_id'] = $customerCreate->id;
         $detail['user_id'] = auth()->id();
         $detail['order_id'] = $order->id;
 
         $detail['select_country'] = $request->country;
         $detail['select_product'] = $request->product;
-        $detail['mattress_size'] = $request->mattress_size;
-        $detail['select_mattress'] = $request->mattress_design;
-        $detail['ottoman_design'] = $request->ottoman_design;
-        $detail['ottoman_color'] = $request->ottoman_color;
-        $detail['ottoman_fabric'] = $request->ottoman_fabric;
+
+
+        if($request->mattress_size){
+            $detail['mattress_size'] = $request->mattress_size;
+            $detail['select_mattress'] = $request->mattress_design;
+            $detail['Mattress'] = 'Mattress : ';
+        }
+      
+        if($request->ottoman_design){
+     
+            $detail['ottoman_design'] = $request->ottoman_design;
+            $detail['ottoman_color'] = $request->ottoman_color;
+            $detail['ottoman_fabric'] = $request->ottoman_fabric;
+        $detail['Ottoman'] = 'Ottoman : ';
+        }
+
+
+
+      
+
 
 
         if($request->hidden_bed == 'Bed'){
 
-            $detail['gaslift_size'] = $request->gaslift_size;
-            $detail['gaslift_design'] = $request->gaslift_design;
-            $detail['headboard_size'] = $request->headboard_size;
-            $detail['headboard_design'] = $request->headboard_design;
-            $detail['headboard_color'] = $request->headboard_color;
-            $detail['headboard_fabric'] = $request->headboard_fabric;
+
+            
+            $detail['Bed'] = 'Bed => ';
+           
+            if($request->gaslift_size){
+                $detail['gaslift_size'] = $request->gaslift_size;
+                $detail['gaslift_design'] = $request->gaslift_design;
+                $detail['Gaslift'] = 'Gaslift : ';
+            }
+
+        
+            if($request->headboard_size){
+                $detail['headboard_size'] = $request->headboard_size;
+                $detail['headboard_design'] = $request->headboard_design;
+                $detail['headboard_color'] = $request->headboard_color;
+                $detail['headboard_fabric'] = $request->headboard_fabric;
+                $detail['Headboard'] = 'Headboard : ';
+
+            }
+
+        
+
+           
+
+
+         
       
 
         }
-        if($request->hidden_design == 'Design'){
+        if($request->hidden_design == 'Design'){  
 
-            $detail['without_diamond_size'] = $request->without_diamond_size;
-            $detail['without_diamond_color'] = $request->without_diamond_color;
-            $detail['without_diamond_fabric'] = $request->without_diamond_fabric;
-            $detail['without_diamond_storage'] = $request->without_diamond_storage;
-            $detail['without_diamond_base'] = $request->without_diamond_base;
-            $detail['without_diamond_mattress'] = $request->without_diamond_mattress;
-            $detail['with_diamond_size'] = $request->with_diamond_sizes;
-            $detail['with_diamond_design'] = $request->with_diamond_design;
-            $detail['with_diamond_color'] = $request->with_diamond_color;
-            $detail['with_diamond_fabric'] = $request->with_diamond_fabric;
-            $detail['with_diamond_button_diamond'] = $request->with_diamond_diamond_button;
-            $detail['with_diamond_storage'] = $request->with_diamond_storage;
-            $detail['with_diamond_base'] = $request->with_diamond_base;
-            $detail['with_diamond_mattress'] = $request->with_diamond_mattress;
+            $detail['Design'] = 'Design => ';
+
+
+            
+            // if($request->without_diamond_size){
+
+            //     $detail['without_diamond_size'] = $request->without_diamond_size;
+            //     $detail['without_diamond_color'] = $request->without_diamond_color;
+            //     $detail['without_diamond_design'] = $request->without_diamond_design;
+            //     $detail['without_diamond_fabric'] = $request->without_diamond_fabric;
+            //     $detail['without_diamond_storage'] = $request->without_diamond_storage;
+            //     $detail['without_diamond_base'] = $request->without_diamond_base;
+            //     $detail['without_diamond_mattress'] = $request->without_diamond_mattress;
+            // $detail['Without_diamond_button'] = 'Without_diamond_button : ';
+            // }
+
+            if($request->with_diamond_sizes){
+
+                $detail['with_diamond_size'] = $request->with_diamond_sizes;
+                $detail['with_diamond_design'] = $request->with_diamond_design;
+                $detail['with_diamond_color'] = $request->with_diamond_color;
+                $detail['with_diamond_fabric'] = $request->with_diamond_fabric;
+                $detail['with_diamond_button_diamond'] = $request->with_diamond_diamond_button;
+                $detail['with_diamond_storage'] = $request->with_diamond_storage;
+                $detail['with_diamond_base'] = $request->with_diamond_base;
+                $detail['with_diamond_mattress'] = $request->with_diamond_mattress;
+            $detail['With_diamond_button'] = 'luxury beds : ';
+            }
+
+
+          
+
+
+
+         
  
 
         }
         if($request->hidden_divan == 'Divan'){
             // dd($request->ottoman_diven_size);
 
+            $detail['Divan'] = 'Divan => ';
+
+            if($request->ottoman_diven_size){
            
-            $detail['ottoman_divan_size'] = $request->ottoman_diven_size;
-            $detail['ottoman_divan_headboad'] = $request->ottoman_diven_headboard;
-            $detail['ottoman_divan_color'] = $request->ottoman_diven_color;
-            $detail['ottoman_divan_fabric'] = $request->ottoman_diven_fabric;
-            $detail['ottoman_divan_mattress'] = $request->ottoman_diven_mattress;
-            $detail['divan_size'] = $request->diven_size;
-            $detail['divan_headboard'] = $request->diven_headboard;
-            $detail['divan_color'] = $request->diven_color;
-            $detail['divan_fabric'] = $request->diven_fabric;
-            $detail['divan_storage'] = $request->diven_storage;
-            $detail['divan_mattress'] = $request->diven_mattress;
-            $detail['monaco_divan_size'] = $request->monaco_diven_size;
-            $detail['monaco_divan_headboard'] = $request->monaco_diven_headboard;
-            $detail['monaco_divan_color'] = $request->monaco_diven_color;
-            $detail['monaco_divan_fabric'] = $request->monaco_diven_fabric;
-            $detail['monaco_divan_storage'] = $request->monaco_diven_storage;
-            $detail['monaco_divan_mattress'] = $request->monaco_diven_mattress;
+                $detail['ottoman_divan_size'] = $request->ottoman_diven_size;
+                $detail['ottoman_divan_headboad'] = $request->ottoman_diven_headboard;
+                $detail['ottoman_divan_color'] = $request->ottoman_diven_color;
+                $detail['ottoman_divan_fabric'] = $request->ottoman_diven_fabric;
+                $detail['ottoman_divan_mattress'] = $request->ottoman_diven_mattress;
+            $detail['Ottoman_divan'] = 'Ottoman_divan : ';
+            }
+            if($request->diven_size){
+
+                $detail['divan_size'] = $request->diven_size;
+                $detail['divan_headboard'] = $request->diven_headboard;
+                $detail['divan_color'] = $request->diven_color;
+                $detail['divan_fabric'] = $request->diven_fabric;
+                $detail['divan_storage'] = $request->diven_storage;
+                $detail['divan_mattress'] = $request->diven_mattress;
+            $detail['Divan_form'] = 'Divan_form  : ';
+            }
+            if($request->monaco_diven_size){
+                $detail['monaco_divan_size'] = $request->monaco_diven_size;
+                $detail['monaco_divan_headboard'] = $request->monaco_diven_headboard;
+                $detail['monaco_divan_color'] = $request->monaco_diven_color;
+                $detail['monaco_divan_fabric'] = $request->monaco_diven_fabric;
+                $detail['monaco_divan_storage'] = $request->monaco_diven_storage;
+                $detail['monaco_divan_mattress'] = $request->monaco_diven_mattress;
+            $detail['Manaco_divan'] = 'Manaco_divan  : ';
+            }
+
+
+
+          
 
         }
 
@@ -457,37 +471,71 @@ if($request->agen_name){
         $data['user_id'] = auth()->id();
 
         $order = Order::create($data);
+
         $detail['customer_id'] = $request->hidden_query_id;
         $detail['order_id'] = $order->id;
         $detail['user_id'] = auth()->id();
         $detail['select_country'] = $request->country;
         $detail['select_product'] = $request->product;
-        $detail['mattress_size'] = $request->mattress_size;
-        $detail['select_mattress'] = $request->mattress_design;
+
+        if($request->mattress_size){
+            $detail['mattress_size'] = $request->mattress_size;
+            $detail['select_mattress'] = $request->mattress_design;
+            $detail['Mattress'] = 'Mattress : ';
+        }
+      
+        if($request->ottoman_design){
         $detail['ottoman_design'] = $request->ottoman_design;
         $detail['ottoman_color'] = $request->ottoman_color;
         $detail['ottoman_fabric'] = $request->ottoman_fabric;
-
-
+        $detail['Ottoman'] = 'Ottoman  : ';
+        }
         if($request->hidden_bed == 'Bed'){
 
-            $detail['gaslift_size'] = $request->gaslift_size;
-            $detail['gaslift_design'] = $request->gaslift_design;
-            $detail['headboard_size'] = $request->headboard_size;
-            $detail['headboard_design'] = $request->headboard_design;
-            $detail['headboard_color'] = $request->headboard_color;
-            $detail['headboard_fabric'] = $request->headboard_fabric;
+            $detail['Bed'] = 'Bed';
+           
+            if($request->gaslift_size){
+                $detail['gaslift_size'] = $request->gaslift_size;
+                $detail['gaslift_design'] = $request->gaslift_design;
+                $detail['Gaslift'] = 'Gaslift : ';
+            }
+
+        
+            if($request->headboard_size){
+                $detail['headboard_size'] = $request->headboard_size;
+                $detail['headboard_design'] = $request->headboard_design;
+                $detail['headboard_color'] = $request->headboard_color;
+                $detail['headboard_fabric'] = $request->headboard_fabric;
+                $detail['Headboard'] = 'Headboard : ';
+
+            }
+
+        
+           
       
 
         }
         if($request->hidden_design == 'Design'){
 
-            $detail['without_diamond_size'] = $request->without_diamond_size;
-            $detail['without_diamond_color'] = $request->without_diamond_color;
-            $detail['without_diamond_fabric'] = $request->without_diamond_fabric;
-            $detail['without_diamond_storage'] = $request->without_diamond_storage;
-            $detail['without_diamond_base'] = $request->without_diamond_base;
-            $detail['without_diamond_mattress'] = $request->without_diamond_mattress;
+            $detail['Design'] = 'Design => ';
+
+
+            
+            // if($request->without_diamond_size){
+
+            // $detail['without_diamond_size'] = $request->without_diamond_size;
+            // $detail['without_diamond_color'] = $request->without_diamond_color;
+            // $detail['without_diamond_design'] = $request->without_diamond_design;
+            // $detail['without_diamond_fabric'] = $request->without_diamond_fabric;
+            // $detail['without_diamond_storage'] = $request->without_diamond_storage;
+            // $detail['without_diamond_base'] = $request->without_diamond_base;
+            // $detail['without_diamond_mattress'] = $request->without_diamond_mattress;
+            // $detail['without_diamond_mattress'] = $request->without_diamond_mattress;
+            // $detail['Without_diamond_button'] = 'Without_diamond_button : ';
+            // }
+
+            if($request->with_diamond_sizes){
+
             $detail['with_diamond_size'] = $request->with_diamond_sizes;
             $detail['with_diamond_design'] = $request->with_diamond_design;
             $detail['with_diamond_color'] = $request->with_diamond_color;
@@ -496,31 +544,42 @@ if($request->agen_name){
             $detail['with_diamond_storage'] = $request->with_diamond_storage;
             $detail['with_diamond_base'] = $request->with_diamond_base;
             $detail['with_diamond_mattress'] = $request->with_diamond_mattress;
- 
+            $detail['With_diamond_button'] = 'luxury beds : ';
+            }
 
         }
         if($request->hidden_divan == 'Divan'){
             // dd($request->ottoman_diven_size);
+            $detail['Divan'] = 'Divan';
 
+            if($request->ottoman_diven_size){
            
             $detail['ottoman_divan_size'] = $request->ottoman_diven_size;
             $detail['ottoman_divan_headboad'] = $request->ottoman_diven_headboard;
             $detail['ottoman_divan_color'] = $request->ottoman_diven_color;
             $detail['ottoman_divan_fabric'] = $request->ottoman_diven_fabric;
             $detail['ottoman_divan_mattress'] = $request->ottoman_diven_mattress;
+            $detail['Ottoman_divan'] = 'Ottoman_divan : ';
+            }
+            if($request->diven_size){
+
             $detail['divan_size'] = $request->diven_size;
             $detail['divan_headboard'] = $request->diven_headboard;
             $detail['divan_color'] = $request->diven_color;
             $detail['divan_fabric'] = $request->diven_fabric;
             $detail['divan_storage'] = $request->diven_storage;
             $detail['divan_mattress'] = $request->diven_mattress;
+            $detail['Divan_form'] = 'Divan_form : ';
+            }
+            if($request->monaco_diven_size){
             $detail['monaco_divan_size'] = $request->monaco_diven_size;
             $detail['monaco_divan_headboard'] = $request->monaco_diven_headboard;
             $detail['monaco_divan_color'] = $request->monaco_diven_color;
             $detail['monaco_divan_fabric'] = $request->monaco_diven_fabric;
             $detail['monaco_divan_storage'] = $request->monaco_diven_storage;
             $detail['monaco_divan_mattress'] = $request->monaco_diven_mattress;
-
+            $detail['Manaco_divan'] = 'Manaco_divan : ';
+            }
         }
 
         $orderdetails = Orderdetail::create($detail);
@@ -650,6 +709,8 @@ if($request->agen_name){
      */
     public function edit($id)
     {
+       
+
         $countries = [];
         $products = Product::select('id', 'country')->get();
         foreach ($products as $product) {
@@ -664,10 +725,13 @@ if($request->agen_name){
         $item  = Order::where('orders.id',$id)->select('orders.*','products.name as product_name')
                 ->leftJoin('products','orders.product_id','products.id')
                 ->first();
-        //dd($item);
+        // dd($allCountries);
          $detailOrder = Orderdetail::where('order_id',$id)->first();
+         
+        $country= $detailOrder->select_country;
 
-        return view('Admin.Order.edit', compact('item','allCountries','detailOrder'));
+
+        return view('Admin.Order.edit', compact('item','allCountries','detailOrder','country'));
     }
 
     /**
@@ -779,8 +843,6 @@ if($request->agen_name){
              Orderdetail::where('order_id', $product_id)->delete();
           
         }
-
-
 
         return response()->json([
             'status' => 200,

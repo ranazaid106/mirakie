@@ -32,19 +32,51 @@ class DataDetailsController extends Controller
         $users = UserStatus::where('user_id', Auth::user()->id)->first();
         // dd($users);
 
-        if ($users->status == '2') {
 
-            $items = DataDetails::paginate(10);
-               
-            }else {
-                
-                $items = DataDetails::where('role_id', $users->status)->paginate(10);
-            }
+        $user = Auth::user(); // Get the currently logged in user
+        $users_id = Auth::id(); // Get the currently logged in user
+        $UserStat = UserStatus::where('user_id',$users_id)->first();
+        $order_role = Role::where('id', $UserStat->status)->first();
 
-        // dd($user->status);
+        if ($order_role->name === 'Super Admin') {
+
+            $items = DataDetails::paginate(200);
+        }else{
+
+            $items = DataDetails::where('role_id', $order_role->id)->where('user_id',$users_id)->paginate(200);
+
+        }
+
         
         return view('Admin.Data_Details.index', compact('items', 'users'));
     }
+
+
+    public function fetchUsersByRoleData(Request $request)
+    {
+
+        // dd($request->all());
+        // $role = Role::findOrFail($request->roleId);
+        $users = UserStatus::where('status',$request->roleId)
+                ->leftjoin('users','users.id','user_status.user_id')
+                ->get();
+        // dd($users);
+        return response()->json($users);
+    }
+
+
+    public function editUsersByRoleData(Request $request)
+    {
+
+        // dd($request->roleId);
+        // $role = Role::findOrFail($request->roleId);
+        $users = UserStatus::where('status',$request->roleId)
+                ->leftjoin('users','users.id','user_status.user_id')
+                ->get();
+        // dd($users);
+        return response()->json($users);
+    }
+
     public function create()
     {
         $roles = Role::get();
@@ -54,22 +86,28 @@ class DataDetailsController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->role[0]);
 
         $this->validate($request, [
             'role_id' => 'nullable',
             'links' => 'required',
             'note' => 'required',
+            'user_id' => 'required',
+
         ]);
 
-        // $sanitizedLink = strip_tags($request->input('links'));
 
-        $link = new DataDetails;
-        $link->role_id = $request->input('role_id');
-        $link->links = strip_tags($request->input('links'));
-        $link->note = strip_tags($request->input('note'));
-        $link->save();
+        foreach ($request->user_id as $key => $user_id_data) {
+         
+            $link = new DataDetails;
+            $link->role_id = $request->input('role_id');
+            $link->user_id = $user_id_data;
+            $link->links = strip_tags($request->input('links'));
+            $link->note = strip_tags($request->input('note'));
+            $link->save();
 
+
+        }
+        
         
         return redirect()->back()->with('success', 'Data Details Add Successfully!');
         // return redirect()->back()->with('success', 'Link saved successfully.');
@@ -80,6 +118,9 @@ class DataDetailsController extends Controller
         // dd($id);
         $item = DataDetails::findOrFail($id);
         $roles = Role::all();
+
+        // dd($item);
+
 
         return view('Admin.Data_Details.edit', compact('item', 'roles'));
     }
@@ -94,6 +135,8 @@ class DataDetailsController extends Controller
             'link' => strip_tags('required'),
             'role' =>  'required|exists:roles,id',
             'note' =>  strip_tags('required'),
+            'user_id' => 'required',
+
 
         ]);
 
@@ -101,6 +144,8 @@ class DataDetailsController extends Controller
             'links' => strip_tags($request->link),
             'role_id' => $request->role,
             'note' => strip_tags($request->note),
+            'user_id' => $request->user_id,
+
 
         ]);
 

@@ -12,7 +12,7 @@
                 @method('put')
                 @csrf
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="design" class="control-label mb-1">Design</label>
                             <input id="design" name="design" type="text" class="form-control @error('design') is-invalid @enderror" value="{{ implode(', ', $designArray ) }}" data-val="true" autocomplete="design">
@@ -24,7 +24,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <label for="size" class="control-label mb-1">Size</label>
                         <div class="input-group">
                             <input id="size" name="size" type="tel" class="form-control @error('size') is-invalid @enderror" value="{{ implode(', ', $sizeArray ) }}" data-val="true" autocomplete="off">
@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="color_or_fabric" class="control-label mb-1">Color | Fabric</label>
                             <input id="color_or_fabric" name="color_or_fabric" type="tel" class="form-control @error('color_or_fabric') is-invalid @enderror" value="{{ implode(', ', $color_or_fabricArray ) }}" data-val="true" autocomplete="color_or_fabric">
@@ -51,7 +51,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <label for="headboard" class="control-label mb-1">Headboad</label>
                         <div class="input-group">
                             <input id="headboard" name="headboard" type="tel" class="form-control @error('headboard') is-invalid @enderror" value="{{ implode(', ', $headboardArray ) }}" data-val="true" autocomplete="off">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <div class="form-group">
                             <label for="storage" class="control-label mb-1">Storage</label>
                             <input id="storage" name="storage" type="tel" class="form-control @error('storage') is-invalid @enderror" value="{{ implode(', ', $storageArray ) }}" data-val="true" autocomplete="cc-exp">
@@ -77,7 +77,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12">
                         <label for="matteres" class="control-label mb-1">Matteres</label>
                         <div class="input-group">
                             <input id="matteres" name="matteres" type="tel" class="form-control @error('matteres') is-invalid @enderror" value="{{ implode(', ', $matteresArray ) }}" data-val="true" autocomplete="off">

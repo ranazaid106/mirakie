@@ -49,7 +49,7 @@
                                     <div class="col-12">
                                         <div class="mb-3">
                                             <label>User Role</label><br>
-                                            <select  name="role_id"  class="form-select">
+                                            <select  name="role_id" id="userRoleData"  class="form-select form-control">
                                                 <option value="">Select User role</option>
                                                 @forelse ($Roles as $Role)
                                                 <option value="{{ $Role->id }}">{{ $Role->name }}</option>
@@ -59,6 +59,16 @@
                                             </select>
                                         </div>    
                                     </div>
+
+                                    <div class="col-12">
+                                        <div class="mb-3">
+                                            <label for="usersDropdown">Select User:</label>
+                                            <select class="form-control" id="usersDropdown" name="user_id[]" multiple>
+                                                <!-- Users dropdown will be populated dynamically based on the selected role -->
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3">
@@ -407,5 +417,44 @@
                 ]
             });
         </script>
+
+        
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#userRoleData').on('change', function () {
+
+            var roleId =  $("#userRoleData").val();
+            var v_token = "{{csrf_token()}}";
+            var params = { _token: v_token , roleId:roleId};
+            
+            $.ajax({
+                type: 'post',
+                data: params,
+                url: "users/users_role_link",
+                success: function(users) {
+                    console.log(users);
+                    $('#usersDropdown').html("");
+                    let usersDropdown = $('#usersDropdown');
+
+                    if(users  != ""){
+                        $.each(users, function (index, user) {
+                            usersDropdown.append($('<option value="'+user.id+'">'+"Name: &nbsp; "+user.name+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '+"Email: &nbsp; "+user.email+'</option>'));
+                    });
+                    }else{
+                      
+                        usersDropdown.append($('<option value="" >Not Found User </option>'));
+                   
+                    }
+
+
+
+                },         
+            });
+        });
+      
+    });
+</script>
 
 @endsection

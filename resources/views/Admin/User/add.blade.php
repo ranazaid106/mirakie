@@ -26,7 +26,7 @@
                 @csrf
 
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12 mb-3">
                         <label for="name" class=" form-control-label">Name</label>
                         <input id="name" name="name" type="text" class="form-control @error('name') is-invalid @enderror" value="" data-val="true" autocomplete="name">
                         @error('name')
@@ -35,7 +35,7 @@
                         </span>
                         @enderror
                     </div>
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12 mb-3">
                         <label for="email" class="control-label mb-1">Email</label>
                         <div class="input-group">
                             <input id="email" name="email" type="email" class="form-control @error('email') is-invalid @enderror" value="" data-val="true" autocomplete="off">
@@ -48,8 +48,8 @@
                     </div>
                 </div>
 
-                <div class="row" style="margin-top: 20px;">
-                    <div class="col-6">
+                <div class="row" >
+                    <div class="col-md-6 col-sm-12 mb-3" >
                         <label for="password" class="control-label mb-1">Password</label>
                         <div class="input-group">
                             <input id="password" name="password" type="password" class="form-control @error('password') is-invalid @enderror" value="" data-val="true" autocomplete="off">
@@ -61,7 +61,7 @@
                         </div>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-md-6 col-sm-12  mb-3">
                         <label for="password-confirm" class="control-label mb-1">Confirm Password</label>
                         <div class="input-group">
                             <input id="password-confirm" name="password-confirm" type="password" class="form-control @error('password-confirm') is-invalid @enderror" value="" data-val="true" autocomplete="off">
@@ -73,7 +73,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row form-group" style="margin-top: 37px;">
+                <div class="row form-group" style="margin-top: 20px;">
                     <div class="col col-md-3">
                         <label for="role" class=" form-control-label">Select Role</label>
                     </div>

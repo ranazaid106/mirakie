@@ -4,10 +4,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductVariationController;
 use App\Http\Controllers\GeneratePDFController;
-
+use App\Http\Controllers\ExcelMultiplesController;
+use App\Http\Controllers\ProductVariationController;
+use App\Http\Controllers\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,12 +22,18 @@ use App\Http\Controllers\GeneratePDFController;
 */
 
 
-use App\Http\Controllers\ExcelMultiplesController;
+
+
+
+
+Route::get('/notification', [NotificationController::class, 'notification']);
+Route::post('/notificationupdate', [NotificationController::class, 'notification_update']);
+
 
 Route::get('/generate-excel', [ExcelMultiplesController::class, 'generateExcelFile']);
 
 
-use App\Http\Controllers\ExcelController;
+
 
 Route::get('order/{id}/customer/{customer_id}/excel', [ExcelController::class, 'exportUsers']);
 
@@ -151,6 +159,10 @@ Route::put('link_update/{id}', [App\Http\Controllers\DataDetailsController::clas
 Route::get('destroylink/{id}', [App\Http\Controllers\DataDetailsController::class, 'destroy'])->name('destroylink');
 
 
+Route::post('users/users_role_link', [App\Http\Controllers\DataDetailsController::class, 'fetchUsersByRoleData']);
+Route::any('users/users_role_data/edit', [App\Http\Controllers\DataDetailsController::class, 'editUsersByRoleData'])->name('users.saveUserRoleedit');
+
+
 
 Route::get('PaymentsInvoices', [App\Http\Controllers\PaymentsInvoicesController::class, 'index'])->name('PaymentsInvoices');
 Route::get('/create_PaymentsInvoices', [App\Http\Controllers\PaymentsInvoicesController::class, 'create'])->name('createPaymentsInvoices');
@@ -159,3 +171,21 @@ Route::get('PaymentsInvoices_edit/{id}', [App\Http\Controllers\PaymentsInvoicesC
 Route::put('PaymentsInvoices_update/{id}', [App\Http\Controllers\PaymentsInvoicesController::class, 'update'])->name('PaymentsInvoices_update');
 
 Route::get('destroyPaymentsInvoices/{id}', [App\Http\Controllers\PaymentsInvoicesController::class, 'destroy'])->name('destroyPaymentsInvoices');
+
+Route::get('/users/users_role/', [App\Http\Controllers\PaymentsInvoicesController::class, 'fetchUsersByRole'])->name('users.saveUserRole');
+
+
+
+
+Route::any('/users/users_role/edit', [App\Http\Controllers\PaymentsInvoicesController::class, 'editUsersByRole'])->name('users.saveUserRoleedit');
+
+
+
+
+
+
+
+
+
+
+

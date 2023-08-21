@@ -56,7 +56,11 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="form.html">
+                    <a href="{{url('details')}}">
+                      <i class="far  fa-files-o"></i>Data Details</a>
+                  </li>
+                <li>
+                    <a href="{{url('PaymentsInvoices')}}">
                         <i class="far fa-check-square"></i>Payments/Invoices</a>
                 </li>
             </ul>

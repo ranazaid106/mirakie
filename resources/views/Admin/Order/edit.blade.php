@@ -6,10 +6,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" media="all">
-
-
-
-
 <style>
     * {
         margin: 0;
@@ -19,8 +15,6 @@
     html {
         height: 100%;
     }
-    
-
     /*form styles*/
     #msform {
         text-align: center;
@@ -79,7 +73,6 @@
         color: #2C3E50;
         font-size: 16px;
     }
-
     #msform input:focus,
     #msform textarea:focus {
         -moz-box-shadow: none !important;
@@ -291,54 +284,64 @@
     }  */
 
 
+    @media only screen and (max-width: 400px) {
 
+.order_taking_form{
+   font-size: 25px;
+}
+
+
+.fill_all_from_field{
+
+    font-size: 13px;
+}
+
+
+
+    }
 
 </style>
 <!-- MultiStep Form -->
 <div class="container-fluid" id="grad1">
-    <?php
-    // if($detailOrder->ottoman_divan_size == ''){
-    //     dd('hell');
-    // }else {
-    //     dd('ha');
-    // }
-    // ottoman_divan_mattress             
-    // dd($detailOrder->ottoman_divan_size);
-    ?>
-     {{-- @if(isset($detailOrder->ottoman_divan_mattress) == '') @php  echo 'none' @endphp @endif --}}
+   
     <div class="row justify-content-center mt-0">
         <div class="col-11 col-sm-9 col-md-7 col-lg-8 text-center p-0 mt-3 mb-2">
             <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-                <h2><strong>Edit Order Taking Form</strong></h2>
-                <p style="color:#f9466d">Fill all form field to go to next step</p>
+                <h2 style="font-size: 24px;" class="order_taking_form"><strong>Edit Order Taking Form</strong></h2>
+                <p style="color:#f9466d" class="fill_all_from_field">Fill all form field to go to next step</p>
                 <div class="row">
-                    <div class="col-md-12 mx-0">
+                    <div class="col-md-12 mx-0 ">
                         <form id="msform" method="post" onsubmit="submit_universal_form('msform');" >
                             @csrf
                             <!-- progressbar -->
-                            <ul id="progressbar">
-                                <li style="margin-left:80px;" class="active" id="account"><strong>Order Details</strong></li>
+                            <ul id="progressbar"  >
+                                <li style="margin-left: 46px;" class="active" id="account"><strong>Order Details</strong></li>
                                 <li  id="payment"><strong>Payment</strong></li>
                                 {{-- <li   id="personal"><strong>Customer Info</strong></li> --}}
                                
                                 <li id="confirm"><strong>Finish</strong></li>
                             </ul>
                             <input type="hidden" name="hide_val" value="{{ $detailOrder->order_id }}" >
-
                             <fieldset>
                                 <div class="form-card" id="original-div">
                                     <button onclick="cloneDiv(event)" style="float:right;height:20px"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color:#686B6D;display:none" title="add more products"></i></button>
                                     <button onclick="cloneDivMinus(event)" style="float:right;height:20px;margin-right:10px;display:none" id="minu-button"><i class="fa fa-minus-circle" aria-hidden="true" style="font-size: 20px;color:#686B6D" title="remove this product section"></i></button>
-                                    
                                 
-                                    <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Country <span style="color:red">*</span></label></br>
+                                    <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Country <span style="color:red">*</span>
+                                    </label>
+                                </br>
+                                <?php
+                                // dd($country);
+                                ?>
                                     <select class="form-control changecountry" name="country" style="color:#686B6D" id="topField" onchange="enableFields(this.value)" required>
+
                                         <option value="" style="color:#686B6D">select country</option>
                                         @foreach($allCountries as $country)
                                         <option value="{{$country}}" {{$detailOrder->select_country == $country ? 'selected': '' }} style="color:#686B6D">{{$country}}</option>
                                         @endforeach
                                        
-                                    </select></br>
+                                    </select>
+                                </br>
                                     <div class="main_divs">
                                   <div class="cover_products"  >  
                                     <div class="products">

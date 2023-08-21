@@ -7,6 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" media="all">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.css">
+
 <style>
     * {
         margin: 0;
@@ -264,7 +265,7 @@
 
         /*Blue Buttons*/
         #msform .commando_button {
-        width: 150px;
+        /* width: 150px; */
         background: #435df7;
         color: white;
         border-radius: 20px;
@@ -289,6 +290,8 @@
     #valid-msg {
         color: #00c900;
     }
+
+
 
 
 
@@ -323,25 +326,118 @@
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
       }
-      </style>
-    
-
-    
-    
-   
 
 
+
+
+
+
+
+
+
+
+     @media only screen and (max-width: 400px) {
+
+.order_taking_form{
+   font-size: 25px;
+}
+
+
+.fill_all_from_field{
+
+    font-size: 13px;
+}
+
+#progressbar{
+    max-width: 241px;
+margin-left: 30px;
+}
+
+
+.mattress_button{
+    font-size: 10px!important;
+}
+
+.ottoman_button {
+    font-size: 10px!important;
+}
+
+.bed_button {
+    font-size: 10px!important;
+}
+
+.gaslift_button {
+    font-size: 10px!important;
+}
+
+
+.design_button {
+    font-size: 10px!important;
+}
+
+.headboard_button {
+    font-size: 10px!important;
+}
+
+.Ottoman_Divan_button{
+    font-size: 8px!important;
+}
+
+.divan_button_form{
+    font-size: 8px!important;
+}
+.Monaco_divan_button{
+    font-size: 8px!important;
+}
+
+.divan_button{
+    font-size: 12px!important;
+padding: 10px 34px!important;
+}
+
+.with_diamond_button{
+    font-size: 12px!important;
+padding: 10px 20px!important;
+}
+
+.you_have_successfully{
+font-size: 14!important;
+}
+.you_have_the_option{
+    font-size: 14!important;
+}
+
+.header-button {
+  margin-top: 5px!important;
+}
+
+
+.header-desktop {
+
+  height: 76px!important;
+}
+
+
+.main-content {
+  padding-top: 8px!important;
+}
+
+}
+ </style>
+    
 
 <!-- MultiStep Form -->
+
+
 <div class="container-fluid" id="grad1">
     <div class="row justify-content-center mt-0">
         <div class="col-11 col-sm-9 col-md-7 col-lg-8 text-center p-0 mt-3 mb-2">
             <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
-                <h2><strong>Order Taking Form</strong></h2>
-                <p style="color:#f9466d">Fill all form field to go to next step</p>
+                <h2 class="order_taking_form"><strong>Order Taking Form</strong></h2>
+                <p style="color:#f9466d" class="fill_all_from_field">Fill all form field to go to next step</p>
                 <div class="row">
                     <div class="col-md-12 mx-0">
-                        <form id="msform" method="post" onsubmit="submit_universal_form('msform');" >
+                        <form id="msform" class="reset_form_click" method="post" onsubmit="submit_universal_form('msform');" >
                             @csrf
                             <!-- progressbar -->
                             <ul id="progressbar">
@@ -351,22 +447,16 @@
                                
                                 <li class="cus_finis" id="confirm"><strong>Finish</strong></li>
                             </ul>
-
                             <fieldset>
-
-                             
                                 <div class="form-card" id="original-div">
                                     <button onclick="cloneDiv(event)" style="float:right;height:20px"><i class="fa fa-plus-circle" aria-hidden="true" style="font-size: 20px;color:#686B6D;display:none" title="add more products"></i></button>
                                     <button onclick="cloneDivMinus(event)" style="float:right;height:20px;margin-right:10px;display:none" id="minu-button"><i class="fa fa-minus-circle" aria-hidden="true" style="font-size: 20px;color:#686B6D" title="remove this product section"></i></button>
-                                    
-                                
                                     <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Country <span style="color:red">*</span></label></br>
                                     <select class="form-control changecountry" name="country" style="color:#686B6D" id="topField" onchange="enableFields(this.value)" required>
                                         <option value="" style="color:#686B6D">select country</option>
                                         @foreach($allCountries as $country)
                                         <option value="{{$country}}" style="color:#686B6D">{{$country}}</option>
                                         @endforeach
-                                       
                                     </select></br>
                                     <div class="main_divs">
                                   <div class="cover_products" style="display: none;" >  
@@ -376,15 +466,21 @@
                                         <option value="" style="color:#686B6D">select product</option>
                                     </select></br>
                                    </div>
-                                   <!-- {{-- Three Button show start  --}} -->
+
+
+                                   <!-- {{-- Three Button show start  step one  --}} -->
 
                                    <div class="show_button" style="display: none;" >
+                                    <div style="justify-content: center; display:flex">
                                     <input type="hidden" class="hidden_bed" name="hidden_bed" value="">
-                                  <input type="button" name="Mattress" class="mattress_button commando_button" value="Mattress" />
+                                  <input type="button" name="Mattress" class="mattress_button commando_button" value="Only Mattress" />
                                   <input type="button" name="Bed" class="bed_button commando_button" value="Bed" />
-                                  <input type="button" name="Ottoman" class="ottoman_button commando_button" value="Ottoman" />                              
+                                  <input type="button" name="Ottoman" class="ottoman_button commando_button" value="Only Ottoman Box" />         
+                                    </div>
+                                    <hr>                     
                                    </div>
-                                   <!-- {{-- Three Button show end  --}} -->
+                                   <!-- {{-- Three Button show end  step one  --}} -->
+                                    
 
                                    <!-- {{-- Mattress form show start  --}} -->
 
@@ -503,9 +599,12 @@
 
                                     <input type="hidden" name="hidden_design" class="hidden_design">
                                     <div class="second_button" style="display: none;" >
-                                        <input type="button" name="gaslift" class="commando_button gaslift_button" value="Gaslift" />
+                                        <div style="justify-content: center; display:flex">
+                                        <input type="button" name="gaslift" class="commando_button gaslift_button" value="Only Gaslift" />
                                         <input type="button" name="design " class="commando_button design_button" value="Design" />
-                                        <input type="button" name="headboard" class="commando_button headboard_button" value="Headboard" />                              
+                                        <input type="button" name="headboard" class="commando_button headboard_button" value="Only Headboard" />          
+                                        </div>
+                                        <hr>                    
                                            </div>
                                            <!-- {{-- second Three Button show end  --}} -->
                                  
@@ -627,9 +726,15 @@
 
                                                <input type="hidden" class="hidden_divan" name="hidden_divan">
                                     <div class="third_button" style="display: none;" >
+                                        <div style="justify-content: center; display:flex"> 
                                         <input type="button" name="divan" class="commando_button divan_button" value="Divan" />
-                                        <input type="button" name="without_diamond " class="commando_button without_diamond_button" value="without diamond" />
-                                        <input type="button" name="with_diamond" class="commando_button with_diamond_button" value="with diamond" />                              
+                                        {{-- <input type="button" name="without_diamond " class="commando_button without_diamond_button" value="Without Diamond & Button" /> --}}
+                                        <input type="button" name="with_diamond" class="commando_button with_diamond_button" value="luxury beds" /> 
+                                        </div>
+                                        <div>
+                                          
+                                            </div>
+                                        <hr>                             
                                            </div>
                                            {{--  Three Button show end  --}}
                                          
@@ -651,6 +756,35 @@
                                                       
                                                     </select></br>
                                                     </div>
+
+                                                    
+
+                                                    <div class="without_diamond_design">
+                    
+                                                        <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design <span style="color:red">*</span></label></br>
+
+                                                        <select class="form-control" name="without_diamond_design" style="color:#686B6D" id="designField"   >
+                                                            <option value="" style="color:#686B6D">select Design</option>
+                                                            <option value="Split-Cube Diamond" style="color:#686B6D">Split-Cube Diamond</option>
+                                                            <option value="Split-Cube button" style="color:#686B6D">Split-Cube button</option>
+                                                            <option value="Split-Panel" style="color:#686B6D">Split-Panel</option>
+                                                            <option value="Split-Plain" style="color:#686B6D">Split-Plain </option>
+                                                            <option value="Split-Florida Diamond" style="color:#686B6D">Split-Florida Diamond </option>
+                                                            <option value="Split-Florida Button" style="color:#686B6D">Split-Florida Button</option>
+                                                            <option value="Floor Standing-Florida Diamond" style="color:#686B6D">Floor Standing-Florida Diamond </option>
+                                                            <option value="Floor Standing-Florida Button" style="color:#686B6D">Floor Standing-Florida Button </option>
+                                                            <option value="Floor Standing Panel" style="color:#686B6D">Floor Standing Panel </option>
+
+                                                            <option value="Panel" style="color:#686B6D">Panel</option>
+                                                            <option value="Arizona and vivinne panel" style="color:#686B6D">Arizona and vivinne panel</option>
+                                                            
+                                                        
+                    
+                                                        </select></br>
+                                                    </div>
+                                                  
+
+                                                    <br>
                                                     <div class="without_diamond_color">
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Color <span style="color:red">*</span></label></br>
                                                     <select class="form-control" name="without_diamond_color" style="color:#686B6D" id="designField"  >
@@ -747,6 +881,7 @@
                                                </div>
 
                                                {{-- Without Diamond form show end  --}}
+
                                                {{-- With Diamond form show start  --}}
 
                                                <div class="main_with_diamond_div" style="display: none;">
@@ -765,23 +900,39 @@
                                                       
                                                     </select></br>
                                                     </div>
+
                                                     <div class="with_diamond_design">
-                
-                                                    <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="with_diamond_design" style="color:#686B6D" id="designField"   >
-                                                        <option value="" style="color:#686B6D">select Design</option>
-                                                        <option value="Split-Cube Diamond" style="color:#686B6D">Split-Cube Diamond</option>
-                                                        <option value="Split-Cube button" style="color:#686B6D">Split-Cube button</option>
-                                                        <option value="Split-Panel" style="color:#686B6D">Split-Panel</option>
-                                                        <option value="Split-Plain" style="color:#686B6D">Split-Plain </option>
-                                                        <option value="Split-Florida Diamond" style="color:#686B6D">Split-Florida Diamond </option>
-                                                        <option value="Split-Florida Button" style="color:#686B6D">Split-Florida Button</option>
-                                                        <option value="Floor Standing-Florida Diamond" style="color:#686B6D">Floor Standing-Florida Diamond </option>
-                                                        <option value="Floor Standing-Florida Button" style="color:#686B6D">Floor Standing-Florida Button </option>
-                                                        <option value="Floor Standing Panel" style="color:#686B6D">Floor Standing Panel </option>
-                
-                                                    </select></br>
+                    
+                                                        <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design <span style="color:red">*</span></label></br>
+                                                        <select class="form-control" name="with_diamond_design" style="color:#686B6D" id="designField"   >
+                                        <option value="" style="color:#686B6D">select Design</option>
+                                        {{-- <option value="Split-Cube Diamond" style="color:#686B6D">Split-Cube Diamond</option>
+                                        <option value="Split-Cube button" style="color:#686B6D">Split-Cube button</option>
+                                        <option value="Split-Panel" style="color:#686B6D">Split-Panel</option>
+                                        <option value="Split-Plain" style="color:#686B6D">Split-Plain </option>
+                                        <option value="Split-Florida Diamond" style="color:#686B6D">Split-Florida Diamond </option>
+                                        <option value="Split-Florida Button" style="color:#686B6D">Split-Florida Button</option>
+                                        <option value="Floor Standing-Florida Diamond" style="color:#686B6D">Floor Standing-Florida Diamond </option>
+                                        <option value="Floor Standing-Florida Button" style="color:#686B6D">Floor Standing-Florida Button </option>
+                                        <option value="Floor Standing Panel" style="color:#686B6D">Floor Standing Panel </option> --}}
+                                        <option value="Florida" style="color:#686B6D">Florida</option>
+                                        <option value="Hilton" style="color:#686B6D">Hilton</option>
+                                        <option value="Cube" style="color:#686B6D">Cube</option>
+                                        <option value="Vivinne Panel" style="color:#686B6D">Vivinne Panel</option>
+                                        <option value="panel" style="color:#686B6D">panel</option>
+                                        <option value="Sleigh" style="color:#686B6D">Sleigh</option>
+                                        <option value="Arizona" style="color:#686B6D">Arizona</option>
+                                        <option value="Oxford" style="color:#686B6D">Oxford</option>
+                                        <option value="Ammbassdor" style="color:#686B6D">Ammbassdor</option>
+                                        <option value="Mini ammbassdor" style="color:#686B6D">Mini ammbassdor</option>
+                                        <option value="Mini Arizona" style="color:#686B6D">Mini Arizona</option>
+                                    
+                                                          
+                                                        </select></br>
                                                     </div>
+
+
+                                                   
                                                     <div class="with_diamond_color">
                 
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Color <span style="color:red">*</span></label></br>
@@ -839,6 +990,7 @@
                                                         <option value="" style="color:#686B6D">select Diamond&button</option>
                                                         <option value="Diamond" style="color:#686B6D">Diamond</option>
                                                         <option value="Button" style="color:#686B6D">Button</option>
+                                                        <option value="N/A" style="color:#686B6D">N/A</option>
                                                     
                                                     </select></br> 
                                                     </div>
@@ -850,6 +1002,7 @@
                                                         <option value="" style="color:#686B6D">select Storage</option>
                                                         <option value="Metal Gaslift" style="color:#686B6D">Metal Gaslift </option>
                                                         <option value="Board Gaslift" style="color:#686B6D">Board Gaslift </option>
+                                                        <option value="No " style="color:#686B6D">No </option>
                                                     
                                                     </select></br> 
                                                     </div>
@@ -897,9 +1050,12 @@
                                                   {{--  Three Button show start  --}}
 
                                     <div class="fourth_button" style="display: none;" >
+                                        <div style="justify-content: center; display:flex"> 
                                         <input type="button" name="ottoman_Divan" class="commando_button Ottoman_Divan_button" value="Ottoman Divan" />
-                                        <input type="button" name="divan " class="commando_button divan_button_form" value="Divan" />
-                                        <input type="button" name="Monaco_divan" class="commando_button Monaco_divan_button" value="Monaco Divan" />                              
+                                        <input type="button" name="divan " class="commando_button divan_button_form" value="Simple Divan" />
+                                        <input type="button" name="Monaco_divan" class="commando_button Monaco_divan_button" value="Monaco Divan" />
+                                        </div>
+                                        <hr>                              
                                            </div>
                                            {{--  Three Button show end  --}}
 
@@ -937,7 +1093,9 @@
                                                         <option value="Florida Button" style="color:#686B6D">Florida Button  </option>
                                                         <option value="Hilton Diamond" style="color:#686B6D">Hilton Diamond </option>
                                                         <option value="Hilton Button" style="color:#686B6D">Hilton Button </option>
-                                                      
+                                                        <option value="Floor Standing-Florida Diamond" style="color:#686B6D">Floor Standing-Florida Diamond </option>
+                                                        <option value="Floor Standing-Florida Button" style="color:#686B6D">Floor Standing-Florida Button </option>
+                                                        <option value="Floor Standing Panel" style="color:#686B6D">Floor Standing Panel </option>
                                                     </select></br>
                                                     </div>
                                                     <div class="divan_color">
@@ -1031,6 +1189,7 @@
                                                         <option value="1000 pocket 12 inch" style="color:#686B6D">1000 pocket 12 inch</option>
                                                         <option value="2000 pocket 12 inch" style="color:#686B6D">2000 pocket 12 inch</option>
                                                     
+                                                        
                                                     </select></br> 
                                                     </div>
 
@@ -1378,19 +1537,7 @@ display: none;
 
                                       <br>
 
-                                    {{-- <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Delivery status ( optional )</label></br> --}}
-
-                                    {{-- <select class="form-control" id="orderdelivery" name="delivery_status" style="color:#686B6D">
-                                        <option value="" style="color:#686B6D">Delivery status</option>
-                                        <option value="complete" style="color:#686B6D">Complete</option>
-                                        <option value="inprocess" style="color:#686B6D">Inprocess</option>
-                                        <option value="cancel" style="color:#686B6D">Canceled</option>
-                                        <option value="any_other" style="color:#686B6D"><input type="text" name="delivery_status"></option>
-                                        
-
-                                    </select> --}}
-
-
+                                 
 
 
 
@@ -1458,8 +1605,8 @@ display: none;
                                     <br><br>
                                     <div class="row justify-content-center">
                                         <div class="col-7 text-center">
-                                            <h5>You Have Successfully Created Order</h5>
-                                            <h5>You Have the option to Re Order Again</h5>
+                                            <h5 class="you_have_successfully">You Have Successfully Created Order</h5>
+                                            <h5 class="you_have_the_option">You Have the option to Re Order Again</h5>
                                         </div>
                             
 
@@ -1480,43 +1627,10 @@ display: none;
 </div>
 
 
+
+
 <script src="{{ asset('admin/assets/js/jquery-3.5.1.min.js')}}"></script>
 
-{{-- Delivery status --}}
-
-<script>
-    const mySelect = document.getElementById("orderdelivery");
-    const inputOther = document.getElementById("form12");
-    const labelInput = document.getElementById("inputLabel");
-    const divInput = document.getElementById("inputDiv");
-    const selectDiv = document.getElementById("textSelectdiv");
-
-    mySelect.addEventListener('change', function(e) {
-      const selectedValue = mySelect.value;
-      if (selectedValue === 'customOption') {
-        inputOther.style.display = 'inline';
-        inputOther.removeAttribute('disabled');
-        labelInput.classList.remove('disaplayInput');
-        divInput.classList.remove('disaplayInput');
-        selectDiv.style.display = 'none';
-        inputOther.focus();
-        mySelect.disabled = true;
-      } else {
-        inputOther.style.display = 'none';
-      }
-    });
-
-    function hideInput() {
-      if (inputOther.value === "") {
-        inputOther.style.display = 'none';
-        inputOther.setAttribute('disabled', '');
-        selectDiv.style.display = 'inline';
-        mySelect.removeAttribute('disabled');
-        labelInput.classList.add('disaplayInput');
-        divInput.classList.add('disaplayInput');
-      }
-    }
-  </script>
 
 
 {{-- Delivery status --}}
@@ -1563,7 +1677,19 @@ $(document).ready(function(){
         });
 
         $(".mattress_button").click(function() {
+
+
+       
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
+
+
             $('.main_mattrees_div').slideToggle();
+
+            
+
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             $('.ottoman_button').css('background-color','#435df7');
@@ -1583,6 +1709,12 @@ $(document).ready(function(){
 
         $(".ottoman_button").click(function() {
             $('.main_ottoman_div').slideToggle();
+
+
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
         //  $(".main_ottoman_div").show();
@@ -1605,6 +1737,12 @@ $(document).ready(function(){
             var hiden = $(this).val();
             // alert(hiden);
             $('.hidden_bed').val(hiden);
+
+
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
 
             $('.second_button').slideToggle();
             $(this).css('background-color','#6c6e6b');
@@ -1636,6 +1774,12 @@ $(document).ready(function(){
 
         $(".gaslift_button").click(function() { 
             $('.main_gaslift_div').slideToggle();
+
+
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_gaslift_div").show();
@@ -1658,6 +1802,12 @@ $(document).ready(function(){
 
         $(".headboard_button").click(function() {
             $('.main_headboard_div').slideToggle();
+
+
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_headboard_div").show();
@@ -1684,6 +1834,12 @@ $(document).ready(function(){
             //  alert(hiden_design);
             $('.hidden_design').val(hiden_design);
             $('.third_button').slideToggle();
+
+
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             //  $(".third_button").show();
@@ -1714,6 +1870,10 @@ $(document).ready(function(){
         $(".without_diamond_button").click(function() {
         
             $('.main_without_diamond_div').slideToggle();
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_without_diamond_div").show();
@@ -1733,6 +1893,11 @@ $(document).ready(function(){
         $(".with_diamond_button").click(function() {
             
             $('.main_with_diamond_div').slideToggle();
+
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_with_diamond_div").show();
@@ -1755,6 +1920,11 @@ $(document).ready(function(){
             // alert(hiden_divan);
             $('.hidden_divan').val(hiden_divan);
             $('.fourth_button').slideToggle();
+
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             //   $(".fourth_button").show();
@@ -1778,6 +1948,10 @@ $(document).ready(function(){
             
             // $(".main_diven_div").show();
             $('.main_diven_div').slideToggle();
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             $('.Monaco_divan_button').css('background-color','#435df7');
@@ -1793,6 +1967,10 @@ $(document).ready(function(){
 
         $(".Monaco_divan_button").click(function() {
             $('.main_monaco_diven_div').slideToggle();
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_monaco_diven_div").show();
@@ -1809,6 +1987,10 @@ $(document).ready(function(){
 
         $(".Ottoman_Divan_button").click(function() {
             $('.main_ottoman_diven_div').slideToggle();
+            var form = document.getElementById('msform');
+
+// Reset the form
+form.reset();
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_ottoman_diven_div").show();
@@ -2424,7 +2606,9 @@ $(document).ready(function(){
 
     }
 
+
     function submit_universal_form(id){
+
         event.preventDefault();
         var formElem = $("#"+id);
         var   checkfal = false;
