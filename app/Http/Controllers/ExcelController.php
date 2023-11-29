@@ -104,7 +104,6 @@ class ExcelController extends Controller
 ];
         $array = $new_array;
     
-
         return Excel::download(new ExcelMultiplesExport($array , $columns), 'sample_file.xlsx');
         //return Excel::download(new UsersExport($order), 'order_' . $id . '.xlsx');
     }

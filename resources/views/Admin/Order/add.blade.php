@@ -298,7 +298,14 @@
 
 </style>
 
-
+{{-- Delivery status --}}
+<style>
+    .disaplayInput{
+    display: none;
+    }
+    
+    </style>
+    {{-- Delivery status --}}
   
    <!-- Country code Dropdown css -->
 
@@ -474,8 +481,11 @@ font-size: 14!important;
                                     <div style="justify-content: center; display:flex">
                                     <input type="hidden" class="hidden_bed" name="hidden_bed" value="">
                                   <input type="button" name="Mattress" class="mattress_button commando_button" value="Only Mattress" />
+                                  <input type="hidden" value="" name="mattress_button" class="mattress_button_hidden"/>
+                                  
                                   <input type="button" name="Bed" class="bed_button commando_button" value="Bed" />
-                                  <input type="button" name="Ottoman" class="ottoman_button commando_button" value="Only Ottoman Box" />         
+                                  <input type="button" name="Ottoman" class="ottoman_button commando_button" value="Only Ottoman Box" />       
+                                  <input type="hidden" value="" name="ottoman_button" class="ottoman_button_hidden"/>  
                                     </div>
                                     <hr>                     
                                    </div>
@@ -487,7 +497,7 @@ font-size: 14!important;
                                    <div class="main_mattrees_div" style="display: none;">
                                    <div class="mattrees_size">
                                     <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Size <span style="color:red">*</span></label></br>
-                                    <select class="form-control" name="mattress_size" style="color:#686B6D" id=""  >
+                                    <select class="form-control  size_empty_value" name="mattress_size" style="color:#686B6D" id=""  >
 
                                         <option value="" style="color:#686B6D">select Size</option>
                                         <option value="3ft" style="color:#686B6D">3ft</option>
@@ -498,10 +508,10 @@ font-size: 14!important;
                                       
                                     </select></br>
                                     </div>
-                                    <div class="mattrees_color">
+                                    <div class="mattrees_color"> 
 
                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Mattress <span style="color:red">*</span></label></br>
-                                    <select class="form-control" name="mattress_design" style="color:#686B6D" id="designField"   >
+                                    <select class="form-control mattress_empty_value" name="mattress_design" style="color:#686B6D" id="designField"   >
                                         <option value="" style="color:#686B6D">select Mattress </option>
                                         <option value="No" style="color:#686B6D">No</option>
                                         <option value="simple - Semi ortho 8 inch" style="color:#686B6D">simple - Semi ortho  8 inch</option>
@@ -527,13 +537,12 @@ font-size: 14!important;
                                     </div>
                                    </div>
                                    <!-- {{-- Mattress form show end  --}} -->
-
-
+                                
                                     <!-- {{-- ottoman form show start  --}} -->
                                     <div class="main_ottoman_div" style="display: none;">
                                         <div class="ottoman_design">
                                             <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design <span style="color:red">*</span></label></br>
-                                            <select class="form-control" name="ottoman_design" style="color:#686B6D" id="designField"   >
+                                            <select class="form-control ottoman_design_empty_value" name="ottoman_design" style="color:#686B6D" id="designField"   >
                                                 <option value="" style="color:#686B6D">select Design</option>
                                                 <option value="Monaco-Diamond" style="color:#686B6D">Monaco - Diamond</option>
                                                 <option value="Monaco-Button" style="color:#686B6D">Monaco - Button </option>
@@ -544,7 +553,7 @@ font-size: 14!important;
                                         </div>
                                         <div class="ottoman_color">
                                             <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Color <span style="color:red">*</span></label></br>
-                                            <select class="form-control" name="ottoman_color" style="color:#686B6D" id="designField"  >
+                                            <select class="form-control ottoman_color_empty_value" name="ottoman_color" style="color:#686B6D" id="designField"  >
                                                 <option value="" style="color:#686B6D">select Color</option>
                                                 <option value="Grey" style="color:#686B6D">Grey</option>
                                                 <option value="silver" style="color:#686B6D">silver</option>
@@ -576,7 +585,7 @@ font-size: 14!important;
                                         <div class="ottoman_fabric">
                                             
                                             <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Fabric <span style="color:red">*</span></label></br>
-                                            <select class="form-control" name="ottoman_fabric" style="color:#686B6D" id="designField"  >
+                                            <select class="form-control ottoman_Fabric_empty_value" name="ottoman_fabric" style="color:#686B6D" id="designField"  >
                                                 <option value="" style="color:#686B6D">select Fabric</option>
                                                 <option value="Plush Velvet" style="color:#686B6D">Plush Velvet </option>
                                                 <option value="Crush velvet" style="color:#686B6D">Crush velvet </option>
@@ -600,20 +609,26 @@ font-size: 14!important;
                                     <input type="hidden" name="hidden_design" class="hidden_design">
                                     <div class="second_button" style="display: none;" >
                                         <div style="justify-content: center; display:flex">
+                                            <input type="hidden" name="gaslift_button" value="" class="gaslift_button_hidden">
                                         <input type="button" name="gaslift" class="commando_button gaslift_button" value="Only Gaslift" />
                                         <input type="button" name="design " class="commando_button design_button" value="Design" />
                                         <input type="button" name="headboard" class="commando_button headboard_button" value="Only Headboard" />          
+                                        <input type="hidden" name="headboard_button" value="" class="headboard_button_hidden">
                                         </div>
                                         <hr>                    
                                            </div>
                                            <!-- {{-- second Three Button show end  --}} -->
+
+
+
+
                                  
                                              <!-- {{-- gaslift form show start  --}} -->
                                              <div class="main_gaslift_div" style="display: none;" >
 
                                                 <div class="gaslift_size">
                                                     <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Size <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="gaslift_size" style="color:#686B6D" id=""  >
+                                                    <select class="form-control gaslift_size_empty_value" name="gaslift_size" style="color:#686B6D" id=""  >
                 
                                                         <option value="" style="color:#686B6D">select Size</option>
                                                         <option value="3ft" style="color:#686B6D">3ft</option>
@@ -626,7 +641,7 @@ font-size: 14!important;
                                                     </div>
                                                     <div class="gaslift_design">
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design<span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="gaslift_design" style="color:#686B6D" id="designField"   >
+                                                    <select class="form-control gaslift_design_empty_value" name="gaslift_design" style="color:#686B6D" id="designField"   >
                                                         <option value="" style="color:#686B6D">select Design</option>
                                                         <option value="Metal Gaslift" style="color:#686B6D">Metal Gaslift </option>
                                                        
@@ -634,8 +649,8 @@ font-size: 14!important;
                                                     </select></br>
                                                     </div>
 
-                                             </div>
-
+                                             </div> 
+                                            
                                                <!-- {{-- gaslift form show end  --}} -->
 
                                                 <!-- {{-- Headboard form show start  --}} -->
@@ -643,12 +658,12 @@ font-size: 14!important;
                                                 <div class="main_headboard_div" style="display: none;">
                                                     <div class="headboard_size">
                                                         <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Size <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="headboard_size" style="color:#686B6D" id=""  >
+                                                        <select class="form-control Headboard_size_empty_value" name="headboard_size" style="color:#686B6D" id=""  >
                     
                                                             <option value="" style="color:#686B6D">select Size</option>
                                                             <option value="3ft" style="color:#686B6D">3ft</option>
                                                             <option value="4ft" style="color:#686B6D">4ft</option>
-                                                            <option value="6ft inch" style="color:#686B6D">6ft inch</option>
+                                                            <option value="4 ft x 6 Inch" style="color:#686B6D">4 ft x 6 Inch</option>
                                                             <option value="5ft" style="color:#686B6D">5ft</option>
                                                             <option value="6ft" style="color:#686B6D">6ft</option>
                                                           
@@ -656,7 +671,7 @@ font-size: 14!important;
                                                         </div>
                                                         <div class="headboard_design">
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="headboard_design" style="color:#686B6D" id="designField"   >
+                                                        <select class="form-control Headboard_design_empty_value" name="headboard_design" style="color:#686B6D" id="designField"   >
                                                             <option value="" style="color:#686B6D">select Design</option>
                                                             <option value="Split-Cube Diamond" style="color:#686B6D">Split-Cube Diamond</option>
                                                             <option value="Split-Cube button" style="color:#686B6D">Split-Cube button</option>
@@ -670,9 +685,11 @@ font-size: 14!important;
                     
                                                         </select></br>
                                                         </div>
+
+                                                       
                                                         <div class="headboard_color">
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Color <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="headboard_color" style="color:#686B6D" id="designField"  >
+                                                        <select class="form-control Headboard_color_empty_value" name="headboard_color" style="color:#686B6D" id="designField"  >
                                                             <option value="" style="color:#686B6D">select Color</option>
                                                             <option value="Grey" style="color:#686B6D">Grey</option>
                                                             <option value="silver" style="color:#686B6D">silver</option>
@@ -704,7 +721,7 @@ font-size: 14!important;
                                                         <div class="headboard_febric">
                                                         
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Fabric <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="headboard_fabric" style="color:#686B6D" id="designField"  >
+                                                        <select class="form-control Headboard_Fabric_empty_value" name="headboard_fabric" style="color:#686B6D" id="designField"  >
                                                             <option value="" style="color:#686B6D">select Fabric</option>
                                                             <option value="select Fabric" style="color:#686B6D">Plush Velvet </option>
                                                             <option value="Crush velvet" style="color:#686B6D">Crush velvet </option>
@@ -722,6 +739,9 @@ font-size: 14!important;
 
                                                {{-- Headboard form show end  --}}
 
+
+                                              
+
                                                {{--  Three Button show start  --}}
 
                                                <input type="hidden" class="hidden_divan" name="hidden_divan">
@@ -730,6 +750,7 @@ font-size: 14!important;
                                         <input type="button" name="divan" class="commando_button divan_button" value="Divan" />
                                         {{-- <input type="button" name="without_diamond " class="commando_button without_diamond_button" value="Without Diamond & Button" /> --}}
                                         <input type="button" name="with_diamond" class="commando_button with_diamond_button" value="luxury beds" /> 
+                                        <input type="hidden" name="with_diamond_button"  class="with_diamond_button_hidden" value="">
                                         </div>
                                         <div>
                                           
@@ -745,7 +766,7 @@ font-size: 14!important;
 
                                                 <div class="without_diamond_size">
                                                     <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Size <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="without_diamond_size" style="color:#686B6D" id=""  >
+                                                    <select class="form-control Without_size_empty_value" name="without_diamond_size" style="color:#686B6D" id=""  >
                 
                                                         <option value="" style="color:#686B6D">select Size</option>
                                                         <option value="3ft" style="color:#686B6D">3ft</option>
@@ -757,13 +778,12 @@ font-size: 14!important;
                                                     </select></br>
                                                     </div>
 
-                                                    
-
+                                                   
                                                     <div class="without_diamond_design">
                     
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design <span style="color:red">*</span></label></br>
 
-                                                        <select class="form-control" name="without_diamond_design" style="color:#686B6D" id="designField"   >
+                                                        <select class="form-control Without_design_empty_value" name="without_diamond_design" style="color:#686B6D" id="designField"   >
                                                             <option value="" style="color:#686B6D">select Design</option>
                                                             <option value="Split-Cube Diamond" style="color:#686B6D">Split-Cube Diamond</option>
                                                             <option value="Split-Cube button" style="color:#686B6D">Split-Cube button</option>
@@ -787,7 +807,7 @@ font-size: 14!important;
                                                     <br>
                                                     <div class="without_diamond_color">
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Color <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="without_diamond_color" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control Without_color_empty_value" name="without_diamond_color" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Color</option>
                                                         <option value="Grey" style="color:#686B6D">Grey</option>
                                                         <option value="silver" style="color:#686B6D">silver</option>
@@ -819,7 +839,7 @@ font-size: 14!important;
                                                     <div class="without_diamond_fabric">
                                                     
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Fabric <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="without_diamond_fabric" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control Without_Fabric_empty_value" name="without_diamond_fabric" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Fabric</option>
                                                         <option value="Plush Velvet" style="color:#686B6D">Plush Velvet </option>
                                                         <option value="Crush velvet" style="color:#686B6D">Crush velvet </option>
@@ -835,7 +855,7 @@ font-size: 14!important;
                                                     <div class="without_diamond_storage">
                 
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Storage <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="without_diamond_storage" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control Without_Storage_empty_value" name="without_diamond_storage" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Storage</option>
                                                         <option value="Metal Gaslift" style="color:#686B6D">Metal Gaslift </option>
                                                         <option value="Board Gaslift" style="color:#686B6D">Board Gaslift </option>
@@ -845,8 +865,9 @@ font-size: 14!important;
                                                     <div class="without_diamond_base">
                                                   
                 
+                                                      
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Base <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="without_diamond_base" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control Without_Base_empty_value" name="without_diamond_base" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Base </option>
                                                         <option value="Wooden Slates" style="color:#686B6D">Wooden Slates</option>
                                                         <option value="Solid base" style="color:#686B6D">Solid base</option>
@@ -856,7 +877,7 @@ font-size: 14!important;
                                                     <div class="without_diamond_mattrees">
                 
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Mattress  <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="without_diamond_mattress" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control  Without_Mattress_empty_value" name="without_diamond_mattress" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Mattress  </option>
                                                         <option value="No" style="color:#686B6D">No</option>
                                                         <option value="simple - Semi ortho 8 inch" style="color:#686B6D">simple-Semi ortho 8 inch</option>
@@ -882,6 +903,10 @@ font-size: 14!important;
 
                                                {{-- Without Diamond form show end  --}}
 
+
+                                            
+
+
                                                {{-- With Diamond form show start  --}}
 
                                                <div class="main_with_diamond_div" style="display: none;">
@@ -889,7 +914,7 @@ font-size: 14!important;
 
                                                 <div class="with_diamond_size">
                                                     <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Size <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="with_diamond_sizes" style="color:#686B6D" id=""  >
+                                                    <select class="form-control  With_size_empty_value" name="with_diamond_sizes" style="color:#686B6D" id=""  >
                 
                                                         <option value="" style="color:#686B6D">select Size</option>
                                                         <option value="3ft" style="color:#686B6D">3ft</option>
@@ -904,7 +929,7 @@ font-size: 14!important;
                                                     <div class="with_diamond_design">
                     
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="with_diamond_design" style="color:#686B6D" id="designField"   >
+                                                        <select class="form-control With_Design_empty_value" name="with_diamond_design" style="color:#686B6D" id="designField"   >
                                         <option value="" style="color:#686B6D">select Design</option>
                                         {{-- <option value="Split-Cube Diamond" style="color:#686B6D">Split-Cube Diamond</option>
                                         <option value="Split-Cube button" style="color:#686B6D">Split-Cube button</option>
@@ -936,7 +961,7 @@ font-size: 14!important;
                                                     <div class="with_diamond_color">
                 
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Color <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="with_diamond_color" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control With_Color_empty_value" name="with_diamond_color" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Color</option>
                                                         <option value="Grey" style="color:#686B6D">Grey</option>
                                                         <option value="silver" style="color:#686B6D">silver</option>
@@ -969,7 +994,7 @@ font-size: 14!important;
                 
                                                     
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Fabric <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="with_diamond_fabric" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control With_Fabric_empty_value" name="with_diamond_fabric" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Fabric</option>
                                                         <option value="Plush Velvet" style="color:#686B6D">Plush Velvet </option>
                                                         <option value="Crush velvet" style="color:#686B6D">Crush velvet </option>
@@ -978,7 +1003,6 @@ font-size: 14!important;
                                                         <option value="Leather" style="color:#686B6D">Leather</option>
                                                         <option value="Suede" style="color:#686B6D">Suede </option>
                                                     
-                                                      
                                                     
                                                     </select></br> 
                                                     </div>
@@ -986,7 +1010,7 @@ font-size: 14!important;
                 
                 
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Diamond&button <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="with_diamond_diamond_button" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control With_Diamond_empty_value" name="with_diamond_diamond_button" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Diamond&button</option>
                                                         <option value="Diamond" style="color:#686B6D">Diamond</option>
                                                         <option value="Button" style="color:#686B6D">Button</option>
@@ -996,9 +1020,12 @@ font-size: 14!important;
                                                     </div>
                                                     <div class="with_diamond_storage">
                 
+
+                                                        
+                                                     
                 
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Storage <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="with_diamond_storage" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control With_Storage_empty_value" name="with_diamond_storage" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Storage</option>
                                                         <option value="Metal Gaslift" style="color:#686B6D">Metal Gaslift </option>
                                                         <option value="Board Gaslift" style="color:#686B6D">Board Gaslift </option>
@@ -1010,7 +1037,7 @@ font-size: 14!important;
                 
                 
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Base <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="with_diamond_base" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control With_Base_empty_value" name="with_diamond_base" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Base </option>
                                                         <option value="Wooden Slates" style="color:#686B6D">Wooden Slates</option>
                                                         <option value="Solid base" style="color:#686B6D">Solid base</option>
@@ -1020,8 +1047,8 @@ font-size: 14!important;
                                                     <div class="with_diamond_mattrees>
                 
                 
-                                                    <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Mattress  <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="with_diamond_mattress" style="color:#686B6D" id="designField"  >
+                                                    <span></span><label  class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Mattress  <span style="color:red">*</span></label></br>
+                                                    <select class="form-control With_Mattress_empty_value" name="with_diamond_mattress" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Mattress  </option>
                                                         <option value="No" style="color:#686B6D">No</option>
                                                         <option value="simple - Semi ortho 8 inch" style="color:#686B6D">simple-Semi ortho 8 inch</option>
@@ -1052,8 +1079,12 @@ font-size: 14!important;
                                     <div class="fourth_button" style="display: none;" >
                                         <div style="justify-content: center; display:flex"> 
                                         <input type="button" name="ottoman_Divan" class="commando_button Ottoman_Divan_button" value="Ottoman Divan" />
+                                        <input type="hidden" name="Ottoman_Divan_button"  class="Ottoman_Divan_button_hidden"  value="" />
                                         <input type="button" name="divan " class="commando_button divan_button_form" value="Simple Divan" />
+                                        <input type="hidden" name="divan_button_form"  class="divan_button_form_hidden"  value="" />
                                         <input type="button" name="Monaco_divan" class="commando_button Monaco_divan_button" value="Monaco Divan" />
+
+                                        <input type="hidden" name="Monaco_divan_button"  class="Monaco_divan_button_hidden"  value="" />
                                         </div>
                                         <hr>                              
                                            </div>
@@ -1061,11 +1092,10 @@ font-size: 14!important;
 
                                              {{-- Diven  form show end  --}}
                                              <div class="main_diven_div" style="display: none;" >
-
-
+                                              
                                                 <div class="divan_size">
                                                     <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Size <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="diven_size" style="color:#686B6D" id=""  >
+                                                    <select class="form-control Diven_size_empty_value" name="diven_size" style="color:#686B6D" id=""  >
                 
                                                         <option value="" style="color:#686B6D">select Size</option>
                                                         <option value="2ft6 inch" style="color:#686B6D">2ft6 inch</option>
@@ -1080,7 +1110,7 @@ font-size: 14!important;
                                                     <div class="divan_size">
                 
                                                     <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Headboard <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="diven_headboard" style="color:#686B6D" id=""  >
+                                                    <select class="form-control Diven_Headboard_empty_value" name="diven_headboard" style="color:#686B6D" id=""  >
                 
                                                         <option value="" style="color:#686B6D">select Headboard </option>
                                                         <option value="No" style="color:#686B6D">No </option>
@@ -1101,7 +1131,7 @@ font-size: 14!important;
                                                     <div class="divan_color">
                                                  
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Color <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="diven_color" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control Diven_Color_empty_value" name="diven_color" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Color</option>
                                                         <option value="Grey" style="color:#686B6D">Grey</option>
                                                         <option value="silver" style="color:#686B6D">silver</option>
@@ -1133,7 +1163,7 @@ font-size: 14!important;
                                                     <div class="divan_fabric">
                                                     
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Fabric <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="diven_fabric" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control Diven_Fabric_empty_value" name="diven_fabric" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Fabric</option>
                                                         <option value="Plush Velvet" style="color:#686B6D">Plush Velvet </option>
                                                         <option value="Crush velvet" style="color:#686B6D">Crush velvet </option>
@@ -1149,7 +1179,7 @@ font-size: 14!important;
                                                     <div class="divan_storage">
                 
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Storage <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="diven_storage" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control Diven_Storage_empty_value " name="diven_storage" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Storage</option>
                                                         <option value="No Drawers" style="color:#686B6D">No Drawers </option>
                                                         <option value="1 Drawer-Jumbo Drawer" style="color:#686B6D">1 Drawer-Jumbo Drawer </option>
@@ -1170,7 +1200,7 @@ font-size: 14!important;
                 
                                                 
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Mattress <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="diven_mattress" style="color:#686B6D" id="designField"  >
+                                                    <select class="form-control Diven_Mattress_empty_value" name="diven_mattress" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Mattress  </option>
                                                         <option value="No" style="color:#686B6D">No</option>
                                                         <option value="simple - Semi ortho 8 inch" style="color:#686B6D">simple-Semi ortho 8 inch</option>
@@ -1200,6 +1230,8 @@ font-size: 14!important;
                                                {{-- Diven form show end  --}}
 
 
+
+
                                                 {{-- Monaco Diven form show start  --}}
 
                                                 <div class="main_monaco_diven_div" style="display: none;" >
@@ -1207,7 +1239,7 @@ font-size: 14!important;
 
                                                     <div class="diven_divan_size">
                                                         <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Size <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="monaco_diven_size" style="color:#686B6D" id=""  >
+                                                        <select class="form-control  Monaco_Diven_Size_empty_value" name="monaco_diven_size" style="color:#686B6D" id=""  >
                     
                                                             <option value="" style="color:#686B6D">select Size</option>
                                                             <option value="3ft" style="color:#686B6D">3ft</option>
@@ -1221,7 +1253,7 @@ font-size: 14!important;
                                                         <div class="diven_divan_headboard">
                     
                                                         <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Headboard <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="monaco_diven_headboard" style="color:#686B6D" id=""  >
+                                                        <select class="form-control Monaco_Diven_Headboard_empty_value" name="monaco_diven_headboard" style="color:#686B6D" id=""  >
                     
                                                             <option value="" style="color:#686B6D">select Headboard </option>
                                                             <option value="Diamond" style="color:#686B6D">Diamond </option>
@@ -1231,7 +1263,7 @@ font-size: 14!important;
                                                         <div class="diven_divan_color">
                                                      
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Color <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="monaco_diven_color" style="color:#686B6D" id="designField"  >
+                                                        <select class="form-control  Monaco_Diven_Color_empty_value" name="monaco_diven_color" style="color:#686B6D" id="designField"  >
                                                             <option value="" style="color:#686B6D">select Color</option>
                                                             <option value="Grey" style="color:#686B6D">Grey</option>
                                                             <option value="silver" style="color:#686B6D">silver</option>
@@ -1263,7 +1295,7 @@ font-size: 14!important;
                                                         <div class="diven_divan_febric">
                                                         
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Fabric <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="monaco_diven_fabric" style="color:#686B6D" id="designField"  >
+                                                        <select class="form-control  Monaco_Diven_Fabric_empty_value" name="monaco_diven_fabric" style="color:#686B6D" id="designField" >
                                                             <option value="" style="color:#686B6D">select Fabric</option>
                                                             <option value="Plush Velvet" style="color:#686B6D">Plush Velvet </option>
                                                             <option value="Crush velvet" style="color:#686B6D">Crush velvet</option>
@@ -1279,7 +1311,7 @@ font-size: 14!important;
                                                         <div class="diven_divan_storage">
                     
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Storage <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="monaco_diven_storage" style="color:#686B6D" id="designField"  >
+                                                        <select class="form-control Monaco_Diven_Storage_empty_value" name="monaco_diven_storage" style="color:#686B6D" id="designField"  >
                                                             <option value="" style="color:#686B6D">select Storage</option>
                                                             <option value="No Drawers" style="color:#686B6D">No Drawers  </option>
                                                             <option value="1 Drawer-Jumbo Drawer" style="color:#686B6D">1 Drawer-Jumbo Drawer</option>
@@ -1300,7 +1332,7 @@ font-size: 14!important;
                     
                                 
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Mattress <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="monaco_diven_mattress" style="color:#686B6D" id="designField"  >
+                                                        <select class="form-control  Monaco_Diven_Mattress_empty_value" name="monaco_diven_mattress" style="color:#686B6D" id="designField"  >
                                                             <option value="" style="color:#686B6D">select Mattress  </option>
                                                             <option value="No" style="color:#686B6D">No</option>
                                                             <option value="simple - Semi ortho 8 inch" style="color:#686B6D">simple-Semi ortho 8 inch</option>
@@ -1326,13 +1358,19 @@ font-size: 14!important;
 
                                                  {{--Monaco Diven form show end  --}}
 
+
+                  
+
+
+
+
                                                   {{--Ottoman Diven form show end  --}}
 
                                                   <div class="main_ottoman_diven_div" style="display:none;">
                                                     <div class="text-center">Ottoman Diven Form</div>
                                                     <div class="ottoman_diven_size">
                                                         <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Size <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="ottoman_diven_size" style="color:#686B6D" id="
+                                                        <select class="form-control ottoman_Diven_size_empty_value" name="ottoman_diven_size" style="color:#686B6D" id="
                                                         
                                                         " >
                     
@@ -1348,7 +1386,7 @@ font-size: 14!important;
                                                         <div class="ottoman_diven_headboard">
                     
                                                         <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Headboard <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="ottoman_diven_headboard" style="color:#686B6D" id=""  >
+                                                        <select class="form-control ottoman_Diven_Headboard_empty_value" name="ottoman_diven_headboard" style="color:#686B6D" id=""  >
                     
                                                             <option value="" style="color:#686B6D">select Headboard </option>
                                                             <option value="Florida Diamond" style="color:#686B6D">Florida Diamond  </option>
@@ -1364,7 +1402,7 @@ font-size: 14!important;
                     
                                                      
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Color <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="ottoman_diven_color" style="color:#686B6D" id="designField"  >
+                                                        <select class="form-control ottoman_Diven_Color_empty_value" name="ottoman_diven_color" style="color:#686B6D" id="designField"  >
                                                             <option value="" style="color:#686B6D">select Color</option>
                                                             <option value="Grey" style="color:#686B6D">Grey</option>
                                                             <option value="silver" style="color:#686B6D">silver</option>
@@ -1397,7 +1435,7 @@ font-size: 14!important;
                     
                                                         
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Fabric <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="ottoman_diven_fabric" style="color:#686B6D" id="designField"  >
+                                                        <select class="form-control ottoman_Diven_Fabric_empty_value" name="ottoman_diven_fabric" style="color:#686B6D" id="designField"  >
                                                             <option value="" style="color:#686B6D">select Fabric</option>
                                                             <option value="Plush Velvet" style="color:#686B6D">Plush Velvet </option>
                                                             <option value="Crush velvet" style="color:#686B6D">Crush velvet</option>
@@ -1412,10 +1450,10 @@ font-size: 14!important;
                                                         </div>
                                                         <div class="ottoman_diven_mattress">
                     
-                    
+                                                            
                                 
                                                         <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Mattress <span style="color:red">*</span></label></br>
-                                                        <select class="form-control" name="ottoman_diven_mattress" style="color:#686B6D" id="designField" >
+                                                        <select class="form-control ottoman_Diven_Mattress_empty_value" name="ottoman_diven_mattress" style="color:#686B6D" id="designField" >
                                                             <option value="" style="color:#686B6D">select Mattress  </option>
                                                             <option value="No" style="color:#686B6D">No</option>
                                                             <option value="simple - Semi ortho 8 inch" style="color:#686B6D">simple-Semi ortho 8 inch</option>
@@ -1487,14 +1525,7 @@ font-size: 14!important;
                                             </select></br>
                                             </div>
                                   </div>
-{{-- Delivery status --}}
- <style>
-.disaplayInput{
-display: none;
-}
 
-</style>
-{{-- Delivery status --}}
                                         
                                    <div class="row" style="display: none;">
                                         <div class="col-12 quantity" style="margin-top: 10px;">
@@ -1551,7 +1582,6 @@ display: none;
                                 
                                 
                             </fieldset>
-         
                             <fieldset class="first_hide">
                                 <div class="form-card">
                                     <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">First Name <span style="color:red">*</span></label></br>
@@ -1590,9 +1620,6 @@ display: none;
                                 <input id="confirms"  type="submit" name="make_payment" class="next3 action-button phone_no_get" value="Confirm" />
 
                             </fieldset>
-
-
-                          
                             <fieldset class="last_hide">
                                 <div class="form-card">
                                     <h2 class="fs-title text-center">Success !</h2>
@@ -1618,6 +1645,9 @@ display: none;
                                     </div>
                                 </div>
                             </fieldset>
+
+
+
                         </form>
                     </div>
                 </div>
@@ -1676,19 +1706,79 @@ $(document).ready(function(){
             $('.show_button').slideDown();
         });
 
+
         $(".mattress_button").click(function() {
 
 
-       
-            var form = document.getElementById('msform');
+           var  mattress_button =  $(".mattress_button").val();
 
-// Reset the form
-form.reset();
+            $(".mattress_button_hidden").val(mattress_button);
 
 
+            var  ottoman_button =  $(".ottoman_button_hidden").val("");
+          
+            var  gaslift_button =  $(".gaslift_button_hidden").val("");
+            var  headboard_button =  $(".headboard_button_hidden").val(" ");
+            var  with_diamond_button =  $(".with_diamond_button_hidden").val("");
+            var  Ottoman_Divan_button =  $(".Ottoman_Divan_button_hidden").val("");
+            var  divan_button_form =  $(".divan_button_form_hidden").val("");
+            var  Monaco_divan_button =  $(".Monaco_divan_button_hidden").val("")
+           
             $('.main_mattrees_div').slideToggle();
 
-            
+
+
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
+
+                                                 
+                                                   
+                                                 
+
+
 
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
@@ -1711,10 +1801,69 @@ form.reset();
             $('.main_ottoman_div').slideToggle();
 
 
-            var form = document.getElementById('msform');
+            var  ottoman_button =  $(".ottoman_button").val();
 
-// Reset the form
-form.reset();
+$(".ottoman_button_hidden").val(ottoman_button);
+
+
+            var  mattress_button =  $(".mattress_button_hidden").val("");
+            var  gaslift_button =  $(".gaslift_button_hidden").val("");
+            var  headboard_button =  $(".headboard_button_hidden").val(" ");
+            var  with_diamond_button =  $(".with_diamond_button_hidden").val("");
+            var  Ottoman_Divan_button =  $(".Ottoman_Divan_button_hidden").val("");
+            var  divan_button_form =  $(".divan_button_form_hidden").val("");
+            var  Monaco_divan_button =  $(".Monaco_divan_button_hidden").val("")
+
+
+
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
+
+
+
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
         //  $(".main_ottoman_div").show();
@@ -1739,11 +1888,51 @@ form.reset();
             $('.hidden_bed').val(hiden);
 
 
-            var form = document.getElementById('msform');
-
-// Reset the form
-form.reset();
-
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
             $('.second_button').slideToggle();
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
@@ -1776,10 +1965,65 @@ form.reset();
             $('.main_gaslift_div').slideToggle();
 
 
-            var form = document.getElementById('msform');
+            var  gaslift_button =  $(".gaslift_button").val();
 
-// Reset the form
-form.reset();
+$(".gaslift_button_hidden").val(gaslift_button);
+
+var  ottoman_button =  $(".ottoman_button_hidden").val("");
+            var  mattress_button =  $(".mattress_button_hidden").val("");
+           
+            var  headboard_button =  $(".headboard_button_hidden").val(" ");
+            var  with_diamond_button =  $(".with_diamond_button_hidden").val("");
+            var  Ottoman_Divan_button =  $(".Ottoman_Divan_button_hidden").val("");
+            var  divan_button_form =  $(".divan_button_form_hidden").val("");
+            var  Monaco_divan_button =  $(".Monaco_divan_button_hidden").val("")
+
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
+          
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_gaslift_div").show();
@@ -1803,11 +2047,66 @@ form.reset();
         $(".headboard_button").click(function() {
             $('.main_headboard_div').slideToggle();
 
+            var  headboard_button =  $(".headboard_button").val();
 
-            var form = document.getElementById('msform');
+$(".headboard_button_hidden").val(headboard_button);
 
-// Reset the form
-form.reset();
+var  ottoman_button =  $(".ottoman_button_hidden").val("");
+            var  mattress_button =  $(".mattress_button_hidden").val("");
+            var  gaslift_button =  $(".gaslift_button_hidden").val("");
+         
+            var  with_diamond_button =  $(".with_diamond_button_hidden").val("");
+            var  Ottoman_Divan_button =  $(".Ottoman_Divan_button_hidden").val("");
+            var  divan_button_form =  $(".divan_button_form_hidden").val("");
+            var  Monaco_divan_button =  $(".Monaco_divan_button_hidden").val("")
+
+
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
+           
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_headboard_div").show();
@@ -1836,10 +2135,52 @@ form.reset();
             $('.third_button').slideToggle();
 
 
-            var form = document.getElementById('msform');
-
-// Reset the form
-form.reset();
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
+         
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             //  $(".third_button").show();
@@ -1870,10 +2211,54 @@ form.reset();
         $(".without_diamond_button").click(function() {
         
             $('.main_without_diamond_div').slideToggle();
-            var form = document.getElementById('msform');
 
-// Reset the form
-form.reset();
+            
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
+        
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_without_diamond_div").show();
@@ -1894,10 +2279,70 @@ form.reset();
             
             $('.main_with_diamond_div').slideToggle();
 
-            var form = document.getElementById('msform');
 
-// Reset the form
-form.reset();
+            
+            var  with_diamond_button =  $(".with_diamond_button").val();
+
+$(".with_diamond_button_hidden").val(with_diamond_button);
+
+
+var  ottoman_button =  $(".ottoman_button_hidden").val("");
+            var  mattress_button =  $(".mattress_button_hidden").val("");
+            var  gaslift_button =  $(".gaslift_button_hidden").val("");
+            var  headboard_button =  $(".headboard_button_hidden").val(" ");
+           
+            var  Ottoman_Divan_button =  $(".Ottoman_Divan_button_hidden").val("");
+            var  divan_button_form =  $(".divan_button_form_hidden").val("");
+            var  Monaco_divan_button =  $(".Monaco_divan_button_hidden").val("")
+
+            
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
+
+       
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_with_diamond_div").show();
@@ -1921,10 +2366,55 @@ form.reset();
             $('.hidden_divan').val(hiden_divan);
             $('.fourth_button').slideToggle();
 
-            var form = document.getElementById('msform');
 
-// Reset the form
-form.reset();
+            
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
+
+        
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             //   $(".fourth_button").show();
@@ -1948,10 +2438,69 @@ form.reset();
             
             // $(".main_diven_div").show();
             $('.main_diven_div').slideToggle();
-            var form = document.getElementById('msform');
 
-// Reset the form
-form.reset();
+            
+
+            var  divan_button_form =  $(".divan_button_form").val();
+
+$(".divan_button_form_hidden").val(divan_button_form);
+
+var  ottoman_button =  $(".ottoman_button_hidden").val("");
+            var  mattress_button =  $(".mattress_button_hidden").val("");
+            var  gaslift_button =  $(".gaslift_button_hidden").val("");
+            var  headboard_button =  $(".headboard_button_hidden").val(" ");
+            var  with_diamond_button =  $(".with_diamond_button_hidden").val("");
+            var  Ottoman_Divan_button =  $(".Ottoman_Divan_button_hidden").val("");
+          
+            var  Monaco_divan_button =  $(".Monaco_divan_button_hidden").val("")
+
+
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
+          
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             $('.Monaco_divan_button').css('background-color','#435df7');
@@ -1967,10 +2516,69 @@ form.reset();
 
         $(".Monaco_divan_button").click(function() {
             $('.main_monaco_diven_div').slideToggle();
-            var form = document.getElementById('msform');
 
-// Reset the form
-form.reset();
+
+            var  Monaco_divan_button =  $(".Monaco_divan_button").val();
+
+$(".Monaco_divan_button_hidden").val(Monaco_divan_button);
+
+var  ottoman_button =  $(".ottoman_button_hidden").val("");
+            var  mattress_button =  $(".mattress_button_hidden").val("");
+            var  gaslift_button =  $(".gaslift_button_hidden").val("");
+            var  headboard_button =  $(".headboard_button_hidden").val(" ");
+            var  with_diamond_button =  $(".with_diamond_button_hidden").val("");
+            var  Ottoman_Divan_button =  $(".Ottoman_Divan_button_hidden").val("");
+            var  divan_button_form =  $(".divan_button_form_hidden").val("");
+          
+
+
+            
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
+         
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_monaco_diven_div").show();
@@ -1987,10 +2595,71 @@ form.reset();
 
         $(".Ottoman_Divan_button").click(function() {
             $('.main_ottoman_diven_div').slideToggle();
-            var form = document.getElementById('msform');
 
-// Reset the form
-form.reset();
+
+   var  Ottoman_Divan_button =  $(".Ottoman_Divan_button").val();
+
+$(".Ottoman_Divan_button_hidden").val(Ottoman_Divan_button);
+
+ 
+
+           var  ottoman_button =  $(".ottoman_button_hidden").val("");
+            var  mattress_button =  $(".mattress_button_hidden").val("");
+            var  gaslift_button =  $(".gaslift_button_hidden").val("");
+            var  headboard_button =  $(".headboard_button_hidden").val(" ");
+            var  with_diamond_button =  $(".with_diamond_button_hidden").val("");
+          
+            var  divan_button_form =  $(".divan_button_form_hidden").val("");
+            var  Monaco_divan_button =  $(".Monaco_divan_button_hidden").val("")
+
+
+            
+            $(".size_empty_value").val("");
+            $(".mattress_empty_value").val("");
+            $(".ottoman_design_empty_value").val("");
+            $(".ottoman_color_empty_value").val("");
+            $(".ottoman_Fabric_empty_value").val("");
+            $(".gaslift_size_empty_value").val("");
+            $(".gaslift_design_empty_value").val("");
+            $(".Headboard_size_empty_value").val("");
+            $(".Headboard_design_empty_value").val("");
+            $(".Headboard_color_empty_value").val("");
+            $(".Headboard_Fabric_empty_value").val("");
+            $(".Without_size_empty_value").val("");
+            $(".Without_design_empty_value").val("");
+            $(".Without_color_empty_value").val("");
+            $(".Without_Fabric_empty_value").val("");
+            $(".Without_Storage_empty_value").val("");
+            $(".Without_Base_empty_value").val("");
+            $(".Without_Mattress_empty_value").val("");
+            $(".With_size_empty_value").val("");
+            $(".With_Design_empty_value").val("");
+            $(".With_Color_empty_value").val("");
+            $(".With_Fabric_empty_value").val("");
+            $(".With_Diamond_empty_value").val("");
+            $(".With_Storage_empty_value").val("");
+            $(".With_Base_empty_value").val("");
+            $(".With_Mattress_empty_value").val("");
+            $(".Diven_size_empty_value").val("");
+            $(".Diven_Headboard_empty_value").val("");
+            $(".Diven_Color_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Fabric_empty_value").val("");
+            $(".Diven_Storage_empty_value").val("");
+            $(".Diven_Mattress_empty_value").val("");
+            $(".Monaco_Diven_Size_empty_value").val("");
+            $(".Monaco_Diven_Headboard_empty_value").val("");
+            $(".Monaco_Diven_Color_empty_value").val("");
+            $(".Monaco_Diven_Fabric_empty_value").val("");
+            $(".Monaco_Diven_Storage_empty_value").val("");
+            $(".Monaco_Diven_Mattress_empty_value").val("");
+            $(".ottoman_Diven_size_empty_value").val("");
+            $(".ottoman_Diven_Headboard_empty_value").val("");
+            $(".ottoman_Diven_Color_empty_value").val("");
+            $(".ottoman_Diven_Fabric_empty_value").val("");
+            $(".ottoman_Diven_Mattress_empty_value").val("");
+                                                    
+        
             $(this).css('background-color','#6c6e6b');
             $(this).css('border','none');
             // $(".main_ottoman_diven_div").show();
@@ -2010,9 +2679,21 @@ form.reset();
         var opacity;
 
         $(".next").click(function() {
+
             var optionField = document.getElementById("topField");
             var productsField = document.getElementById("productField");
             
+            var  ottoman_button =  $(".ottoman_button_hidden").val();
+            var  mattress_button =  $(".mattress_button_hidden").val();
+            var  gaslift_button =  $(".gaslift_button_hidden").val();
+            var  headboard_button =  $(".headboard_button_hidden").val();
+            var  with_diamond_button =  $(".with_diamond_button_hidden").val();
+            var  Ottoman_Divan_button =  $(".Ottoman_Divan_button_hidden").val();
+            var  divan_button_form =  $(".divan_button_form_hidden").val();
+            var  Monaco_divan_button =  $(".Monaco_divan_button_hidden").val()
+
+
+
             if (optionField.value === "") {
                 // alert("Please select an option.");
                 Swal.fire(
@@ -2036,31 +2717,472 @@ form.reset();
                 return false;
             }
 
+             
+            if( ottoman_button || mattress_button || gaslift_button || headboard_button || with_diamond_button || Ottoman_Divan_button || divan_button_form || Monaco_divan_button ) {
+
+
+
+      
+  //  Monaco_divan_button
+               
+
+  if(Monaco_divan_button){
+
+         
+  
+var  Monaco_Diven_Size_empty_value =  $(".Monaco_Diven_Size_empty_value").val();
+var  Monaco_Diven_Headboard_empty_value = $(".Monaco_Diven_Headboard_empty_value").val();
+var  Monaco_Diven_Color_empty_value = $(".Monaco_Diven_Color_empty_value").val();
+var  Monaco_Diven_Fabric_empty_value = $(".Monaco_Diven_Fabric_empty_value").val();
+var  Monaco_Diven_Storage_empty_value = $(".Monaco_Diven_Storage_empty_value").val();
+var  Monaco_Diven_Mattress_empty_value = $(".Monaco_Diven_Mattress_empty_value").val();
+
+        if(Monaco_Diven_Size_empty_value != ""  && Monaco_Diven_Headboard_empty_value != ""  && Monaco_Diven_Color_empty_value != ""  && Monaco_Diven_Fabric_empty_value != "" && Monaco_Diven_Storage_empty_value != ""&& Monaco_Diven_Mattress_empty_value != ""  ){
+        
+
             current_fs = $(this).parent();
+next_fs = $(this).parent().next();
+//Add Class Active
+$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+//show the next fieldset
+next_fs.show();
+//hide the current fieldset with style
+
+
+                current_fs.animate({
+        opacity: 0
+    }, {
+        step: function(now, fx) {
+            // for making fieldset appear animation
+            var opacity = 1 - now;
+            current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+            });
+            next_fs.css({
+                'opacity': opacity
+            });
+        },
+        duration: 600
+    });
+
+
+        }else{
+            Swal.fire(
+        'Errors',
+        'Please select the Monaco divan button Form  Required Field',
+        'error'
+    )
+
+        }
+
+    }
+
+//  Monaco_divan_button
+
+
+
+          
+  //  divan_button_form
+               
+
+  if(divan_button_form){
+
+    
+var  Diven_size_empty_value =  $(".Diven_size_empty_value").val();
+var  Diven_Headboard_empty_value = $(".Diven_Headboard_empty_value").val();
+var  Diven_Color_empty_value = $(".Diven_Color_empty_value").val();
+var  Diven_Fabric_empty_value = $(".Diven_Fabric_empty_value").val();
+var  Diven_Storage_empty_value = $(".Diven_Storage_empty_value").val();
+var  Diven_Mattress_empty_value = $(".Diven_Mattress_empty_value").val();
+
+        if(Diven_size_empty_value != ""  && Diven_Headboard_empty_value != ""  && Diven_Color_empty_value != ""  && Diven_Fabric_empty_value != "" && Diven_Storage_empty_value != "" && Diven_Mattress_empty_value != "" ){
+        
+
+            current_fs = $(this).parent();
+next_fs = $(this).parent().next();
+//Add Class Active
+$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+//show the next fieldset
+next_fs.show();
+//hide the current fieldset with style
+
+
+                current_fs.animate({
+        opacity: 0
+    }, {
+        step: function(now, fx) {
+            // for making fieldset appear animation
+            var opacity = 1 - now;
+            current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+            });
+            next_fs.css({
+                'opacity': opacity
+            });
+        },
+        duration: 600
+    });
+
+
+        }else{
+            Swal.fire(
+        'Errors',
+        'Please select the Form  divan button form Required Field',
+        'error'
+    )
+
+        }
+
+    }
+
+//  divan_button_form
+
+
+
+                
+  //  Ottoman_Divan_button
+               
+
+  if(Ottoman_Divan_button){
+
+  
+  var  ottoman_Diven_size_empty_value =  $(".ottoman_Diven_size_empty_value").val();
+  var  ottoman_Diven_Headboard_empty_value = $(".ottoman_Diven_Headboard_empty_value").val();
+  var  ottoman_Diven_Color_empty_value = $(".ottoman_Diven_Color_empty_value").val();
+  var  ottoman_Diven_Fabric_empty_value = $(".ottoman_Diven_Fabric_empty_value").val();
+  var  ottoman_Diven_Mattress_empty_value = $(".ottoman_Diven_Mattress_empty_value").val();
+  
+          if(ottoman_Diven_size_empty_value != ""  && ottoman_Diven_Headboard_empty_value != ""  && ottoman_Diven_Color_empty_value != ""  && ottoman_Diven_Fabric_empty_value != "" && ottoman_Diven_Mattress_empty_value != "" ){
+          
+  
+              current_fs = $(this).parent();
+  next_fs = $(this).parent().next();
+  //Add Class Active
+  $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+  //show the next fieldset
+  next_fs.show();
+  //hide the current fieldset with style
+  
+  
+                  current_fs.animate({
+          opacity: 0
+      }, {
+          step: function(now, fx) {
+              // for making fieldset appear animation
+              var opacity = 1 - now;
+              current_fs.css({
+                  'display': 'none',
+                  'position': 'relative'
+              });
+              next_fs.css({
+                  'opacity': opacity
+              });
+          },
+          duration: 600
+      });
+  
+  
+          }else{
+              Swal.fire(
+          'Errors',
+          'Please select the Form  Ottoman Divan button Required Field',
+          'error'
+      )
+  
+          }
+  
+      }
+  
+  //  Ottoman_Divan_button
+
+
+  //  with_diamond_button
+               
+
+  if(with_diamond_button){
+  
+var  With_size_empty_value =  $(".With_size_empty_value").val();
+var  With_Design_empty_value = $(".With_Design_empty_value").val();
+var  With_Color_empty_value = $(".With_Color_empty_value").val();
+var  With_Fabric_empty_value = $(".With_Fabric_empty_value").val();
+var  With_Diamond_empty_value = $(".With_Diamond_empty_value").val();
+var  With_Storage_empty_value = $(".With_Storage_empty_value").val();
+var  With_Base_empty_value = $(".With_Base_empty_value").val();
+var  With_Mattress_empty_value = $(".With_Mattress_empty_value").val();
+
+        if(With_size_empty_value != ""  && With_Design_empty_value != ""  && With_Color_empty_value != ""  && With_Fabric_empty_value != "" && With_Diamond_empty_value != "" && With_Storage_empty_value != "" && With_Base_empty_value != "" && With_Mattress_empty_value != "" ){
+        
+
+            current_fs = $(this).parent();
+next_fs = $(this).parent().next();
+//Add Class Active
+$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+//show the next fieldset
+next_fs.show();
+//hide the current fieldset with style
+
+
+                current_fs.animate({
+        opacity: 0
+    }, {
+        step: function(now, fx) {
+            // for making fieldset appear animation
+            var opacity = 1 - now;
+            current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+            });
+            next_fs.css({
+                'opacity': opacity
+            });
+        },
+        duration: 600
+    });
+
+
+        }else{
+            Swal.fire(
+        'Errors',
+        'Please select the Form with diamond button  Required Field',
+        'error'
+    )
+
+        }
+
+    }
+
+//  with_diamond_button
+
+
+
+  //  headboard_button
+               
+
+  if(headboard_button){
+
+        
+var  Headboard_size_empty_value =  $(".Headboard_size_empty_value").val();
+var  Headboard_design_empty_value = $(".Headboard_design_empty_value").val();
+var  Headboard_color_empty_value = $(".Headboard_color_empty_value").val();
+var  Headboard_Fabric_empty_value = $(".Headboard_Fabric_empty_value").val();
+
+        if(Headboard_size_empty_value != ""  && Headboard_design_empty_value != ""  && Headboard_color_empty_value != ""  && Headboard_Fabric_empty_value != "" ){
+        
+
+            current_fs = $(this).parent();
+next_fs = $(this).parent().next();
+//Add Class Active
+$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+//show the next fieldset
+next_fs.show();
+//hide the current fieldset with style
+
+
+                current_fs.animate({
+        opacity: 0
+    }, {
+        step: function(now, fx) {
+            // for making fieldset appear animation
+            var opacity = 1 - now;
+            current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+            });
+            next_fs.css({
+                'opacity': opacity
+            });
+        },
+        duration: 600
+    });
+
+
+        }else{
+            Swal.fire(
+        'Errors',
+        'Please select the Form headboard button Required Field',
+        'error'
+    )
+
+        }
+
+    }
+
+//  headboard_button
+
+
+
+     
+  //  gaslift_button
+               
+
+  if(gaslift_button){
+
+                 
+         var  gaslift_size_empty_value =  $(".gaslift_size_empty_value").val();
+        var  gaslift_design_empty_value = $(".gaslift_design_empty_value").val();
+
+                 if(gaslift_size_empty_value != ""  && gaslift_design_empty_value != "" ){
+                 
+
+                     current_fs = $(this).parent();
+         next_fs = $(this).parent().next();
+         //Add Class Active
+         $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+         //show the next fieldset
+         next_fs.show();
+         //hide the current fieldset with style
+     
+
+                         current_fs.animate({
+                 opacity: 0
+             }, {
+                 step: function(now, fx) {
+                     // for making fieldset appear animation
+                     var opacity = 1 - now;
+                     current_fs.css({
+                         'display': 'none',
+                         'position': 'relative'
+                     });
+                     next_fs.css({
+                         'opacity': opacity
+                     });
+                 },
+                 duration: 600
+             });
+
+
+                 }else{
+                     Swal.fire(
+                 'Errors',
+                 'Please select the Form gaslift button Required Field',
+                 'error'
+             )
+
+                 }
+
+             }
+
+//  gaslift_button
+
+
+               
+  //  mattress_button
+               
+
+                if(mattress_button){
+                 
+                    var  size_empty_value =  $(".size_empty_value").val();
+           var  mattress_empty_value = $(".mattress_empty_value").val();
+
+                    if(size_empty_value != ""  && mattress_empty_value != "" ){
+                    
+
+                        current_fs = $(this).parent();
             next_fs = $(this).parent().next();
             //Add Class Active
             $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
             //show the next fieldset
             next_fs.show();
             //hide the current fieldset with style
-            current_fs.animate({
-                opacity: 0
-            }, {
-                step: function(now) {
-                    // for making fielset appear animation
-                    opacity = 1 - now;
+        
 
-                    current_fs.css({
-                        'display': 'none',
-                        'position': 'relative'
-                    });
-                    next_fs.css({
-                        'opacity': opacity
-                    });
-                },
-                duration: 600
-            });
+                            current_fs.animate({
+                    opacity: 0
+                }, {
+                    step: function(now, fx) {
+                        // for making fieldset appear animation
+                        var opacity = 1 - now;
+                        current_fs.css({
+                            'display': 'none',
+                            'position': 'relative'
+                        });
+                        next_fs.css({
+                            'opacity': opacity
+                        });
+                    },
+                    duration: 600
+                });
+
+
+                    }else{
+                        Swal.fire(
+                    'Errors',
+                    'Please select the Form mattress button  Required Field',
+                    'error'
+                )
+
+                    }
+
+                }
+
+  //  mattress_button
+
+            //  ottoman_button
+                
+                if(ottoman_button){
+                 
+                    var   ottoman_design_empty_value =  $(".ottoman_design_empty_value").val();
+    var   ottoman_color_empty_value =       $(".ottoman_color_empty_value").val();
+    var   ottoman_Fabric_empty_value =       $(".ottoman_Fabric_empty_value").val();
+
+                 if(ottoman_design_empty_value != ""  && ottoman_color_empty_value != ""  && ottoman_Fabric_empty_value != "" ){
+                 
+
+                     current_fs = $(this).parent();
+         next_fs = $(this).parent().next();
+         //Add Class Active
+         $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+         //show the next fieldset
+         next_fs.show();
+         //hide the current fieldset with style
+     
+
+                         current_fs.animate({
+                 opacity: 0
+             }, {
+                 step: function(now, fx) {
+                     // for making fieldset appear animation
+                     var opacity = 1 - now;
+                     current_fs.css({
+                         'display': 'none',
+                         'position': 'relative'
+                     });
+                     next_fs.css({
+                         'opacity': opacity
+                     });
+                 },
+                 duration: 600
+             });
+
+
+                 }else{
+                     Swal.fire(
+                 'Errors',
+                 'Please select the Form  ottoman button Required Field',
+                 'error'
+             )
+
+                 }
+
+             }
+  //  ottoman_button
+
+
+
+
+            }else{
+                Swal.fire(
+                    'Errors',
+                    'Please select the Form and fill all values',
+                    'error'
+                )
+            }
+
+
         });
+
 
         $(".next2").click(function() {
                     
@@ -2217,7 +3339,7 @@ form.reset();
 
             
         //  email work
-        if (orderemailField.value.trim() !== "") { // Check if the email field is not empty
+          if (orderemailField.value.trim() !== "") { // Check if the email field is not empty
             var email = $("#orderemail").val();
                 var emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
                 if (!emailRegex.test(email)) {
@@ -2244,7 +3366,7 @@ form.reset();
             }
 
 
-   //  email work
+              //  email work
 
             // if (orderemailField.value === "") {
             //     // alert("Please select an option.");

@@ -18,7 +18,7 @@ class ProductController extends Controller
         $this->middleware('permission:Update Product')->only('update');
         $this->middleware('permission:Delete Product')->only('destroy');
         $this->middleware('permission:View File Upload')->only('file');
-         $this->middleware('permission:View Product')->only('index');
+        $this->middleware('permission:View Product')->only('index');
         $this->repository = $repository;
         $this->model = $model;
     }
@@ -29,7 +29,13 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $items = Product::paginate(10);
+        if(isset($request->id)){
+            $items = Product::where('id' ,$request->id)->paginate(1);
+        }else{
+            $items = Product::paginate(10);
+        }
+
+      
         return view('Admin.Product.index', compact('items'));
     }
 
@@ -127,7 +133,6 @@ class ProductController extends Controller
     {
         $productArray = [];
         $products = Product::with('productVariations')->get();
-        // dd($products);
         foreach ($products as $product) {
             $countryList = json_decode($product->country);
             if (in_array($request->country, $countryList) == true) {

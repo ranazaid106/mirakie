@@ -27,6 +27,8 @@ class DataDetailsController extends Controller
     //     $this->model = $model;
     // }
 
+
+
     public function index()
     {
         $users = UserStatus::where('user_id', Auth::user()->id)->first();
@@ -36,20 +38,22 @@ class DataDetailsController extends Controller
         $user = Auth::user(); // Get the currently logged in user
         $users_id = Auth::id(); // Get the currently logged in user
         $UserStat = UserStatus::where('user_id',$users_id)->first();
-        $order_role = Role::where('id', $UserStat->status)->first();
+        $order_role = Role::where('id', @$UserStat->status)->first();
 
-        if ($order_role->name === 'Super Admin') {
+        if (@$order_role->name === 'Super Admin') {
 
             $items = DataDetails::paginate(200);
         }else{
 
-            $items = DataDetails::where('role_id', $order_role->id)->where('user_id',$users_id)->paginate(200);
+            $items = DataDetails::where('role_id', @$order_role->id)->where('user_id',@$users_id)->paginate(200);
 
         }
-
         
         return view('Admin.Data_Details.index', compact('items', 'users'));
     }
+
+
+
 
 
     public function fetchUsersByRoleData(Request $request)
@@ -86,6 +90,7 @@ class DataDetailsController extends Controller
 
     public function store(Request $request)
     {
+       
 
         $this->validate($request, [
             'role_id' => 'nullable',
@@ -95,8 +100,9 @@ class DataDetailsController extends Controller
 
         ]);
 
+  
 
-        foreach ($request->user_id as $key => $user_id_data) {
+          foreach ($request->user_id as $key => $user_id_data) {
          
             $link = new DataDetails;
             $link->role_id = $request->input('role_id');
@@ -107,7 +113,6 @@ class DataDetailsController extends Controller
 
 
         }
-        
         
         return redirect()->back()->with('success', 'Data Details Add Successfully!');
         // return redirect()->back()->with('success', 'Link saved successfully.');

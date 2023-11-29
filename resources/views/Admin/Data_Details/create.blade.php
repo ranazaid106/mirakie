@@ -1,5 +1,7 @@
 @extends('layouts.main')
+@section('yield', 'Data Detail Create')
 @section('content')
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.js"></script>
 
@@ -63,7 +65,7 @@
                                     <div class="col-12">
                                         <div class="mb-3">
                                             <label for="usersDropdown">Select User:</label>
-                                            <select class="form-control" id="usersDropdown" name="user_id[]" multiple>
+                                            <select class="form-control" id="usersDropdown" name="user_id" name="user_id[]" multiple>
                                                 <!-- Users dropdown will be populated dynamically based on the selected role -->
                                             </select>
                                         </div>

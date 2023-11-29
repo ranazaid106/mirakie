@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\File;
 use App\Models\UserStatus;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -15,6 +16,8 @@ class UserController extends Controller
 {
     protected $model, $repository;
 
+
+
     public function __construct(UserRepositoryInterface $repository, User $model)
     {
         $this->middleware('permission:Create User|Update User')->only('related');
@@ -25,14 +28,45 @@ class UserController extends Controller
         $this->model = $model;
     }
 
+
+public function deleteAllusers(Request $request)
+
+{
+    // dd($request->all());
+    
+    $ids = $request->join_selected_values;
+    $product_ids = explode(",", $ids);
+    foreach ($product_ids as $product_id) {
+        
+        // User::where('id', $product_id)->delete();
+         $this->repository->delete($product_id);
+      
+    }
+
+
+
+    return response()->json([
+        'status' => 200,
+        'all_ids'=> $request->join_selected_values,
+    ]);
+}
+
+
+
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $items = $this->model->paginate(10);
+        if(isset($request->id)){
+            $items = $this->model->where('id',$request->id)->paginate(100000);
+        }else{
+            $items = $this->model->paginate(100000);
+        }
         return view('Admin.User.index', compact('items'));
     }
 
@@ -61,8 +95,9 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|unique:' . User::class . ',email',
             'password' => 'required',
-            'role' => 'nullable',
+            'role' => 'required',
         ]);
+        $data['show_pswword'] = $data['password'];
         $data['password'] = Hash::make($data['password']);
         $item = $this->model->create($data);
 
@@ -132,7 +167,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 
-     
+    //  dd($request->all());
 
         $user = $this->model->find($id);
 
@@ -143,7 +178,38 @@ class UserController extends Controller
             'role' => 'nullable',
         ]);
 
+
+        $Users = User::find($id);
+
+        if ($request->hasFile('user_image')) {
+            $oldImagePath = public_path('users_images') . '/' . $Users->image;
+
+            // dd($oldImagePath );
+        
+            if (File::exists($oldImagePath)) {
+                File::delete($oldImagePath);
+            }
+        
+            $file = $request->file('user_image');
+            $imageName = time() . rand(1, 99) . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('users_images'), $imageName);
+
+            // dd($imageName);
+        
+            $Users->update([
+                'image' => $imageName,
+            ]);
+        }
+        
+        // Rest of your code...
+        
+
+
+
+
+
         if (isset($data['password']) && $data['password']) {
+            $data['show_pswword'] = $data['password'];
             $data['password'] = Hash::make($data['password']);
         } else {
             $data['password'] = $user->password;
@@ -159,6 +225,7 @@ class UserController extends Controller
 
         }
     
+
 
 
         if (isset($data['role'])) {

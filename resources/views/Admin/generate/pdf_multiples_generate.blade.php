@@ -132,6 +132,11 @@
                 <td>Created At :</td>
                 <td> {{ $order->created_at }}</td>
             </tr>
+              <tr>
+               
+                <td>Delivery Date:</td>
+                <td> {{ $order->delivery_date }}</td>
+            </tr>
         </tbody>
     </table>
 

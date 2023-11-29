@@ -16,16 +16,31 @@ class PaymentsInvoicesController extends Controller
     {
         $users = UserStatus::where('user_id', Auth::user()->id)->first();
         //  dd($users->status);
+        
+          $user = Auth::user(); // Get the currently logged in user
+        $users_id = Auth::id(); // Get the currently logged in user
+        $UserStat = UserStatus::where('user_id',@$users_id)->first();
+        $order_role = Role::where('id', @$UserStat->status)->first();
 
-        if ($users->status == '2') {
+        if (@$order_role->name === 'Super Admin') {
 
-            $items = PaymentsInvoices::paginate(10);
+            $items = PaymentsInvoices::paginate(200);
+            
+        }else{
+
+            $items = PaymentsInvoices::where('role_id', @$order_role->id)->where('user_id',@$users_id)->paginate(200);
+
+        }
+
+        // if ($users->status == '2') {
+
+        //     $items = PaymentsInvoices::paginate(10);
                
-            }else {
+        //     }else {
                 
-                $items = PaymentsInvoices::where('role_id', $users->status)->where('user_id', Auth::user()->id)->paginate(10);
-                // $items = PaymentsInvoices::where('role_id', $users->status)->paginate(10);
-            }
+        //         $items = PaymentsInvoices::where('role_id', $users->status)->where('user_id', Auth::user()->id)->paginate(10);
+        //         // $items = PaymentsInvoices::where('role_id', $users->status)->paginate(10);
+        //     }
 
         // dd($items);
         return view('Admin.PaymentsInvoices.index', compact('items', 'users'));
@@ -34,9 +49,9 @@ class PaymentsInvoicesController extends Controller
     public function fetchUsersByRole(Request $request)
     {
 
-        // dd($request->roleId);
-        // $role = Role::findOrFail($request->roleId);
-        $users = UserStatus::where('status',$request->roleId)
+        // dd($request->customer_id);
+        // $role = Role::findOrFail($request->customer_id);
+        $users = UserStatus::where('status',$request->customer_id)
             ->leftjoin('users','users.id','user_status.user_id')
             ->get();
         // dd($users);

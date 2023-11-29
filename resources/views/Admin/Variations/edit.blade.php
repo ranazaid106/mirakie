@@ -1,5 +1,7 @@
 @extends('layouts.main')
+@section('yield', 'Variation Edit')
 @section('content')
+
 <div class="col-lg-12">
     <div class="card">
         <div class="card-header">Update</div>

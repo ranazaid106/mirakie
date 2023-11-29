@@ -26,7 +26,7 @@ public function generateInvoice(Request $request ,$id ,$customer_id)
     $data = [ 'orders' => $orders ,'orderdetails' => $orderdetails ,'customers' => $customers ]; 
 
     
-    $pdf = PDF::loadView('admin.generate.pdfGenerate', $data);
+    $pdf = PDF::loadView('Admin.generate.pdfGenerate', $data);
     $todayDate = Carbon::now()->format('d-m-Y');
     // return $pdf->download('itsolutionstuff.pdf');
     return $pdf->download('Pdf-'.$todayDate.'.pdf');
@@ -48,7 +48,6 @@ public function generateInvoice(Request $request ,$id ,$customer_id)
 
  public function multiplesgenerate(Request $request)
  {
-    // dd($request->all());
 
     $datass =  explode(',',$request->join_selected_values );
     $datas =  explode(',',$request->customer_values );
@@ -63,16 +62,71 @@ public function generateInvoice(Request $request ,$id ,$customer_id)
     ->orderby('orders.id','ASC')    
     ->get();
 
-    // dd($orders);
+
+
+    // $datass =  explode(',',$request->join_selected_values );
+   
+    // $orders = Order::whereIn('id',$datass)->get();
+    
+    // $orderdetails = Orderdetail::whereIn('order_id', $datass)->get();
+    
+    // $datas =  explode(',',$request->customer_values );
+    
+    // $customers = Customer::whereIn('id',$datas)->get();
 
     $data = [ 'orders' => $orders ]; 
-    $pdf = PDF::loadView('admin.generate.pdf_multiples_generate', $data );
+    
+
+    $pdf = PDF::loadView('Admin.generate.pdf_multiples_generate', $data );
+
+
     $path = public_path('pdf/');
+
     $fileName =  time().'.'. 'pdf' ;
-    $pdf->save($path . '/' . $fileName);
+
+    $pdf->save($path.$fileName);
+
+
     $pdf = public_path('pdf/'.$fileName);
 
     return response()->download($pdf);
+
+
+
+
+
+
+
+
+
+// dd($request->all());
+
+// $data =  explode(',',$request->join_selected_values );
+   
+// $orders = Order::whereIn('id',$data)->get();
+
+// $orderdetails = Orderdetail::whereIn('order_id', $data)->get();
+
+// $datas =  explode(',',$request->customer_values );
+
+// $customers = Customer::whereIn('id',$datas)->get();
+
+// dd($orderdetails);
+
+// $data = [ 'orders' => $orders  ]; 
+
+
+// $pdf = PDF::loadView('admin.generate.testing', $data);
+// $todayDate = Carbon::now()->format('d-m-Y');
+//     return $pdf->download('itsolutionstuff.pdf');
+
+// return $pdf->download('invoice-'.$orders->id.'-'.$todayDate.'.pdf');
+
+// return response()->json([
+//     'status' => 200,
+   
+// ]);
+
 
  }
 

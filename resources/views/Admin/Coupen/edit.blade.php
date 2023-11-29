@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('yield', 'Coupen Edit')
 @section('content')
 
 

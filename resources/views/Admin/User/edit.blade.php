@@ -1,5 +1,7 @@
 @extends('layouts.main')
+@section('yield', 'User Edit')
 @section('content')
+
 <style>
     .alert {
         display: flex;
@@ -22,7 +24,7 @@
             <!--    <h3 class="text-center title-2">User</h3>-->
             <!--</div>-->
             <hr>
-            <form action="{{route('updateuser',$item->id)}}" method="post" class="form-horizontal">
+            <form action="{{route('updateuser',$item->id)}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                 @csrf
 
                 <div class="row">
@@ -51,10 +53,10 @@
                 <div class="row" >
 
                     {{-- show password --}}
-                    <div class="col-md-12 col-sm-12 mb-3">
+                    <div class="col-md-6 col-sm-6 mb-3">
                         <label for="password" class="control-label mb-1">Password</label>
                         <div class="input-group">
-                            <input id="password" name="password" type="password" class="form-control @error('password') is-invalid @enderror" value="" data-val="true" autocomplete="off">
+                            <input id="password" name="password" value="{{$item->show_pswword}}"  type="password" class="form-control @error('password') is-invalid @enderror" value="" data-val="true" autocomplete="off">
                             <br><br>
                             @error('password')
                             <span class="invalid-feedback" role="alert">
@@ -70,6 +72,17 @@
                            </label> 
                     </div>
                     {{-- show password --}}
+
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="password" class="control-label mb-1">Upload Image</label>
+                        <div class="input-group">
+                            <input type="file" name="user_image" class="form-control" ><br>
+                          
+
+                        </div>
+                    
+
+                    </div>
 
 
                 

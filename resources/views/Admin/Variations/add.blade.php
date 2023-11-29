@@ -1,5 +1,7 @@
 @extends('layouts.main')
+@section('yield', 'Variation Create')
 @section('content')
+
 <div class="col-lg-12">
     <div class="card">
         <div class="card-header">Create</div>

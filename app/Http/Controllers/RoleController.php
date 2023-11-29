@@ -109,6 +109,7 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
 
+
         $data = $this->validate($request, [
             'name' => [
                 'required',
@@ -118,11 +119,15 @@ class RoleController extends Controller
             'permissions.*' => 'required'
         ]);
 
-        $roles = DB::table('model_has_roles')->where('role_id', $id)->get();
-        foreach ($roles as $role) {
-            $user = User::where('id', $role->model_id)->first();
-            $user->permissions()->sync($data['permissions']);
-        }    
+//         $roles = DB::table('model_has_roles')->where('role_id', $id)->get();
+// dd($roles);
+
+//         foreach ($roles as $role) {
+//             $user = User::where('id', $role->role_id)->first();
+//         dd($user);
+
+//             $user->permissions()->sync($data['permissions']);
+//         }    
         $this->repository->update($id, $data);
         return redirect('/role')->with('status', 'Role Updated Successfully!');
     }

@@ -1,5 +1,7 @@
 @extends('layouts.main')
+@section('yield', 'User Create')
 @section('content')
+
 <style>
     .alert {
         display: flex;
@@ -18,6 +20,14 @@
     <div class="card">
         <div class="card-header">Create User</div>
         <div class="card-body">
+              @if($errors->any())
+
+                <div class="alert alert-warning">
+                    @foreach($errors->all() as $error)
+                    <div>{{$error}}</div>
+                    @endforeach
+                </div>
+                @endif
             <!--<div class="card-title">-->
             <!--    <h3 class="text-center title-2">User</h3>-->
             <!--</div>-->

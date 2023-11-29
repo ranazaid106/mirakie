@@ -1,5 +1,7 @@
 @extends('layouts.main')
+@section('yield', 'Files')
 @section('content')
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.js"></script>
 

@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('customers', function (Blueprint $table) {
-           $table->string('alert')->default('0');
-            $table->string('seen')->default('0'); 
+            $table->string('alert')->default('0');
+            $table->string('seen')->default('0');
         });
     }
 

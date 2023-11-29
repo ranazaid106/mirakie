@@ -6,10 +6,15 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ExcelController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderExcelController;
 use App\Http\Controllers\GeneratePDFController;
+use App\Http\Controllers\CopyOrderPdfController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ExcelMultiplesController;
 use App\Http\Controllers\ProductVariationController;
-use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\OrdersGeneratePDFController;
+use App\Http\Controllers\OrderExcelMultiplesController;
+use App\Http\Controllers\PaymentCopyOrderPdfController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,16 +31,14 @@ use App\Http\Controllers\NotificationController;
 
 
 
+
+
 Route::get('/notification', [NotificationController::class, 'notification']);
 Route::post('/notificationupdate', [NotificationController::class, 'notification_update']);
 
 
-Route::get('/generate-excel', [ExcelMultiplesController::class, 'generateExcelFile']);
 
 
-
-
-Route::get('order/{id}/customer/{customer_id}/excel', [ExcelController::class, 'exportUsers']);
 
 
 
@@ -57,9 +60,44 @@ Route::get('/order/{id}/customer/{customer_id}/pdf', [GeneratePDFController::cla
 Route::get('/multiplesgenerateInvoice', [GeneratePDFController::class, 'multiplesgenerate'])->name('multiplesgenerateInvoice');
 
 
+Route::get('/generate-excel', [ExcelMultiplesController::class, 'generateExcelFile']);
+Route::get('order/{id}/customer/{customer_id}/excel', [ExcelController::class, 'exportUsers']);
+
+
+Route::get('/generate-excels', [OrderExcelMultiplesController::class, 'generateExcelFile']);
+Route::get('orders/{id}/excel', [OrderExcelController::class, 'exportUsers']);
+
+
+
+
+
+Route::get('/payment_generate_excels', [\App\Http\Controllers\PaymentOrderExcelMultiplesController::class, 'generateExcelFile']);
+Route::get('payment_orders/{id}/excel', [\App\Http\Controllers\PaymentOrderExcelController::class, 'exportUsers']);
+
+
+Route::get('/update_order_generate_excels', [\App\Http\Controllers\UpdateOrderExcelMultiplesController::class, 'generateExcelFile']);
+Route::get('update_orders/{id}/excel', [\App\Http\Controllers\UpdateOrderExcelController::class, 'exportUsers']);
+
+
+
+
+Route::get('/orders/{id}/pdf', [OrdersGeneratePDFController::class, 'generateInvoice']);
+Route::get('/multiplesgenerateInvoices', [OrdersGeneratePDFController::class, 'multiplesgenerate'])->name('multiplesgenerateInvoices');
+
+
+
+
+Route::get('/copy_order/{id}/customer/{customer_id}/pdf', [CopyOrderPdfController::class, 'generateInvoice']);
+Route::get('/copy_multiplesgenerateInvoice', [CopyOrderPdfController::class, 'multiplesgenerate'])->name('copy_multiplesgenerateInvoice');
+
+
+
+
+
+
 Auth::routes();
 Route::get('/', [\App\Http\Controllers\Auth\LoginController::class, 'showLoginForm']);
-Route::get('/order', [\App\Http\Controllers\OrderController::class, 'outer_create'])->name('order_create');
+// Route::get('/order', [\App\Http\Controllers\OrderController::class, 'outer_create'])->name('order_create');
 
 
 
@@ -67,7 +105,8 @@ Route::get('/order', [\App\Http\Controllers\OrderController::class, 'outer_creat
 //     return view('Admin.Order.add');
 // })->name('orders');
 
-Route::group(['middleware' => ['web']], function () {
+Route::group(['middleware' => ['auth', 'web']], function () {
+// Route::group(['middleware' => ['web']], function () {
     //Product Variation Routes
     Route::get('productvariation', [ProductVariationController::class, 'index'])->name('productvariation');
     Route::get('createproductvariation', [ProductVariationController::class, 'create'])->name('createproductvariation');
@@ -77,7 +116,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('deleteproductvariation/{id}', [ProductVariationController::class, 'destroy'])->name('deleteproductvariation');
 
     //Product Rotues
-    Route::get('product_index', [\App\Http\Controllers\ProductController::class, 'index'])->name('product_index');
+    Route::get('product_index/{id?}', [\App\Http\Controllers\ProductController::class, 'index'])->name('product_index');
     Route::get('product_create', [\App\Http\Controllers\ProductController::class, 'create'])->name('product_create');
     Route::post('product_store', [\App\Http\Controllers\ProductController::class, 'store'])->name('product_store');
     Route::get('product_edit/{id}', [\App\Http\Controllers\ProductController::class, 'edit'])->name('product_edit');
@@ -89,7 +128,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('file_Upload', [\App\Http\Controllers\ProductController::class, 'fileUpload'])->name('file_Upload');
 
     // Customer Routes
-    Route::get('customer_index', [\App\Http\Controllers\CustomerController::class, 'index'])->name('customer_index');
+    Route::get('customer_index/{id?}', [\App\Http\Controllers\CustomerController::class, 'index'])->name('customer_index');
     Route::get('customer_create', [\App\Http\Controllers\CustomerController::class, 'create'])->name('customer_create');
     Route::post('customer_store', [\App\Http\Controllers\CustomerController::class, 'store'])->name('customer_store');
     Route::get('customer_edit/{id}', [\App\Http\Controllers\CustomerController::class, 'edit'])->name('customer_edit');
@@ -106,12 +145,53 @@ Route::group(['middleware' => ['web']], function () {
     Route::put('coupen_update/{id}', [\App\Http\Controllers\CoupenController::class, 'update'])->name('coupen_update');
     Route::get('coupen_delete/{id}', [\App\Http\Controllers\CoupenController::class, 'destroy'])->name('coupen_delete');
 
+
+
+    Route::get('update_orders_index/{id?}', [\App\Http\Controllers\UpdateSingleOrderController::class, 'index'])->name('update_orders_index');
+
+    Route::post('/updateForm/{formId}', [\App\Http\Controllers\UpdateSingleOrderController::class, 'updateForm'])->name('updateForm');
+
+    Route::DELETE('/updateForm_delete', [\App\Http\Controllers\UpdateSingleOrderController::class, 'destroy'])->name('updateForm_delete');
+
+    Route::DELETE('/updateForm_delete_all', [\App\Http\Controllers\UpdateSingleOrderController::class, 'deleteAll'])->name('updateForm_delete_all');
+
+    Route::post('/copy_advance_searchings_payment', [\App\Http\Controllers\PaymentUpdateController::class, 'advance_search_payment_admin'])->name('copy_advance_searchings_payment');
+    
+    Route::post('/copy_advance_searchings', [\App\Http\Controllers\UpdateSingleOrderController::class, 'advance_search'])->name('copy_advance_searchings');
+
+    Route::post('/copy_advance_searchings_customer', [\App\Http\Controllers\UpdateSingleOrderController::class, 'advance_search_customer'])->name('copy_advance_searchings_customer');
+
+    Route::post('/copy_advance_searchingsparment_customer', [\App\Http\Controllers\PaymentUpdateController::class, 'advance_search_payment'])->name('copy_advance_searchingsparment_customer');
+
+
+
+
+    Route::get('orders_index/{id?}', [\App\Http\Controllers\SingleOrderController::class, 'index'])->name('orders_index');
+    Route::get('orders_create', [\App\Http\Controllers\SingleOrderController::class, 'create'])->name('orders_create');
+    Route::post('orders_store', [\App\Http\Controllers\SingleOrderController::class, 'store'])->name('orders_store');
+    Route::get('orders_view/{id}', [\App\Http\Controllers\SingleOrderController::class, 'show'])->name('orders_view');
+    Route::DELETE('orders_delete/', [\App\Http\Controllers\SingleOrderController::class, 'destroy'])->name('orders_delete');
+    Route::DELETE('/myproductsDeleteAlls', [\App\Http\Controllers\SingleOrderController::class, 'deleteAll']);
+    Route::get('orders_edit/{id}', [\App\Http\Controllers\SingleOrderController::class, 'edit'])->name('orders_edit');
+    Route::post('orders_edits', [\App\Http\Controllers\SingleOrderController::class, 'orders_edit'])->name('orders_edits');
+
+    Route::post('/advance-searchings', [\App\Http\Controllers\SingleOrderController::class, 'advance_search'])->name('advance_searchings');
+    Route::post('/advance-searchings_customers_order', [\App\Http\Controllers\SingleOrderController::class, 'advance_search_customer'])->name('searchings_customers_order');
+
+
+
+    Route::post('/orderupdateForm/{formId?}', [\App\Http\Controllers\SingleOrderController::class, 'updateForms'])->name('orderupdateForm');
+
+
+
+
+
     //Order Routes
     Route::post('order_store', [\App\Http\Controllers\OrderController::class, 'store'])->name('order_store');
     Route::get('re-order', [\App\Http\Controllers\OrderController::class, 're_order'])->name('re-order');
     Route::post('order_store_two', [\App\Http\Controllers\OrderController::class, 'storetwo'])->name('order_store_two');
     Route::post('order_edit', [\App\Http\Controllers\OrderController::class, 'orders_edit'])->name('order_edit');
-    Route::get('order_index', [\App\Http\Controllers\OrderController::class, 'index'])->name('order_index');
+    Route::get('order_index/{id?}', [\App\Http\Controllers\OrderController::class, 'index'])->name('order_index');
     Route::get('order_create', [\App\Http\Controllers\OrderController::class, 'create'])->name('order_create');
     Route::post('order_store', [\App\Http\Controllers\OrderController::class, 'store'])->name('order_store');
     Route::get('order_view/{id}', [\App\Http\Controllers\OrderController::class, 'show'])->name('order_view');
@@ -122,17 +202,31 @@ Route::group(['middleware' => ['web']], function () {
     Route::DELETE('/myproductsDeleteAll', [\App\Http\Controllers\OrderController::class, 'deleteAll']);
     Route::get('/SerachOrder/{id}', [\App\Http\Controllers\OrderController::class, 'order_search']);
 
+
+
+
     // admin 
     Route::post('/advance-searching', [\App\Http\Controllers\OrderController::class, 'advance_search'])->name('advance_searching');
 
+
     
+
+
+
+
+
+
+
+
+
     //Product Variation Routes
-    Route::get('user', [UserController::class, 'index'])->name('user');
+    Route::get('user/{id?}', [UserController::class, 'index'])->name('user');
     Route::get('createuser', [UserController::class, 'create'])->name('createuser');
     Route::post('storeuser', [UserController::class, 'store'])->name('storeuser');
     Route::get('edituser/{id}', [UserController::class, 'edit'])->name('edituser');
     Route::post('updateuser/{id}', [UserController::class, 'update'])->name('updateuser');
     Route::get('destroyuser/{id}', [UserController::class, 'destroy'])->name('destroyuser');
+    Route::DELETE('/usersDeleteAll', [UserController::class, 'deleteAllusers']);
 
     //Roles Routes
     Route::get('role', [RoleController::class, 'index'])->name('role');
@@ -172,19 +266,43 @@ Route::put('PaymentsInvoices_update/{id}', [App\Http\Controllers\PaymentsInvoice
 
 Route::get('destroyPaymentsInvoices/{id}', [App\Http\Controllers\PaymentsInvoicesController::class, 'destroy'])->name('destroyPaymentsInvoices');
 
-Route::get('/users/users_role/', [App\Http\Controllers\PaymentsInvoicesController::class, 'fetchUsersByRole'])->name('users.saveUserRole');
-
-
-
-
-Route::any('/users/users_role/edit', [App\Http\Controllers\PaymentsInvoicesController::class, 'editUsersByRole'])->name('users.saveUserRoleedit');
 
 
 
 
 
+Route::get('PaymentsUpdate', [App\Http\Controllers\PaymentUpdateController::class, 'index'])->name('PaymentsUpdate');
 
 
+Route::post('/paymentupdateForm/{formId?}', [\App\Http\Controllers\PaymentUpdateController::class, 'updateForms'])->name('paymentupdateForm');
+
+
+Route::DELETE('/paymentupdateForm_delete', [\App\Http\Controllers\PaymentUpdateController::class, 'destroy'])->name('paymentupdateForm_delete');
+
+Route::DELETE('/paymentupdateForm_delete_all', [\App\Http\Controllers\PaymentUpdateController::class, 'deleteAll'])->name('paymentupdateForm_delete_all');
+
+Route::POST('/paymentupdate_update_status', [\App\Http\Controllers\PaymentUpdateController::class, 'updata_status'])->name('paymentupdateForm_delete_all');
+
+
+Route::get('/payment_order/{id}/customer/{customer_id}/pdf', [PaymentCopyOrderPdfController::class, 'generateInvoice']);
+Route::get('/payment_multiplesgenerateInvoice', [PaymentCopyOrderPdfController::class, 'multiplesgenerate'])->name('payment_multiplesgenerateInvoice');
+
+
+
+
+
+
+
+Route::get('/users/users_role/', [App\Http\Controllers\PaymentsInvoicesController::class, 'fetchUsersByRole']);
+Route::any('/users/users_role/edit', [App\Http\Controllers\PaymentsInvoicesController::class, 'editUsersByRole']);
+
+
+
+
+Route::get('/get-suggestions', [App\Http\Controllers\SuggestionController::class, 'getSuggestions']);
+Route::get('/get-suggestions-product', [App\Http\Controllers\SuggestionController::class, 'getSuggestionsproduct']);
+
+// Route::get('/get-suggestions', 'SuggestionController@getSuggestions');
 
 
 

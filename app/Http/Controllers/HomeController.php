@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Product;
-use App\Models\ProductVariation;
-use App\Models\User;
-use Illuminate\Http\Request;
-use App\Models\Role;
 use App\Models\UserStatus;
+use Illuminate\Http\Request;
+use App\Models\CopyShortOrder;
+use App\Models\ProductVariation;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -55,8 +56,13 @@ class HomeController extends Controller
         $product_count = Product::count();
         // $variation_count = ProductVariation::count();
         $order = Order::count();
+        $CopyShortOrder =CopyShortOrder::count();
 
-        return view('Admin.home', compact('user_count', 'product_count', 'order', 'specificRole2', 'specificRole1', 'specificRole3' ));
+        $orders= $order+$CopyShortOrder;
+
+        // dd($order);
+
+        return view('Admin.home', compact('user_count', 'product_count', 'orders', 'specificRole2', 'specificRole1', 'specificRole3' ));
 
         }else{
 
@@ -64,17 +70,10 @@ class HomeController extends Controller
         $product_count = Product::count();
         // $variation_count = ProductVariation::count();
         $order = Order::where('user_id',Auth::id())->count();
-        return view('Admin.home', compact('user_count', 'product_count', 'order'));
+        $CopyShortOrder = CopyShortOrder::where('user_id',Auth::id())->count();
+        $orders= $order+$CopyShortOrder;
+
+        return view('Admin.home', compact('user_count', 'product_count', 'orders'));
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

@@ -24,6 +24,8 @@ class User extends Authenticatable
         'password',
         'alert',
         'seen',
+        'image',
+        'show_pswword'
       
     ];
 

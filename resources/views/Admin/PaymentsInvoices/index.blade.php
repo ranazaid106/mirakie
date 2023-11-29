@@ -1,5 +1,7 @@
 @extends('layouts.main')
+@section('yield', 'PaymentInvoices')
 @section('content')
+
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 
 <style>
@@ -89,7 +91,7 @@
                 $users = App\Models\UserStatus::where('user_id', Illuminate\Support\Facades\Auth::user()->id)->first();
                 // dd($users);
 
-                if ($users->status == '2') {
+                if (@$users->status == '2') {
             ?>
             <div class="table-data__tool-right">
                 <a class="au-btn au-btn-icon au-btn--green au-btn--small" style="color:white" href="{{route('createPaymentsInvoices')}}">
@@ -117,10 +119,7 @@
                 </thead>
                 <tbody>
                     <?php $num = 1 ?>
-         <?php       
-            //  dd($items)
-?>
-@foreach($items as $item)
+                    @foreach($items as $item)
 
                     <?php 
                     // dd($item);

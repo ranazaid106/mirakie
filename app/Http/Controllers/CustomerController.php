@@ -28,16 +28,14 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        $items = Customer::paginate(3000);
-        // dd($items);
-
-        foreach ($items as $key => $item) {
-         
-            $total_order = Order::where('customer_id', $item->id)->count();
-            
+        
+        if(isset($request->id)){
+            $items = Customer::where('id' ,$request->id)->paginate(1);
+        }else{
+            $items = Customer::paginate(3000);
         }
-        // dd($total_order);
-        return view('Admin.Customer.index', compact('items','total_order'));
+       
+        return view('Admin.Customer.index', compact('items'));
     }
 
     /**

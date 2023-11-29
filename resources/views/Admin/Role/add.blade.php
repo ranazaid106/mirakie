@@ -1,5 +1,7 @@
 @extends('layouts.main')
+@section('yield', 'Role Create')
 @section('content')
+
 <style>
     /* The container */
     .container {
@@ -242,6 +244,7 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function() {
         // When the "checkAll" checkbox is clicked, check/uncheck all "item-checkbox" checkboxes

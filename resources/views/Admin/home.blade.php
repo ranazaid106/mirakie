@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('yield', 'Dashboard')
 @section('content')
 
 
@@ -100,7 +101,7 @@
               <i class="zmdi zmdi-calendar-note"></i>
             </div>
             <div class="text">
-              <h2>{{$order}}</h2>
+              <h2>{{$orders}}</h2>
               <span>Orders</span>
             </div>
           </div>
@@ -154,26 +155,26 @@
   @endcan
   <?php
   // dd($variation_count); ?>
-  {{-- @can('View Product Variation')
-  <a href="{{route('productvariation')}}" class="col-sm-6 col-lg-3">
-    <div class="overview-item overview-item--c4">
-      <div class="overview__inner">
-        <div class="overview-box clearfix">
-          <div class="icon">
-            <i class="zmdi zmdi-redo"></i>
-          </div>
-          <div class="text">
-            <h2>{{$variation_count}}</h2>
-            <span>Variations</span>
-          </div>
-        </div>
-        <div class="overview-chart">
+  <!--@can('View Product Variation')-->
+  <!--<a href="{{route('productvariation')}}" class="col-sm-6 col-lg-3">-->
+  <!--  <div class="overview-item overview-item--c4">-->
+  <!--    <div class="overview__inner">-->
+  <!--      <div class="overview-box clearfix">-->
+  <!--        <div class="icon">-->
+  <!--          <i class="zmdi zmdi-redo"></i>-->
+  <!--        </div>-->
+  <!--        <div class="text">-->
+  <!--          <h2></h2>-->
+  <!--          <span>Variations</span>-->
+  <!--        </div>-->
+  <!--      </div>-->
+  <!--      <div class="overview-chart">-->
           <!-- <canvas id="widgetChart4"></canvas> -->
-        </div>
-      </div>
-    </div>
-  </a>
-  @endcan --}}
+  <!--      </div>-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <!--</a>-->
+  <!--@endcan-->
 
 </div>
 

@@ -1,5 +1,7 @@
 @extends('layouts.main')
+@section('yield', 'Products')
 @section('content')
+
 <style>
     .pagination {
         display: flex;

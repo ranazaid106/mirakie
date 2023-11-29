@@ -1,4 +1,5 @@
 @extends('layouts.main')
+@section('yield', 'Orders')
 @section('content')
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -424,6 +425,10 @@ width:276px;
 
 
 
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <!-- Loader container -->
 <div class="loader-container" id="loaderContainer" style="display: none">
     <!-- Blurred background -->
@@ -436,6 +441,11 @@ width:276px;
   <div class="content">
     <!-- Your page content goes here -->
   </div>
+
+
+
+  
+
   
 <div class="row">
     <div class="col-md-12">
@@ -468,16 +478,49 @@ width:276px;
                             id="multiple_generate_pdf"> Generate Pdf</button>
                         </div> --}}
                 </div> 
+
+
+                <?php
+                $user = Auth::user(); // Get the currently logged in user
+                $users_id = Auth::id(); // Get the currently logged in user
+                $UserStat = App\Models\UserStatus::where('user_id', $users_id)->first();
+                
+                $order_role = App\Models\Role::where('id', $UserStat->status)->first();
+    
+                ?>
+
               
         <div class="col-lg-5 col-md-12 add_button_complete">
         
+            @php
+            $allowedRoles = ['Super Admin', 'Vender'];
+        @endphp
+
+        @if (in_array($order_role->name, $allowedRoles))
+
             <div class="table-data__tool-right">
                 <button class="au-btn au-btn-icon au-btn--green au-btn--small" id="responsive_work">
                     <a href="{{route('order_create')}}" style="color:white"> 
                         <i style="color:white;" class="zmdi zmdi-plus"></i>add order</a></button>
                     <button type="button" class="btn btn-primary advance_searching_btn" data-bs-toggle="modal" data-bs-target="#rightModal2" id="Advance__Search">
-                       Advance Search</button>
+                        Advance Search</button>
             </div>
+
+            @else
+            <div class="table-data__tool-right">
+                <button class="au-btn au-btn-icon au-btn--green au-btn--small" style=" margin-left: 174px;" id="responsive_work">
+                    <a href="{{route('order_create')}}" style="color:white"> 
+                        <i style="color:white;" class="zmdi zmdi-plus"></i>add order</a></button>
+                  
+            </div>
+
+
+            @endif
+
+           
+
+
+            
         </div>
     </div>
  
@@ -494,23 +537,36 @@ width:276px;
                     </div> 
                 </div>
             </div>
+
+
             <table class="table table-data2 load_datatable orderTable" id="orderTable" style=" margin-bottom: 20px;">
                 <thead>
                     <tr>
-                        <th ><input type="checkbox" name="check[]"   style="width: 17px;height:17px;" id="master" class="sub_chk_1"></th>
-                      
+
+                        @php
+                        $allowedRoles = ['Super Admin', 'Vender'];
+                    @endphp
+            
+                    @if (in_array($order_role->name, $allowedRoles))
+                       
+                    <th ><input type="checkbox" name="check[]"   style="width: 17px;height:17px;" id="master" class="sub_chk_1"></th>
+
+                    @endif
+
                         <th>Order No.</th>
-                        <th>Product Nmae</th>
+                        <th>Product Name</th>
                         <th>Price</th>
                         <th>Qty</th>
                         <th>Customer</th>
                         <th>Country</th>
                         <th>Country Code</th>
                         <th>Created By</th>
-                       
                         <th>Created At</th>
+                        <th>Delivery Date</th>
+                        @if (in_array($order_role->name, $allowedRoles))
                         <th>Download PDF</th>
                         <th>Download Excel</th>
+                        @endif
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -519,39 +575,92 @@ width:276px;
                     @isset($items)
                         
                     @foreach($items as $item)
+                    
+                   
                         
                     <tr class="tr-shadow select_{{$item->order_id}}">
-                        <td><input type="checkbox" style="margin-top: 15px;" value="{{$item->customer_id}}" name="check[]" class="sub_chk" data-id="{{$item->order_id}}" ></td>
+
+                        @php
+                        $allowedRoles = ['Super Admin', 'Vender'];
+                    @endphp
+            
+                    @if (in_array($order_role->name, $allowedRoles))
+                       
+                    <td><input type="checkbox" style="margin-top: 15px;" value="{{$item->customer_id}}" name="check[]" class="sub_chk" data-id="{{$item->order_id}}" ></td>
+
+                    @endif
+                    
+                    <?php
+                    //  dd($item);
+                    ?>
+              
                        
                         <td>
                             <span class="block-email">{{$item->order_number}}</span>
                         </td>
-                        <td class="desc">{{$item->name}}</td>
-                        <td class="desc">{{$item->price}}</td>
-                        <td class="desc">{{$item->qty}}</td>
+                        <td class="desc">{{$item->product_names ?? 'not found' }}</td>
+                        <td class="desc">{{$item->price ?? '0'}}</td>
+                        <td class="desc">{{$item->qty ?? '0' }}</td>
                         <td>
                             <span class="status--process">{{$item->first_name ?? 'not found'}} {{$item->last_name ?? 'not found'}}</span> 
                         </td>
                         <td class="desc">{{$item->select_country}}</td>
                         <td class="desc">{{$item->post_code ?? 'not found'}}</td>
-                        <td><span class="status--process">{{$item->name}}</span> </td>
-                        @if($item->created_at)
-                        <td class="desc">{{$item->created_at->format('Y-m-d')}}</td>
+                        <td><span class="status--process">{{$item->user_name}}</span> </td>
+                         @if($item->order_date)
+                       <?php
+                       // Convert the string to a DateTime object using Carbon
+                       $orderDate = \Carbon\Carbon::parse($item->order_date);
+                     
+                   ?>
+                        <td class="desc">{{$orderDate->format('Y/m/d g:i A')}}</td>
+                        {{-- <td class="desc">{{$orderDate->format('Y-m-d H:i:s')}}</td> --}}
+                        <?php
+                        //   dd($orderDate->format('Y-m-d H:i:s'));
+                        ?>
                         @else
                         <td class="desc"><span> not found</span></td>
-                        @endif
+                        @endif 
+
+                        @if($item->order_price)   
+                        <?php
+                       $orderDate = \Carbon\Carbon::parse($item->order_price);
+
+                        // $newDate = \Carbon\Carbon::parse($item->delivery_date)->format('Y-m-d H:i:s');
+                    ?>
+                         <td class="desc">{{$orderDate->format('Y-m-d')}}</td>
+                         
+                         @else
+                         <td class="desc"><span> not found</span></td>
+                         @endif 
+
+
+
+                        @if (in_array($order_role->name, $allowedRoles))
+                       
                         <td>
                             <a  href="{{ url('order/'.$item->order_id.'/customer/'.$item->customer_id.'/pdf' ) }}"   data-id="{{ $item->order_id }}" style="right:45%;cursor: pointer;" class="item " data-toggle="tooltip" data-placement="top" title="GENERATE PDF"><span class="material-symbols-outlined"> picture_as_pdf</span></a>
                          </td>
                          <td>
                             <a  href="{{ url('order/'.$item->order_id.'/customer/'.$item->customer_id.'/excel' ) }}"   data-id="{{ $item->order_id }}" style="right:45%;cursor: pointer;" class="item " data-toggle="tooltip" data-placement="top" title="GENERATE EXCEL"><span class="material-symbols-outlined">csv</span></a>
                          </td>
+    
+                        @endif
+
+
+                       
+
+
+
                       
                 <td>
                     <div class="table-data-feature"> 
                         @can('View Order')
                         <a href="{{ url('order_view',$item->order_id) }}" style="right:45%" class="item" data-toggle="tooltip" data-placement="top" title="View"> 
-                            <i class="fa fa-history"></i>
+                           
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+
+                            {{-- <i class="fa fa-history"></i> --}}
                          </a>
                           @endcan 
                           @can('Update Order')
@@ -572,7 +681,7 @@ width:276px;
                     @endforeach
                     @else
                         <tr>
-                            <td colspan="8">Not Found Orders</td>
+                            <td colspan="10">Not Found Orders</td>
                         </tr>
                     @endisset
                 </tbody>
@@ -660,9 +769,16 @@ width:276px;
                     <div class="row mb-1">
                         <div class="col-md-6">
                             <label><b>Agent Name  </b>(Optional) </label>
-                            <input type="text" id="agen_name" name="agen_name" class="form-control" placeholder="Agen Name"  >
+                            <input type="text" id="agen_name" name="agen_name" class="form-control search" placeholder="Agen Name"  >
                             <span class="correct_agen_plz" style="color:red"></span>
+                            <div style="display: none;height: 235px;overflow: auto;" class="searching_agent_bar" >
+                                <div style="padding-top: 12px;padding-bottom:6px;"><b class="Searched_search"> Searched Agents </b></div>
+                                <div id="suggestion-list"></div>
+                            </div>
+                            
                         </div>
+                        {{-- <input type="text" id="search" name="search"> --}}
+                        
                     
                         <div class="col-md-6">
                             <label><b>Zip Code</b> (Optional)  </label>
@@ -672,12 +788,16 @@ width:276px;
                     <div class="row mb-1">
                         <div class="col-md-6">
                             <label><b>Product Name</b>  (Optional) </label>
-                            <input type="text" id="product_name" name="product_name" class="form-control" placeholder="Product Name" >
+                            <input type="text" id="product_name" name="product_name" class="form-control search-product" placeholder="Product Name" >
+                            <div style="display: none; height: 100px; overflow: auto; " class="searching_product_bar">
+                               <div style="padding-top:13px;padding-bottom:6px;"><b> Searched Products </b></div>
+                               <div id="suggestion-list-product"></div>
+                            </div>
                         </div>
                    
                         <div class="col-md-6">
                             <label><b>Customer Name </b> (Optional)</label>
-                            <input type="text" id="customer_name" name="customer_name" class="form-control" placeholder="Customer Name">
+                            <input type="text" id="customer_name" name="customer_name" class="form-control" placeholder="Customer First Name">
                         </div>
                     </div>
                     <?php 
@@ -978,10 +1098,17 @@ $(document).ready(function() {
                      $('#close_button_ajax').click();
                     //  alert("hello");
 
-
+                    
 
                                     $.each(data.items, function (key, order) {
-                var timeAgo = moment(order.created_at).format('DD MMM YYYY');
+
+                                        console.log(order);
+                var timeAgo = moment(order.order_date).format('YYYY/MM/DD h:mm A');
+               
+                var delivery_date = moment(order.delivery_date).format('YYYY-MM-DD');
+
+                console.log(delivery_date);
+                console.log(order.post_country_code_get);
 
                 var pdfLink = '/order/' + order.order_id + '/customer/' + order.customer_id + '/pdf';
                 var excelLink = '/order/' + order.order_id + '/customer/' + order.customer_id + '/excel';
@@ -990,21 +1117,20 @@ $(document).ready(function() {
                     '<td><input type="checkbox" style="margin-top: 15px;" value="' + order.customer_id + '" name="check[]" class="sub_chk_subb" data-id="' + order.order_id + '" onclick=hello() ></td>' +
                     '<td><span class="block-email">' + order.order_number + '</span></td>' +
                     '<td class="desc">' + order.name + '</td>' +
-                    '<td class="desc">' + order.price + '</td>' +
+                    '<td class="desc">' + order.order_price + '</td>' +
                     '<td class="desc">' + order.qty + '</td>' +
-                    '<td><span class="status--process">' + order.first_name + ' ' + order.last_name + '</span></td>' +
+                    '<td><span class="status--process">' + order.first_name_customer + ' ' + order.last_name_customer + '</span></td>' +
                     '<td class="desc">' + order.select_country + '</td>' +
-                    '<td class="desc">' + order.post_code + '</td>' +
-                    '<td><span class="status--process">' + order.name + '</span></td>' +
+                    '<td class="desc">' + order.post_country_code_get + '</td>' +
+                    '<td><span class="status--process">' + order.user_name + '</span></td>' +
                     '<td class="desc">' + timeAgo + '</td>' +
+                    '<td class="desc">' + delivery_date + '</td>' +
                     '<td><a href="' + pdfLink + '" data-id="' + order.order_id + '" style="right:45%;cursor: pointer;" class="item" data-toggle="tooltip" data-placement="top" title="GENERATE PDF"><span class="material-symbols-outlined"> picture_as_pdf</span></a></td>' +
                     '<td><a href="' + excelLink + '" data-id="' + order.order_id + '" style="right:45%;cursor: pointer;" class="item" data-toggle="tooltip" data-placement="top" title="GENERATE EXCEL"><span class="material-symbols-outlined">csv</span></a></td>' +
-                    
-                    
                     '<td>' +
 
                     '<div class="table-data-feature">' +
-                    '@can("View Order")<a href="' + '/order_view/' + order.order_id + '" style="right:45%" class="item" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-history"></i></a>@endcan ' +
+                    '@can("View Order")<a href="' + '/order_view/' + order.order_id + '" style="right:45%" class="item" data-toggle="tooltip" data-placement="top" title="View"> <i class="fa fa-eye" aria-hidden="true"></i></a>@endcan ' +
                     '@can("Update Order")<a href="' + '/order_edit/' + order.order_id + '" style="right:45%" class="item" data-toggle="tooltip" data-placement="top" title="Edit"><i class="zmdi zmdi-edit"></i></a>@endcan ' +
                     '@can("Delete Order")<a data-id="' + order.order_id + '" style="right:45%;cursor: pointer;" class="item delete_order_one_item" data-toggle="tooltip" data-placement="top" title="Delete"><i class="zmdi zmdi-delete"></i></a>@endcan' +
                     '</div>' +
@@ -1015,15 +1141,12 @@ $(document).ready(function() {
 
                 $('.append_order_data').append(tableRow);
 });
-
         
                     }else{
                             $('#close_button_ajax').click();
                         $('.append_order_data').html("");
                         $('.append_order_data').append(' <tr><td colspan="12">Not Found Orders</td></tr>');
                     }
-         
-
          
             }else{
                 Swal.fire(
@@ -1042,28 +1165,17 @@ $(document).ready(function() {
 
             
         }
-
-
-
-          
-                            
   
     });
     </script>
 
 
 <script>
-    
     $(document).ready(function() {
             //on page load uncheck any ticked checkboxes
             $("input:checkbox:checked").prop('checked', false);
         });
         </script>
-    
-    
-
-
-
     <script>
 
     $(document).on('click', '.delete_order_one_item', function(e) {
@@ -1114,9 +1226,8 @@ $(document).ready(function() {
     
                                 }
     });
+    
     });
-    
-    
          //Checkbox  select multiples Products with images  deleted
          $(document).on('click', '#product_checkedbox_get_id', function(e) {
                         e.preventDefault();

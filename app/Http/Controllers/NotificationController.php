@@ -23,17 +23,33 @@ class NotificationController extends Controller
         // user notification show
 
 
+
+        
         $user = Auth::user(); // Get the currently logged in user
         $users_id = Auth::id(); // Get the currently logged in user
-        $orders = UserStatus::where('user_id', $users_id)->first();
-        $order_role = Role::where('id', $orders->status)->first();
+        $UserStat = UserStatus::where('user_id', $users_id)->first();
+        
+        $order_role = Role::where('id', $UserStat->status)->first();
+
+        
+        $allowedRoles = ['Super Admin', 'Vender'];
+
+    
+        // $user = Auth::user(); // Get the currently logged in user
+        // $users_id = Auth::id(); // Get the currently logged in user
+        // $orders = UserStatus::where('user_id', $users_id)->first();
+        // $order_role = Role::where('id', $orders->status)->first();
         
         $notificationHTML = '';
         
-        if ($order_role->name === 'Super Admin') {
+        if (in_array($order_role->name, $allowedRoles)) {
             // Code for Super Admin users
-            $Users = User::where('alert', '0')->get();
-            $Users_count = User::where('alert', '0')->count();
+            $Users = User::where('alert', '0')->latest()->take(6)->get();
+            $Users_count = count($Users);
+
+
+            // $Users = User::where('alert', '0')->get();
+            // $Users_count = User::where('alert', '0')->count();
         
             foreach ($Users as $notification) {
                 $notificationDate = Carbon::createFromFormat('Y-m-d H:i:s', $notification['created_at']);
@@ -47,9 +63,9 @@ class NotificationController extends Controller
         
                 // Check if 'seen' is 0 or 1 and conditionally display the notification
                 if ($notification['seen'] == 0) {
-                    $notificationHTML .= '<p> You got a User notification <span style="color: red">New</span></p>';
+                    $notificationHTML .= '<p> New User added<span style="color: red"> New</span></p>';
                 } else {
-                    $notificationHTML .= '<p> You got a User notification </p>';
+                    $notificationHTML .= '<p> New User added </p>';
                 }
                 $notificationHTML .= '<span class="date">' . $formattedDate . '</span>';
                 $notificationHTML .= '</div>';
@@ -57,10 +73,15 @@ class NotificationController extends Controller
             }
         } else {
             // Code for non-Super Admin users
-            $Users = User::where('id', $users_id)->where('alert', '0')->get();
-            $Users_count = User::where('id', $users_id)->where('alert', '0')->count();
+            $Users = User::where('id', $users_id)->where('alert', '0')->latest()->take(6)->get();
+            $Users_count = count($Users);
+
+            // $Users_count = User::where('id', $users_id)->where('alert', '0')->count();
         
 
+           
+        
+      
 
            foreach ($Users as $notification) {
                 $notificationDate = Carbon::createFromFormat('Y-m-d H:i:s', $notification['created_at']);
@@ -74,9 +95,9 @@ class NotificationController extends Controller
         
                 // Check if 'seen' is 0 or 1 and conditionally display the notification
                 if ($notification['seen'] == 0) {
-                    $notificationHTML .= '<p> You got a User notification <span style="color: red">New</span></p>';
+                    $notificationHTML .= '<p> New User added <span style="color: red"> New</span></p>';
                 } else {
-                    $notificationHTML .= '<p> You got a User notification </p>';
+                    $notificationHTML .= '<p> New User added </p>';
                 }
                 $notificationHTML .= '<span class="date">' . $formattedDate . '</span>';
                 $notificationHTML .= '</div>';
@@ -91,23 +112,36 @@ class NotificationController extends Controller
 
         // user notification show
 
+       
 
 
  // Customer notification show
 
+
  $user = Auth::user(); // Get the currently logged in user
  $users_id = Auth::id(); // Get the currently logged in user
- $orders = UserStatus::where('user_id', $users_id)->first();
- $order_role = Role::where('id', $orders->status)->first();
+ $UserStat = UserStatus::where('user_id', $users_id)->first();
+ 
+ $order_role = Role::where('id', $UserStat->status)->first();
+
+ 
+ $allowedRoles = ['Super Admin', 'Vender'];
+
+
+//  $user = Auth::user(); // Get the currently logged in user
+//  $users_id = Auth::id(); // Get the currently logged in user
+//  $orders = UserStatus::where('user_id', $users_id)->first();
+//  $order_role = Role::where('id', $orders->status)->first();
  
  $notificationCustomer = '';
  
- if ($order_role->name === 'Super Admin') {
+ if (in_array($order_role->name, $allowedRoles)) {
 
+  
 
-        $Customers = Customer::where('alert', '0')->get();
-
-        $Customerscount = Customer::where('alert', '0')->count();
+        $Customers = Customer::where('alert', '0')->latest()->take(6)->get();
+        $Customerscount = count($Customers);
+        // $Customerscount = Customer::where('alert', '0')->count();
 
 
 foreach ($Customers as $Customer) {
@@ -122,9 +156,9 @@ foreach ($Customers as $Customer) {
 
     // Check if 'seen' is 0 or 1 and conditionally display the notification
     if ($Customer['seen'] == 0) {
-        $notificationCustomer .= '<p> You got a Customer notification <span style="color: red">New</span></p>';
+        $notificationCustomer .= '<p> New customer added <span style="color: red"> New</span></p>';
     }else{
-        $notificationCustomer .= '<p> You got a User notification </p>';
+        $notificationCustomer .= '<p> New customer added </p>';
     }
     $notificationCustomer .= '<span class="date">' . $formattedDatecustomer . '</span>';
     $notificationCustomer .= '</div>';
@@ -133,22 +167,28 @@ foreach ($Customers as $Customer) {
 
  }else{
 
+   
+
+
 
     $Customers = Order::select("*")
     ->leftJoin("customers","customers.id","orders.customer_id")
     ->where('orders.user_id', $users_id)
-    ->where('customers.alert', '0')->get();
-
-
-    $Customerscount = Order::select("*")
-    ->leftJoin("customers","customers.id","orders.customer_id")
-    ->where('orders.user_id', $users_id)
     ->where('customers.alert', '0')
-    ->count();
+    ->take(6) // Sirf 6 customers ko retrieve karega.
+    ->get();
+  
+    $Customerscount = $Customers->count();
+
+    // $Customerscount = Order::select("*")
+    // ->leftJoin("customers","customers.id","orders.customer_id")
+    // ->where('orders.user_id', $users_id)
+    // ->where('customers.alert', '0')
+    // ->count();
 
 
       
-    $Customerscount = Customer::where('id', $users_id)->where('alert', '0')->count();
+    // $Customerscount = Customer::where('id', $users_id)->where('alert', '0')->count();
 
     foreach ($Customers as $Customer) {
         $notificationDatecustomer = Carbon::createFromFormat('Y-m-d H:i:s', $Customer['created_at']);
@@ -162,9 +202,9 @@ foreach ($Customers as $Customer) {
     
         // Check if 'seen' is 0 or 1 and conditionally display the notification
         if ($Customer['seen'] == 0) {
-            $notificationCustomer .= '<p> You got a Customer notification <span style="color: red">New</span></p>';
+            $notificationCustomer .= '<p> New customer added <span style="color: red"> New</span></p>';
         }else{
-            $notificationCustomer .= '<p> You got a User notification </p>';
+            $notificationCustomer .= '<p> New customer added </p>';
         }
         $notificationCustomer .= '<span class="date">' . $formattedDatecustomer . '</span>';
         $notificationCustomer .= '</div>';
@@ -180,20 +220,34 @@ foreach ($Customers as $Customer) {
 
   // Order notification show
 
- $user = Auth::user(); // Get the currently logged in user
+
+  $user = Auth::user(); // Get the currently logged in user
  $users_id = Auth::id(); // Get the currently logged in user
- $orders = UserStatus::where('user_id', $users_id)->first();
- $order_role = Role::where('id', $orders->status)->first();
+ $UserStat = UserStatus::where('user_id', $users_id)->first();
+ 
+ $order_role = Role::where('id', $UserStat->status)->first();
+
+ 
+ $allowedRoles = ['Super Admin', 'Vender'];
+
+
+
+//  $user = Auth::user(); // Get the currently logged in user
+//  $users_id = Auth::id(); // Get the currently logged in user
+//  $orders = UserStatus::where('user_id', $users_id)->first();
+//  $order_role = Role::where('id', $orders->status)->first();
  
  $notificationOrders = '';
  
- if ($order_role->name === 'Super Admin') {
+ if (in_array($order_role->name, $allowedRoles)) {
 
 
-$Orders = Order::where('alert', '0')->get();
+   
 
+$Orders = Order::where('alert', '0')->latest()->take(6)->get();
+$Orderscount = count($Orders);
       
-$Orderscount = Order::where('alert', '0')->count();
+// $Orderscount = Order::where('alert', '0')->count();
 
 
 
@@ -209,9 +263,9 @@ $notificationOrders .= '<div class="content">';
 
 // Check if 'seen' is 0 or 1 and conditionally display the notification
 if ($Order['seen'] == 0) {
-$notificationOrders .= '<p> You got a Order notification <span style="color: red">New</span></p>';
+$notificationOrders .= '<p> New order created <span style="color: red"> New</span></p>';
 }else{
-$notificationOrders .= '<p> You got a User notification </p>';
+$notificationOrders .= '<p> New order created </p>';
 }
 $notificationOrders .= '<span class="date">' . $formattedDateorder . '</span>';
 $notificationOrders .= '</div>';
@@ -220,10 +274,15 @@ $notificationOrders .= '</div></a>';
 
  }else{
 
-    $Orders = Order::where('user_id', $users_id)->where('alert', '0')->get();
 
-      
-    $Orderscount = Order::where('user_id', $users_id)->where('alert', '0')->count();
+
+
+    $Orders = Order::where('user_id', $users_id)->where('alert', '0')->take(6) // Sirf 6 customers ko retrieve karega.
+    ->get();
+
+    $Orderscount = $Orders->count();
+
+    // $Orderscount = Order::where('user_id', $users_id)->where('alert', '0')->count();
     
 foreach ($Orders as $Order) {
     $notificationDateorder = Carbon::createFromFormat('Y-m-d H:i:s', $Order['created_at']);
@@ -237,9 +296,9 @@ foreach ($Orders as $Order) {
     
     // Check if 'seen' is 0 or 1 and conditionally display the notification
     if ($Order['seen'] == 0) {
-    $notificationOrders .= '<p> You got a Order notification <span style="color: red">New</span></p>';
+    $notificationOrders .= '<p> New order created <span style="color: red"> New</span></p>';
     }else{
-    $notificationOrders .= '<p> You got a User notification </p>';
+    $notificationOrders .= '<p> New order created </p>';
     }
     $notificationOrders .= '<span class="date">' . $formattedDateorder . '</span>';
     $notificationOrders .= '</div>';
@@ -252,26 +311,36 @@ foreach ($Orders as $Order) {
   // Order notification show
 
 
-
   // Product notification show
 
 
-
-
   $user = Auth::user(); // Get the currently logged in user
-  $users_id = Auth::id(); // Get the currently logged in user
-  $orders = UserStatus::where('user_id', $users_id)->first();
-  $order_role = Role::where('id', $orders->status)->first();
+ $users_id = Auth::id(); // Get the currently logged in user
+ $UserStat = UserStatus::where('user_id', $users_id)->first();
+ 
+ $order_role = Role::where('id', $UserStat->status)->first();
+
+ 
+ $allowedRoles = ['Super Admin', 'Vender'];
+
+
+
+//   $user = Auth::user(); // Get the currently logged in user
+//   $users_id = Auth::id(); // Get the currently logged in user
+//   $orders = UserStatus::where('user_id', $users_id)->first();
+//   $order_role = Role::where('id', $orders->status)->first();
   
   $notificationproduct = '';
   
-  if ($order_role->name === 'Super Admin') {
+  if (in_array($order_role->name, $allowedRoles)) {
 
 
-$Products = Product::where('alert', '0')->get();
+  
 
-      
-$Productcount = Product::where('alert', '0')->count();
+$Products = Product::where('alert', '0')->latest()->take(6)->get();
+
+      $Productcount = count($Products);
+// $Productcount = Product::where('alert', '0')->count();
 
 
 
@@ -287,9 +356,9 @@ $notificationproduct .= '<div class="content">';
 
 // Check if 'seen' is 0 or 1 and conditionally display the notification
 if ($Product['seen'] == 0) {
-$notificationproduct .= '<p> You got a Product notification <span style="color: red">New</span></p>';
+$notificationproduct .= '<p> New Product added  <span style="color: red"> New</span></p>';
 }else{
-$notificationproduct .= '<p> You got a User notification </p>';
+$notificationproduct .= '<p> New Product added  </p>';
 }
 $notificationproduct .= '<span class="date">' . $formattedDateproduct . '</span>';
 $notificationproduct .= '</div>';
@@ -303,14 +372,18 @@ $notificationproduct .= '</div></a>';
     $Products = Order::select("*")
     ->leftJoin("products","products.id","orders.product_id")
     ->where('orders.user_id', $users_id)
-    ->where('products.alert', '0')->get();
-
-
-    $Productcount = Order::select("*")
-    ->leftJoin("products","products.id","orders.product_id")
-    ->where('orders.user_id', $users_id)
     ->where('products.alert', '0')
-    ->count();
+    ->take(6) // Sirf 6 customers ko retrieve karega.
+    ->get();
+
+    $Productcount = $Products->count();
+
+
+    // $Productcount = Order::select("*")
+    // ->leftJoin("products","products.id","orders.product_id")
+    // ->where('orders.user_id', $users_id)
+    // ->where('products.alert', '0')
+    // ->count();
     
     foreach ($Products as $Product) {
     $notificationDateproduct = Carbon::createFromFormat('Y-m-d H:i:s', $Product['created_at']);
@@ -324,9 +397,9 @@ $notificationproduct .= '</div></a>';
     
     // Check if 'seen' is 0 or 1 and conditionally display the notification
     if ($Product['seen'] == 0) {
-    $notificationproduct .= '<p> You got a Product notification <span style="color: red">New</span></p>';
+    $notificationproduct .= '<p> New Product added  <span style="color: red"> New</span></p>';
     }else{
-    $notificationproduct .= '<p> You got a User notification </p>';
+    $notificationproduct .= '<p> New Product added  </p>';
     }
     $notificationproduct .= '<span class="date">' . $formattedDateproduct . '</span>';
     $notificationproduct .= '</div>';
@@ -337,13 +410,22 @@ $notificationproduct .= '</div></a>';
   }
 
  // Product notification show
-
+//  dd($notificationproduct);
 
 $total_count_all = $Users_count + $Customerscount + $Orderscount + $Productcount ;
+
+
 
         
         return response()->json(['success' => $notificationHTML , 'Users_count'=> $total_count_all , 'notificationCustomer'=>$notificationCustomer , 'notificationOrders'=> $notificationOrders , 'notificationproduct'=> $notificationproduct], 200);
     }
+
+
+
+
+
+
+
 
 
     public function notification_update(Request $request){
@@ -386,19 +468,6 @@ if($request->dataname == 'user'){
     ]);
     return response()->json(['order' => $request->dataname]);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
 }

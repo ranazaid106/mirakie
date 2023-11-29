@@ -1,11 +1,24 @@
 @extends('layouts.main')
+@section('yield', 'Order Edit')
 @section('content')
+
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" media="all">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet" media="all">
+
+{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@18.1.1/build/css/intlTelInput.css"> --}}
+
+
+    <!-- Country code Dropdown css -->
+
+    <link rel="stylesheet" href="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/css/intlTelInput.css"/>
+    <script src="https://cdn.tutorialjinni.com/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+     <!-- Country code Dropdown css -->
+
 <style>
     * {
         margin: 0;
@@ -315,9 +328,9 @@
                             @csrf
                             <!-- progressbar -->
                             <ul id="progressbar"  >
-                                <li style="margin-left: 46px;" class="active" id="account"><strong>Order Details</strong></li>
+                                <li class="active" id="account"><strong>Order Details</strong></li>
                                 <li  id="payment"><strong>Payment</strong></li>
-                                {{-- <li   id="personal"><strong>Customer Info</strong></li> --}}
+                                <li   id="personal"><strong>Customer Info</strong></li>
                                
                                 <li id="confirm"><strong>Finish</strong></li>
                             </ul>
@@ -331,7 +344,7 @@
                                     </label>
                                 </br>
                                 <?php
-                                // dd($country);
+                                //  dd($item);
                                 ?>
                                     <select class="form-control changecountry" name="country" style="color:#686B6D" id="topField" onchange="enableFields(this.value)" required>
 
@@ -750,23 +763,37 @@
                                                       
                                                     </select></br>
                                                     </div>
-                                                    <div class="with_diamond_design">
-                
-                                                    <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design <span style="color:red">*</span></label></br>
-                                                    <select class="form-control" name="with_diamond_design" style="color:#686B6D" id="designField"   >
-                                                        <option value="" style="color:#686B6D">select Design</option>
-                                                        <option value="Split-Cube Diamond" {{$detailOrder->with_diamond_design == 'Split-Cube Diamond' ? 'selected': '' }} style="color:#686B6D">Split-Cube Diamond</option>
-                                                        <option value="Split-Cube button" {{$detailOrder->with_diamond_design == 'Split-Cube button' ? 'selected': '' }} style="color:#686B6D">Split-Cube button</option>
-                                                        <option value="Split-Panel" {{$detailOrder->with_diamond_design == 'Split-Panel' ? 'selected': '' }} style="color:#686B6D">Split-Panel</option>
-                                                        <option value="Split-Plain" {{$detailOrder->with_diamond_design == 'Split-Plain' ? 'selected': '' }} style="color:#686B6D">Split-Plain </option>
-                                                        <option value="Split-Florida Diamond" {{$detailOrder->with_diamond_design == 'Split-Florida Diamond' ? 'selected': '' }} style="color:#686B6D">Split-Florida Diamond </option>
-                                                        <option value="Split-Florida Button" {{$detailOrder->with_diamond_design == 'Split-Florida Button' ? 'selected': '' }} style="color:#686B6D">Split-Florida Button</option>
-                                                        <option value="Floor Standing-Florida Diamond" {{$detailOrder->with_diamond_design == 'Floor Standing-Florida Diamond' ? 'selected': '' }} style="color:#686B6D">Floor Standing-Florida Diamond </option>
-                                                        <option value="Floor Standing-Florida Button" {{$detailOrder->with_diamond_design == 'Floor Standing-Florida Button' ? 'selected': '' }} style="color:#686B6D">Floor Standing-Florida Button </option>
-                                                        <option value="Floor Standing Panel" {{$detailOrder->with_diamond_design == 'Floor Standing Panel' ? 'selected': '' }} style="color:#686B6D">Floor Standing Panel </option>
-                
-                                                    </select></br>
-                                                    </div>
+                                        <div class="with_diamond_design">
+    
+                                        <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Design <span style="color:red">*</span></label></br>
+                                        <select class="form-control" name="with_diamond_design" style="color:#686B6D" id="designField"   >
+                                            <option value="" style="color:#686B6D">select Design</option>
+                                             <option value="Florida" {{$detailOrder->with_diamond_design == 'Florida' ? 'selected': '' }} style="color:#686B6D">Florida</option>
+                                            <option value="Hilton" {{$detailOrder->with_diamond_design == 'Hilton' ? 'selected': '' }}  style="color:#686B6D">Hilton</option>
+                                            <option value="Cube" {{$detailOrder->with_diamond_design == 'Cube' ? 'selected': '' }}  style="color:#686B6D">Cube</option>
+                                            <option value="Vivinne Panel" {{$detailOrder->with_diamond_design == 'Vivinne Panel' ? 'selected': '' }}  style="color:#686B6D">Vivinne Panel</option>
+                                            <option value="panel" {{$detailOrder->with_diamond_design == 'panel' ? 'selected': '' }}  style="color:#686B6D">panel</option>
+                                            <option value="Sleigh"  {{$detailOrder->with_diamond_design == 'Sleigh' ? 'selected': '' }} style="color:#686B6D">Sleigh</option>
+                                            <option value="Arizona" {{$detailOrder->with_diamond_design == 'Arizona' ? 'selected': '' }}  style="color:#686B6D">Arizona</option>
+                                            <option value="Oxford"  {{$detailOrder->with_diamond_design == 'Oxford' ? 'selected': '' }} style="color:#686B6D">Oxford</option>
+                                            <option value="Ammbassdor" {{$detailOrder->with_diamond_design == 'Ammbassdor' ? 'selected': '' }}  style="color:#686B6D">Ammbassdor</option>
+                                            <option value="Mini ammbassdor"  {{$detailOrder->with_diamond_design == 'Mini ammbassdor' ? 'selected': '' }} style="color:#686B6D">Mini ammbassdor</option>
+                                            <option value="Mini Arizona" {{$detailOrder->with_diamond_design == '"Mini Arizona' ? 'selected': '' }}  style="color:#686B6D">Mini Arizona</option> 
+
+                                            
+
+                                            {{-- <option value="Split-Cube Diamond" {{$detailOrder->with_diamond_design == 'Split-Cube Diamond' ? 'selected': '' }} style="color:#686B6D">Split-Cube Diamond</option>
+                                            <option value="Split-Cube button" {{$detailOrder->with_diamond_design == 'Split-Cube button' ? 'selected': '' }} style="color:#686B6D">Split-Cube button</option>
+                                            <option value="Split-Panel" {{$detailOrder->with_diamond_design == 'Split-Panel' ? 'selected': '' }} style="color:#686B6D">Split-Panel</option>
+                                            <option value="Split-Plain" {{$detailOrder->with_diamond_design == 'Split-Plain' ? 'selected': '' }} style="color:#686B6D">Split-Plain </option>
+                                            <option value="Split-Florida Diamond" {{$detailOrder->with_diamond_design == 'Split-Florida Diamond' ? 'selected': '' }} style="color:#686B6D">Split-Florida Diamond </option>
+                                            <option value="Split-Florida Button" {{$detailOrder->with_diamond_design == 'Split-Florida Button' ? 'selected': '' }} style="color:#686B6D">Split-Florida Button</option>
+                                            <option value="Floor Standing-Florida Diamond" {{$detailOrder->with_diamond_design == 'Floor Standing-Florida Diamond' ? 'selected': '' }} style="color:#686B6D">Floor Standing-Florida Diamond </option>
+                                            <option value="Floor Standing-Florida Button" {{$detailOrder->with_diamond_design == 'Floor Standing-Florida Button' ? 'selected': '' }} style="color:#686B6D">Floor Standing-Florida Button </option>
+                                            <option value="Floor Standing Panel" {{$detailOrder->with_diamond_design == 'Floor Standing Panel' ? 'selected': '' }} style="color:#686B6D">Floor Standing Panel </option> --}}
+    
+                                        </select></br>
+                                        </div>
                                                     <div class="with_diamond_color">
                 
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Color <span style="color:red">*</span></label></br>
@@ -822,8 +849,13 @@
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Diamond&button  <span style="color:red">*</span></label></br>
                                                     <select class="form-control" name="with_diamond_diamond_button" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Diamond&button</option>
+                                                        {{-- <option value="Diamond" style="color:#686B6D">Diamond</option>
+                                                        <option value="Button" style="color:#686B6D">Button</option>
+                                                        <option value="N/A" style="color:#686B6D">N/A</option> --}}
+
                                                         <option value="Diamond" {{$detailOrder->with_diamond_button_diamond == 'Diamond' ? 'selected': '' }} style="color:#686B6D">Diamond</option>
                                                         <option value="Button" {{$detailOrder->with_diamond_button_diamond == 'Button' ? 'selected': '' }} style="color:#686B6D">Button</option>
+                                                        <option value="N/A"  {{$detailOrder->with_diamond_button_diamond == 'N/A' ? 'selected': '' }} style="color:#686B6D">N/A</option>
                                                     
                                                     </select></br> 
                                                     </div>
@@ -833,9 +865,13 @@
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Storage  <span style="color:red">*</span></label></br>
                                                     <select class="form-control" name="with_diamond_storage" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Storage</option>
+                                                        {{-- <option value="Metal Gaslift" style="color:#686B6D">Metal Gaslift </option>
+                                                        <option value="Board Gaslift" style="color:#686B6D">Board Gaslift </option>
+                                                        <option value="No " style="color:#686B6D">No </option> --}}
                                                         <option value="Metal Gaslift" {{$detailOrder->with_diamond_storage == 'Metal Gaslift' ? 'selected': '' }} style="color:#686B6D">Metal Gaslift </option>
                                                         <option value="Board Gaslift" {{$detailOrder->with_diamond_storage == 'Board Gaslift' ? 'selected': '' }} style="color:#686B6D">Board Gaslift </option>
-                                                    
+                                                      
+                                                        <option value="No"  {{$detailOrder->with_diamond_storage == 'No' ? 'selected': '' }} style="color:#686B6D">No </option>
                                                     </select></br> 
                                                     </div>
                                                     <div class="with_diamond_base">
@@ -844,9 +880,12 @@
                                                     <span></span><label class="pay" style="margin-top: 5px; font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Select Base  <span style="color:red">*</span></label></br>
                                                     <select class="form-control" name="with_diamond_base" style="color:#686B6D" id="designField"  >
                                                         <option value="" style="color:#686B6D">select Base </option>
-                                                        <option value="Wooden Slates" {{$detailOrder->with_diamond_base == 'Wooden Slates' ? 'selected': '' }} style="color:#686B6D">Wooden Slates</option>
-                                                        <option value="Solid base" {{$detailOrder->with_diamond_base == 'Solid base' ? 'selected': '' }} style="color:#686B6D">Solid base</option>
-                                                    
+                                                <option value="Wooden Slates" {{$detailOrder->with_diamond_base == 'Wooden Slates' ? 'selected': '' }} style="color:#686B6D">Wooden Slates</option>
+                                                <option value="Solid base" {{$detailOrder->with_diamond_base == 'Solid base' ? 'selected': '' }} style="color:#686B6D">Solid base</option>
+
+                                                {{-- <option value="Wooden Slates" {{$detailOrder->with_diamond_base == 'Wooden Slates' ? 'selected': '' }} style="color:#686B6D">Wooden Slates</option>
+                                                <option value="Solid base" {{$detailOrder->with_diamond_base == 'Solid base' ? 'selected': '' }} style="color:#686B6D">Solid base</option> --}}
+                                            
                                                     </select></br> 
                                                     </div>
                                                     <div class="with_diamond_mattrees>
@@ -1347,15 +1386,16 @@
     .disaplayInput{
     display: none;
     }
-    
+    .iti {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
     </style>
     {{-- Delivery status --}}
-
-
-
-
-
-                          
+    @if (isset($item->delivery_status) && ($item->delivery_status == 'complete' || $item->delivery_status == 'inprocess' || $item->delivery_status == 'cancel' || $item->delivery_status != "")) 
+  
+       
 
                                     <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Delivery status ( optional )</label></br>
 
@@ -1376,7 +1416,7 @@
                                     </br>
                                         @else
 
-                            <div id="textSelectdiv_hide" style="display: none">
+                            <div id="textSelectdiv_hide" class="textSelectdiv_hide" style="display: none">
                                 <select  id="orderdelivery" name="delivery_status_select"  class="select form-control" style="display: inline;color:#686B6D">
                                 <option value="" style="color:#686B6D">Delivery status</option>
                                 <option value="complete" style="color:#686B6D">Complete</option>
@@ -1387,7 +1427,7 @@
 
                             </div>
                                         
-                             <div id="inputDiv_hide" class="form-outline ">
+                             <div id="inputDiv_hide" class="form-outline inputDiv_hide">
                                 <input type="text" id="form12" name="delivery_status"   class="form-control " value="{{ $item->delivery_status }}"  />
 
                                 <input type="hidden" name="" id="hidden_vali_1" value="{{ $item->delivery_status }}" >
@@ -1395,6 +1435,33 @@
                                 </div>
 
                                 @endif
+            @else
+
+
+            <div id="textSelectdiv_hide" class="textSelectdiv_hide" style="display: none">
+                <select  id="orderdelivery" name="delivery_status_select"  class="select form-control" style="display: inline;color:#686B6D">
+                <option value="" style="color:#686B6D">Delivery status</option>
+                <option value="complete" style="color:#686B6D">Complete</option>
+                <option value="inprocess" style="color:#686B6D">Inprocess</option>
+                <option value="cancel" style="color:#686B6D">Canceled</option>
+                <option onclick="delivery_status_option_hide()" >Enter your custom option here</option>
+                </select>
+
+            </div>
+                        
+             <div id="inputDiv_hide"  class="form-outline inputDiv_hide">
+                <input type="text" id="form12" name="delivery_status"   class="form-control "  />
+
+                <input type="hidden" name="" id="hidden_vali_1" >
+                <label onclick="delivery_status_input_hide()" id="inputLabel_1" class="form-label " for="form12" style="cursor: pointer"><b>Select Option</b></label>
+                </div>
+
+
+
+@endif
+
+
+
                             {{-- <label class="form-label select-label">Example label</label> --}}
                            
 
@@ -1481,26 +1548,50 @@
 
                                 </div>
                                 <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                                {{-- <input type="button" name="next" class="next action-button" value="Next Step" /> --}}
-                                <input id="confirms" type="submit" name="make_payment" class="next9 action-button" value="Confirm" />
+                                <input type="button" name="next" class="next action-button" value="Next Step" />
+                                {{-- <input id="confirms" type="submit" name="make_payment" class="next9 action-button" value="Confirm" /> --}}
 
                                 
                                 
                             </fieldset>
          
-                            {{-- <fieldset>
+                            <fieldset>
+
                                 <div class="form-card">
-                                    <input type="text" name="first_name" placeholder="First Name" />
-                                    <input type="text" name="last_name" placeholder="Last Name" />
-                                    <input type="email" name="email" placeholder="Email Id" />
-                                    <input type="text" name="phone" placeholder="Phone Number" />
-                                    <input type="text" name="post_code" placeholder="Post Code" />
+                                    <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">First Name <span style="color:red">*</span></label></br>
+                                    <input type="text" value="{{ $customers->first_name ?? '' }}" name="first_name" id="orderfirstname" placeholder="First Name" />
+                                    <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Last Name ( optional )</label></br>
+                                    <input type="text" name="last_name" value="{{ $customers->last_name ?? '' }}" id="orderlastname" placeholder="Last Name" />
+                                    <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Email ( optional )</label></br>
+                                    <input type="email" name="email" value="{{ $customers->email ?? '' }}"  id="orderemail" placeholder="Email Id" />
+
+
+                                 
+                                    <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Phone Number <span style="color:red">*</span></label></br>
+                                    <input type="hidden" value="" name="mobile_code"  id="mobile_code">
+
+                                                                                            
+                                    <input class="form-control" placeholder="Enter Number" value="{{ $customers->phone_number ?? '' }}"  name="phone" type="text" id="phone"  required autocomplete="phone"/> 
+
+                                  
+
+                                    <input type="hidden" name="number_code"   id="pro_mobile_code" class="form-control phone_call">
+
+
+                                    <br/>
+                                    <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Address <span style="color:red">*</span></label></br>
+                                
+                                    <textarea rows="2" id="orderaddress" name="address" placeholder="Address" cols="10">{{ $customers->address ?? '' }} </textarea>
+                                    
+                                 
+                                    <label class="pay" style="font-size:16px; font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif">Post Code <span style="color:red">*</span></label></br>
+                                    <input type="text" name="post_code" value="{{ $customers->post_code ?? '' }}" id="orderpostcode" placeholder="Post Code" />
                                   
                                 </div>
                                 <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
-                                <input id="confirms" type="submit" name="make_payment" class="next action-button" value="Confirm" />
+                                <input id="confirms" type="submit" name="make_payment" class="next action-button  phone_no_get " value="Confirm" />
 
-                            </fieldset> --}}
+                            </fieldset>
 
 
                           
@@ -1534,13 +1625,41 @@
 </div>
 
 
+
+<script src="{{ asset('admin/assets/js/jquery-3.5.1.min.js')}}"></script>
+{{-- Delivery status --}}
+
+<script>
+    $(document).ready(function(){
+      $(".phone_no_get").click(function(){
+        var divContents = $('.iti__selected-dial-code').text();
+         $('#pro_mobile_code').val(divContents);
+        
+      });
+    });
+</script>
+    
+
+
+<!-- Country code Dropdown js-->
+<script>
+    var input = document.querySelector("#phone");
+    window.intlTelInput(input, {
+        separateDialCode: true,
+        excludeCountries: ["in", "il"],
+        preferredCountries: ["pk", "ru", "jp", "no"]
+    });
+</script>
+ <!-- Country code Dropdown js-->
+
+
 <script>
 
 function delivery_status_input_hide()
 {
    
-    $('#textSelectdiv_hide').show();
-    $('#inputDiv_hide').css('display', 'none');
+    $('.textSelectdiv_hide').show();
+    $('.inputDiv_hide').css('display', 'none');
 
     var hide_values = $('#hidden_vali_1').val();
     $('#form12').val(hide_values);
@@ -1550,8 +1669,8 @@ function delivery_status_input_hide()
 function delivery_status_option_hide()
 {
    
-    $('#textSelectdiv_hide').css('display', 'none');
-    $('#inputDiv_hide').show(); 
+    $('.textSelectdiv_hide').css('display', 'none');
+    $('.inputDiv_hide').show(); 
 }
 
 
@@ -1641,9 +1760,6 @@ function delivery_status_option_hide()
         $(".main_ottoman_diven_div").hide();
         $(".second_button").hide();
         $(".third_button").hide();
-
-
-
 
         
     });
@@ -2350,6 +2466,8 @@ current_fs.animate({
 
     }
 </script>
+
+
 <script>
     function submit_universal_form(id){
         event.preventDefault();

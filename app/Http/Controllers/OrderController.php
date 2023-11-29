@@ -10,7 +10,6 @@ use App\Models\Customer;
 use App\Models\UserStatus;
 use App\Models\Orderdetail;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\OrderRepositoryInterface;
@@ -31,16 +30,23 @@ if($request->agen_name){
     if($agent_search){
         $startDate = $request->date_from;
         $endDate = $request->date_to;
-    
-        $items = Order::select("*")
+  
+        $items = Order::select("*" ,
+        DB::raw('(select price from orders where orderdetails.order_id  = orders.id ) as order_price'),
+        DB::raw('(select created_at from orders where orderdetails.order_id  = orders.id ) as order_date'),
+         DB::raw('(select name from users where orderdetails.user_id  = users.id ) as user_name'),
+         DB::raw('(select post_code from customers where customers.id  = orders.customer_id ) as post_country_code_get'),
+         DB::raw('(select first_name from customers where customers.id  = orders.customer_id ) as first_name_customer'),
+         DB::raw('(select last_name from customers where customers.id  = orders.customer_id ) as last_name_customer')
+         )
         ->leftJoin("orderdetails","orderdetails.order_id","orders.id")
+      
         ->leftJoin("customers","customers.id","orders.customer_id")
         ->leftJoin("products","products.id","orders.product_id");
     
         if (!empty($request->country_name)) {
             $items->where('orderdetails.select_country', $request->country_name);
         }
-        
         if (!empty($request->zip_code)) {
             $items->where('customers.post_code', $request->zip_code);
         }
@@ -53,11 +59,16 @@ if($request->agen_name){
         if (!empty($request->delivery_status)) {
             $items->where('orders.delivery_status', $request->delivery_status);
         }
+          if (!empty($agent_search->user_id)) {
+            $items->where('orders.user_id', $agent_search->user_id);
+        }
         if (!empty($startDate)) {
             $items->WhereBetween('orders.delivery_date',[$startDate, $endDate]);
         }
     
         $item= $items->get();
+
+        // dd($item);
     
         return response()->json([
             'status' => 200,
@@ -76,8 +87,17 @@ if($request->agen_name){
 
     $startDate = $request->date_from;
     $endDate = $request->date_to;
-    
-    $items = Order::select("*")
+
+    $items = Order::select("*" ,
+    DB::raw('(select price from orders where orderdetails.order_id  = orders.id ) as order_price')
+    ,
+        DB::raw('(select created_at from orders where orderdetails.order_id  = orders.id ) as order_date'),
+         DB::raw('(select name from users where orderdetails.user_id  = users.id ) as user_name'),
+         DB::raw('(select post_code from customers where customers.id  = orders.customer_id ) as post_country_code_get'),
+         DB::raw('(select first_name from customers where customers.id  = orders.customer_id ) as first_name_customer'),
+         DB::raw('(select last_name from customers where customers.id  = orders.customer_id ) as last_name_customer')
+
+         )
     ->leftJoin("orderdetails","orderdetails.order_id","orders.id")
     ->leftJoin("customers","customers.id","orders.customer_id")
     ->leftJoin("products","products.id","orders.product_id");
@@ -103,6 +123,9 @@ if($request->agen_name){
     }
     
     $item= $items->get();
+
+
+    // dd($item);
     
     return response()->json([
         'status' => 200,
@@ -148,32 +171,77 @@ if($request->agen_name){
      */
     public function index(Request $request)
     {
+        $user = Auth::user(); // Get the currently logged in user
+        $users_id = Auth::id(); // Get the currently logged in user
+        $orders = UserStatus::where('user_id',$users_id)->first();
+        $order_role = Role::where('id', @$orders->status)->first();
 
-    $user = Auth::user(); // Get the currently logged in user
-    $users_id = Auth::id(); // Get the currently logged in user
-    $orders = UserStatus::where('user_id',$users_id)->first();
-    $order_role = Role::where('id', $orders->status)->first();
 
-    if ($order_role->name === 'Super Admin') {
-        // If the user is a Super Admin, show all orders
-        $items = Order::select("*")
-        ->leftJoin("orderdetails","orderdetails.order_id","orders.id")
-        ->leftJoin("customers","customers.id","orders.customer_id")
-        ->leftJoin("products","products.id","orders.product_id")
-        ->paginate(3000);
-        // ->get();
+        if(isset($request->id)){
 
-    } else {
-        // If the user is not a Super Admin, show only their orders
-        // $orders = Order::where('user_id', $user->id)->get();
-        $items = Order::select("*")
-        ->leftJoin("orderdetails","orderdetails.order_id","orders.id")
-        ->leftJoin("customers","customers.id","orders.customer_id")
-        ->leftJoin("products","products.id","orders.product_id")
-        ->where("orders.user_id", Auth::id())
-        ->paginate(3000);
-        // ->get();
-    }
+        
+           
+            $items = Order::select("*" ,
+            DB::raw('(select price from orders where orderdetails.order_id  = orders.id ) as order_price'),
+            DB::raw('(select created_at from orders where orderdetails.order_id  = orders.id ) as order_date'),
+            DB::raw('(select name from users where orderdetails.user_id  = users.id ) as user_name'),
+            DB::raw('(select delivery_date from orders where orderdetails.order_id  = orders.id ) as order_price'),
+            DB::raw('(select name from products where products.id  = orders.product_id ) as product_names')
+            )
+            ->leftJoin("orderdetails","orderdetails.order_id","orders.id")
+            ->leftJoin("customers","customers.id","orders.customer_id")
+            ->leftJoin("products","products.id","orders.product_id")
+            // ->where("orders.user_id", Auth::id())
+            ->where("orders.id", $request->id )
+            ->orderBy('orders.id', 'desc')
+            ->paginate(1);
+            // ->get();
+
+        }else{
+
+            if (@$order_role->name === 'Super Admin') {
+                $items = Order::select("*" ,
+                DB::raw('(select price from orders where orderdetails.order_id  = orders.id ) as order_price'),
+                DB::raw('(select created_at from orders where orderdetails.order_id  = orders.id ) as order_date'),
+                 DB::raw('(select name from users where orderdetails.user_id  = users.id ) as user_name'),
+                 DB::raw('(select delivery_date from orders where orderdetails.order_id  = orders.id ) as order_price'),
+                 DB::raw('(select name from products where products.id  = orders.product_id ) as product_names')
+                )
+                ->leftJoin("orderdetails","orderdetails.order_id","orders.id")
+                ->leftJoin("customers","customers.id","orders.customer_id")
+                ->orderBy('orders.id', 'desc')
+                ->paginate(50000);
+                // ->get();
+        
+            } else {
+                $items = Order::select("*" ,
+                DB::raw('(select price from orders where orderdetails.order_id  = orders.id ) as order_price'),
+                DB::raw('(select created_at from orders where orderdetails.order_id  = orders.id ) as order_date'),
+                DB::raw('(select name from users where orderdetails.user_id  = users.id ) as user_name'),
+                DB::raw('(select delivery_date from orders where orderdetails.order_id  = orders.id ) as order_price'),
+                DB::raw('(select name from products where products.id  = orders.product_id ) as product_names')
+                )
+                ->leftJoin("orderdetails","orderdetails.order_id","orders.id")
+                ->leftJoin("customers","customers.id","orders.customer_id")
+                // ->leftJoin("products","products.id","orders.product_id")
+                ->where("orders.user_id", Auth::id())
+                ->orderBy('orders.id', 'desc')
+                ->paginate(5000);
+                // ->get();
+            }
+           
+        }
+
+
+   
+
+
+
+
+    
+
+// dd($items);
+
     return view('Admin.Order.index', compact('items'));
 
    }
@@ -182,11 +250,11 @@ if($request->agen_name){
     {
        
    if($request->id){
-    $items = Order::with('customer','user')->where('customer_id',$request->id)->paginate(3000);
+    $items = Order::with('customer','user')->where('customer_id',$request->id)->paginate(1000);
     return view('Admin.Order.index', compact('items'));
    }else{
 
-    $items = Order::with('customer','user')->where('customer_id', -1)->paginate(3000);
+    $items = Order::with('customer','user')->where('customer_id', -1)->paginate(1000);
     return view('Admin.Order.index', compact('items'));
 
    }
@@ -200,6 +268,7 @@ if($request->agen_name){
      */
     public function create()
     {
+        //dd('AAA');
         $countries = [];
         $products = Product::select('id', 'country')->get();
         foreach ($products as $product) {
@@ -210,7 +279,9 @@ if($request->agen_name){
             }
         }
         $allCountries = array_unique($countries);
-        return view('Admin.Order.add', compact('allCountries'));
+
+        // dd($allCountries);
+        return view('Admin.Order._add', compact('allCountries'));
     }
 
     /**
@@ -246,6 +317,16 @@ if($request->agen_name){
 
     //   }
     //     }
+
+
+
+    if($request->sect_delivery_status != ""){
+        $delivery_status_entery = $request->sect_delivery_status;
+    }else{
+        $delivery_status_entery = $request->delivery_status;
+
+    }
+    
 
     
     if($request->first_name != ""){
@@ -283,12 +364,16 @@ if($request->agen_name){
         $customerCreate = Customer::create($customer);
 
 
+
+        
+
+
         $data['product_id'] = $request->product;
         $data['customer_id'] = $customerCreate->id;
         $data['note'] = $request->note;
         $data['qty'] = $request->qty;
         $data['price'] = $request->price;
-        $data['delivery_status'] = $request->delivery_status;
+        $data['delivery_status'] = $delivery_status_entery;
         $data['delivery_date'] = $request->delivery_date;
         $data['user_id'] = auth()->id();
 
@@ -300,7 +385,6 @@ if($request->agen_name){
 
         $detail['select_country'] = $request->country;
         $detail['select_product'] = $request->product;
-
 
         if($request->mattress_size){
             $detail['mattress_size'] = $request->mattress_size;
@@ -315,17 +399,7 @@ if($request->agen_name){
             $detail['ottoman_fabric'] = $request->ottoman_fabric;
         $detail['Ottoman'] = 'Ottoman : ';
         }
-
-
-
-      
-
-
-
         if($request->hidden_bed == 'Bed'){
-
-
-            
             $detail['Bed'] = 'Bed => ';
            
             if($request->gaslift_size){
@@ -333,44 +407,16 @@ if($request->agen_name){
                 $detail['gaslift_design'] = $request->gaslift_design;
                 $detail['Gaslift'] = 'Gaslift : ';
             }
-
-        
             if($request->headboard_size){
                 $detail['headboard_size'] = $request->headboard_size;
                 $detail['headboard_design'] = $request->headboard_design;
                 $detail['headboard_color'] = $request->headboard_color;
                 $detail['headboard_fabric'] = $request->headboard_fabric;
                 $detail['Headboard'] = 'Headboard : ';
-
             }
-
-        
-
-           
-
-
-         
-      
-
         }
         if($request->hidden_design == 'Design'){  
-
             $detail['Design'] = 'Design => ';
-
-
-            
-            // if($request->without_diamond_size){
-
-            //     $detail['without_diamond_size'] = $request->without_diamond_size;
-            //     $detail['without_diamond_color'] = $request->without_diamond_color;
-            //     $detail['without_diamond_design'] = $request->without_diamond_design;
-            //     $detail['without_diamond_fabric'] = $request->without_diamond_fabric;
-            //     $detail['without_diamond_storage'] = $request->without_diamond_storage;
-            //     $detail['without_diamond_base'] = $request->without_diamond_base;
-            //     $detail['without_diamond_mattress'] = $request->without_diamond_mattress;
-            // $detail['Without_diamond_button'] = 'Without_diamond_button : ';
-            // }
-
             if($request->with_diamond_sizes){
 
                 $detail['with_diamond_size'] = $request->with_diamond_sizes;
@@ -383,23 +429,10 @@ if($request->agen_name){
                 $detail['with_diamond_mattress'] = $request->with_diamond_mattress;
             $detail['With_diamond_button'] = 'luxury beds : ';
             }
-
-
-          
-
-
-
-         
- 
-
         }
         if($request->hidden_divan == 'Divan'){
-            // dd($request->ottoman_diven_size);
-
             $detail['Divan'] = 'Divan => ';
-
             if($request->ottoman_diven_size){
-           
                 $detail['ottoman_divan_size'] = $request->ottoman_diven_size;
                 $detail['ottoman_divan_headboad'] = $request->ottoman_diven_headboard;
                 $detail['ottoman_divan_color'] = $request->ottoman_diven_color;
@@ -426,15 +459,9 @@ if($request->agen_name){
                 $detail['monaco_divan_mattress'] = $request->monaco_diven_mattress;
             $detail['Manaco_divan'] = 'Manaco_divan  : ';
             }
-
-
-
-          
-
         }
 
         $orderdetails = Orderdetail::create($detail);
-
 
         $variation['design'] = json_encode($request->design);
         $variation['size'] = json_encode($request->size);
@@ -457,33 +484,31 @@ if($request->agen_name){
 
     public function storetwo(Request $request)
     {
-            //  dd($request->country);
-      
-           
-
+            if($request->sect_delivery_status != ""){
+                $delivery_status_entery = $request->sect_delivery_status;
+            }else{
+                $delivery_status_entery = $request->delivery_status;
+        
+            }
         $data['product_id'] = $request->product;
         $data['customer_id'] = $request->hidden_query_id;
         $data['note'] = $request->note;
         $data['qty'] = $request->qty;
         $data['price'] = $request->price;
-        $data['delivery_status'] = $request->delivery_status;
+        $data['delivery_status'] = $delivery_status_entery;
         $data['delivery_date'] = $request->delivery_date;
         $data['user_id'] = auth()->id();
-
         $order = Order::create($data);
-
         $detail['customer_id'] = $request->hidden_query_id;
         $detail['order_id'] = $order->id;
         $detail['user_id'] = auth()->id();
         $detail['select_country'] = $request->country;
         $detail['select_product'] = $request->product;
-
         if($request->mattress_size){
             $detail['mattress_size'] = $request->mattress_size;
             $detail['select_mattress'] = $request->mattress_design;
             $detail['Mattress'] = 'Mattress : ';
         }
-      
         if($request->ottoman_design){
         $detail['ottoman_design'] = $request->ottoman_design;
         $detail['ottoman_color'] = $request->ottoman_color;
@@ -491,51 +516,23 @@ if($request->agen_name){
         $detail['Ottoman'] = 'Ottoman  : ';
         }
         if($request->hidden_bed == 'Bed'){
-
             $detail['Bed'] = 'Bed';
-           
             if($request->gaslift_size){
                 $detail['gaslift_size'] = $request->gaslift_size;
                 $detail['gaslift_design'] = $request->gaslift_design;
                 $detail['Gaslift'] = 'Gaslift : ';
             }
-
-        
             if($request->headboard_size){
                 $detail['headboard_size'] = $request->headboard_size;
                 $detail['headboard_design'] = $request->headboard_design;
                 $detail['headboard_color'] = $request->headboard_color;
                 $detail['headboard_fabric'] = $request->headboard_fabric;
                 $detail['Headboard'] = 'Headboard : ';
-
             }
-
-        
-           
-      
-
         }
         if($request->hidden_design == 'Design'){
-
             $detail['Design'] = 'Design => ';
-
-
-            
-            // if($request->without_diamond_size){
-
-            // $detail['without_diamond_size'] = $request->without_diamond_size;
-            // $detail['without_diamond_color'] = $request->without_diamond_color;
-            // $detail['without_diamond_design'] = $request->without_diamond_design;
-            // $detail['without_diamond_fabric'] = $request->without_diamond_fabric;
-            // $detail['without_diamond_storage'] = $request->without_diamond_storage;
-            // $detail['without_diamond_base'] = $request->without_diamond_base;
-            // $detail['without_diamond_mattress'] = $request->without_diamond_mattress;
-            // $detail['without_diamond_mattress'] = $request->without_diamond_mattress;
-            // $detail['Without_diamond_button'] = 'Without_diamond_button : ';
-            // }
-
             if($request->with_diamond_sizes){
-
             $detail['with_diamond_size'] = $request->with_diamond_sizes;
             $detail['with_diamond_design'] = $request->with_diamond_design;
             $detail['with_diamond_color'] = $request->with_diamond_color;
@@ -546,14 +543,10 @@ if($request->agen_name){
             $detail['with_diamond_mattress'] = $request->with_diamond_mattress;
             $detail['With_diamond_button'] = 'luxury beds : ';
             }
-
         }
         if($request->hidden_divan == 'Divan'){
-            // dd($request->ottoman_diven_size);
             $detail['Divan'] = 'Divan';
-
             if($request->ottoman_diven_size){
-           
             $detail['ottoman_divan_size'] = $request->ottoman_diven_size;
             $detail['ottoman_divan_headboad'] = $request->ottoman_diven_headboard;
             $detail['ottoman_divan_color'] = $request->ottoman_diven_color;
@@ -583,12 +576,6 @@ if($request->agen_name){
         }
 
         $orderdetails = Orderdetail::create($detail);
-
-
-
-
-
-
         $variation['design'] = json_encode($request->design);
         $variation['size'] = json_encode($request->size);
         $variation['headboard'] = json_encode($request->headboard);
@@ -603,17 +590,40 @@ if($request->agen_name){
             'status' => 200,
             'current_id' => $request->hidden_query_id,
         ]);
-
-
         // return redirect('order_index')->with('success', '   Order Created Successfully .');
     }
-
-
-
     
     public function orders_edit(Request $request)
     {
-    //   dd($request->all());
+
+        $orders = Order::where('id',$request->hide_val)->first();
+      $customerupdate = Customer::where('id', $orders->customer_id)->first();
+      if($request->first_name != ""){
+        $customer_first_name = $request->first_name;
+    }else{
+        $customer_first_name = '';
+    }
+
+        $customerupdate['first_name'] = $customer_first_name;
+            if($request->last_name != ""){
+                $customer_last_name = $request->last_name;
+            }else{
+                $customer_last_name = '';
+            }
+        $customerupdate['last_name'] = $customer_last_name;
+        if($request->email != ""){
+            $customer_email = $request->email;
+        }else{
+            $customer_email = '';
+        }
+        $customerupdate['email'] = $customer_email;
+        $customerupdate['address'] = $request->address;
+        $customerupdate['phone_number'] = $request->number_code.''.$request->phone;
+        $customerupdate['post_code'] = $request->post_code;
+        $customerupdate['social_account'] = $request->social_account;
+        $customerupdate['user_id'] = auth()->id();
+        $customerupdate->update();
+
        $orders = Order::where('id',$request->hide_val)->first();
        $orders->note = $request->input('note');
        $orders->qty = $request->input('qty');
@@ -621,20 +631,13 @@ if($request->agen_name){
        $orders->product_id = $request->input('product');
 
        if($request->delivery_status_select != ""){
-
         $delivey_1 = $request->delivery_status_select;
-
        }else{
         $delivey_1 = $request->input('delivery_status');
-
        }
-
        $orders->delivery_status = $delivey_1;
-
-
        $orders->delivery_date = $request->input('date_status');
        $orders->update();
-
        $order_update = Orderdetail::where('order_id',$request->hide_val)->first();
 
        $order_update->select_country = $request->input('country');
@@ -682,13 +685,11 @@ if($request->agen_name){
        $order_update->monaco_divan_mattress = $request->input('monaco_diven_mattress');
        $order_update->update();
        $redirectUrl = '/order_index';
-   
        return response()->json([
            'status' => 200,
            'redirectUrl' => $redirectUrl
        ]);
     }
-
     /**
      * Display the specified resource.
      *
@@ -697,8 +698,20 @@ if($request->agen_name){
      */
     public function show($order)
     {
-        $order=Order::with('customer','user','product')->find($order);
-        return view('Admin.Order.view',compact('order'));
+        $orderss=Order::with('customer','user','product')->find($order);
+        $orders = Order::select("*")
+        ->leftJoin("orderdetails","orderdetails.order_id","orders.id")
+        ->leftJoin("customers","customers.id","orders.customer_id")
+        ->where('orderdetails.order_id', $order)
+        ->where('orders.id', $order)    
+        ->where('customers.id', $orderss->customer_id)
+        ->orderby('orders.id','ASC')    
+        ->get();
+        // dd($orders);
+
+        // $data = [ 'orders' => $orders ]; 
+
+        return view('Admin.Order.view',compact('orders'));
     }
 
     /**
@@ -709,8 +722,6 @@ if($request->agen_name){
      */
     public function edit($id)
     {
-       
-
         $countries = [];
         $products = Product::select('id', 'country')->get();
         foreach ($products as $product) {
@@ -725,13 +736,10 @@ if($request->agen_name){
         $item  = Order::where('orders.id',$id)->select('orders.*','products.name as product_name')
                 ->leftJoin('products','orders.product_id','products.id')
                 ->first();
-        // dd($allCountries);
+        $customers = Customer::where('id',$item->customer_id)->first();
          $detailOrder = Orderdetail::where('order_id',$id)->first();
-         
         $country= $detailOrder->select_country;
-
-
-        return view('Admin.Order.edit', compact('item','allCountries','detailOrder','country'));
+        return view('Admin.Order.edit', compact('item','allCountries','detailOrder','country','customers'));
     }
 
     /**
@@ -786,13 +794,9 @@ if($request->agen_name){
 
         $customer = Customer::where('first_name', $request->agent)->first();
         $user = User::where('name', $request->agent)->where('id',Auth::user()->id)->first();
-       
         $role  = Role::where('name', 'Super Admin')->first();
-       
         $role_status  = UserStatus::where('status', $role->id)->where('user_id',Auth::user()->id)->first();
-        // dd($role_status);
         if($role_status){
-
      $items = Order::whereDate('created_at','>=',$request->first_date)->whereDate('created_at','<=',$request->last_date)->where('user_id', $user->id)->paginate(3000);
 
         }else if($customer != ""){
@@ -807,22 +811,6 @@ if($request->agen_name){
          }
 
          return view('Admin.Order.index', compact('items'));
-    //     $user = User::where('name', $request->agent)->first();
-    //     $customer = Customer::where('first_name', $request->agent)->first();
-
-    //     if($user != ""){
-
-    //         $items = Order::whereDate('created_at','>=',$request->first_date)->whereDate('created_at','<=',$request->last_date)->where('user_id', $user->id)->paginate(3000);
-    //      }else if($customer != ""){
-
-    //     $items = Order::whereDate('created_at','>=',$request->first_date)->whereDate('created_at','<=',$request->last_date)->where('customer_id', $customer->id)
-    //     ->paginate(3000);
-    //  }else{
-
-    //     $items = Order::where('id', -1)->paginate(3000);
-    //  }
-    
-        // return view('Admin.Order.index', compact('items'));
             
     }
     public function deleteAll(Request $request)

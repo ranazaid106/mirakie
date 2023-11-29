@@ -1,5 +1,7 @@
 @extends('layouts.main')
+@section('yield', 'PaymentInvoice Create')
 @section('content')
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.js"></script>
 
@@ -65,7 +67,7 @@
                                             <label for="usersDropdown">Select User:</label>
                                             <select class="form-control" id="usersDropdown" name="user_id">
                                                
-                                                <!-- Users dropdown will be populated dynamically based on the selected role -->
+                                              
                                             </select>
                                         </div>
                                     </div>
@@ -426,21 +428,21 @@
 
         $('#userRole').on('change', function () {
 
-            var roleId =  $("#userRole").val();
+            var customer_id =  $("#userRole").val();
             var v_token = "{{csrf_token()}}";
-            var params = { _token: v_token , roleId:roleId};
+            var params = { _token: v_token , customer_id:customer_id};
             
             $.ajax({
                 type: 'get',
                 data: params,
-                url: "/users/users_role/",
+                url: "users/users_role/",
                 success: function(users) {
                     console.log(users);
                     $('#usersDropdown').html("");
                     let usersDropdown = $('#usersDropdown');
-                    console.log(users);
-
-                    if(users  != ""){
+                    
+                    
+                       if(users  != ""){
                         $.each(users, function (index, user) {
                         usersDropdown.append($('<option value="'+user.id+'">'+"Name: &nbsp; "+user.name+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '+"Email: &nbsp; "+user.email+'</option>'));
                     });
@@ -449,9 +451,9 @@
                         usersDropdown.append($('<option value="" >Not Found User </option>'));
                    
                     }
-                  
-
-
+                    // $.each(users, function (index, user) {
+                    //     usersDropdown.append($('<option value="'+user.id+'">'+"Name: &nbsp; "+user.name+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; '+"Email: &nbsp; "+user.email+'</option>'));
+                    // });
                 },         
             });
         });
